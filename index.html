@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кирилл — Senior Frontend-разработчик и Креативный технолог</title>
+    
+    <!-- Подключение иконок Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Подключение шрифтов Google Fonts: Inter для текста и Space Mono для акцентов -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* -------------------------------------------------------------------------- */
+        /* --_ROOT_--                                */
+        /* -------------------------------------------------------------------------- */
+        /*
+            Определение CSS переменных для гибкого управления темой.
+            По умолчанию используется темная тема в стиле "нео-брутализм" с яркими акцентами.
+        */
+        :root {
+            /* Палитра темной темы */
+            --bg-primary: #0D0D0D;       /* Глубокий черный фон для максимального контраста */
+            --bg-secondary: #141414;    /* Чуть более светлый черный для карточек и панелей */
+            --bg-tertiary: #1A1A1A;     /* Серый для интерактивных элементов */
+            --bg-glass: rgba(26, 26, 26, 0.6); /* Полупрозрачный фон для эффекта "матового стекла" */
+            
+            --text-primary: #F5F5F7;    /* Яркий, почти белый текст (как у Apple) */
+            --text-secondary: #A0A0A5;  /* Серый текст для дополнительной информации */
+            --text-tertiary: #6E6E73;   /* Более темный серый для подписей и неактивных элементов */
+            
+            --accent-primary: #00FF99;  /* Яркий мятно-зеленый акцент */
+            --accent-secondary: #FF00E6;/* Яркий пурпурный акцент */
+            --accent-hover: #FFFFFF;    /* Белый цвет для наведения на акцентные элементы */
+
+            --border-color: #2A2A2A;    /* Цвет границ */
+            --shadow-color: rgba(0, 0, 0, 0.5); /* Цвет теней для глубины */
+            --highlight-color: rgba(0, 255, 153, 0.1); /* Цвет для подсветки */
+
+            /* Типографика */
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+
+            /* Размеры и переходы */
+            --border-radius-sm: 0.5rem;
+            --border-radius-md: 1rem;
+            --border-radius-lg: 1.5rem;
+            --transition-fast: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-medium: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-slow: 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_THEMES_--                                */
+        /* -------------------------------------------------------------------------- */
+        /*
+            Светлая тема. Переопределяет переменные для создания светлого интерфейса.
+        */
+        .light-theme {
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F5F5F7;
+            --bg-tertiary: #E8E8ED;
+            --bg-glass: rgba(245, 245, 247, 0.7);
+
+            --text-primary: #1D1D1F;
+            --text-secondary: #515154;
+            --text-tertiary: #86868B;
+            
+            --accent-primary: #E4002B; /* MSI-красный для контраста в светлой теме */
+            --accent-secondary: #0071E3; /* Apple-синий */
+
+            --border-color: #D2D2D7;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --highlight-color: rgba(228, 0, 43, 0.1);
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_BASE_STYLES_--                             */
+        /* -------------------------------------------------------------------------- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background-color var(--transition-medium), color var(--transition-medium);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Стили для скроллбара */
+        body::-webkit-scrollbar {
+            width: 10px;
+        }
+        body::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: var(--accent-primary);
+            border-radius: 20px;
+            border: 3px solid var(--bg-primary);
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_PRELOADER_--                                */
+        /* -------------------------------------------------------------------------- */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-primary);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .preloader-logo {
+            font-family: var(--font-mono);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            position: relative;
+            overflow: hidden;
+        }
+        .preloader-logo::after {
+            content: '_';
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_CUSTOM_CURSOR_--                            */
+        /* -------------------------------------------------------------------------- */
+        .custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--accent-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.1s ease-out;
+            display: none; /* Скрыт по умолчанию, включается JS */
+        }
+        .custom-cursor.hovered {
+            width: 64px;
+            height: 64px;
+            background-color: var(--highlight-color);
+            border-color: var(--accent-secondary);
+        }
+        .custom-cursor.text-mode {
+             width: 8px;
+             height: 40px;
+             border-radius: 4px;
+             background-color: var(--accent-primary);
+        }
+        @media (pointer: coarse) {
+            .custom-cursor {
+                display: none !important;
+            }
+        }
+
+
+        /* -------------------------------------------------------------------------- */
+        /* --_LAYOUT_&_GRID_--                           */
+        /* -------------------------------------------------------------------------- */
+        .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .grid-container {
+            display: grid;
+            gap: 2rem;
+        }
+        .grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+        .grid-cols-5 { grid-template-columns: repeat(5, 1fr); }
+        .grid-cols-6 { grid-template-columns: repeat(6, 1fr); }
+
+        @media (max-width: 1024px) {
+            .grid-cols-4, .grid-cols-5, .grid-cols-6 { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .grid-cols-2, .grid-cols-3, .grid-cols-4, .grid-cols-5, .grid-cols-6 { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 500px) {
+            .grid-cols-2, .grid-cols-3, .grid-cols-4, .grid-cols-5, .grid-cols-6 { grid-template-columns: repeat(1, 1fr); }
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_SHARED_STYLES_--                          */
+        /* -------------------------------------------------------------------------- */
+        section {
+            padding: 8rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            font-family: var(--font-mono);
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4rem;
+            text-align: center;
+            position: relative;
+            display: block;
+        }
+        .section-title span {
+            color: var(--accent-primary);
+            text-shadow: 0 0 15px var(--highlight-color);
+        }
+        .section-title::before {
+            content: attr(data-subtitle);
+            position: absolute;
+            top: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        
+        .animated-element {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s var(--transition-slow), transform 0.8s var(--transition-slow);
+        }
+        .animated-element.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_NAVIGATION_--                            */
+        /* -------------------------------------------------------------------------- */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            z-index: 1000;
+            background-color: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            transition: top 0.3s ease-in-out;
+        }
+        .main-nav.nav-hidden {
+            top: -100px;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 95%;
+            margin: 0 auto;
+        }
+        .nav-logo a {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        .nav-logo a span {
+            color: var(--accent-primary);
+        }
+        .nav-logo a:hover {
+            color: var(--accent-secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color var(--transition-fast);
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-primary);
+            transition: width var(--transition-medium);
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-primary);
+        }
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        /* Стили для мобильного меню (бургер) */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Изначально скрыто */
+            width: 70%;
+            height: 100%;
+            background-color: var(--bg-secondary);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            padding-top: 5rem;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+            transition: right 0.3s ease-in-out;
+        }
+        .mobile-menu.active {
+            right: 0; /* Показываем меню */
+        }
+        .mobile-menu .nav-links {
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .mobile-menu .nav-links a {
+            font-size: 1.2rem;
+            padding: 1rem 0;
+            width: 80%;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .mobile-menu .nav-links a:last-child {
+            border-bottom: none;
+        }
+        .mobile-menu-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_HERO_SECTION_--                           */
+        /* -------------------------------------------------------------------------- */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+            padding-top: 8rem;
+        }
+        #home .container {
+            position: relative;
+            z-index: 2;
+        }
+        /* Анимированный фон с градиентами */
+        #home::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, var(--accent-primary), transparent 40%),
+                radial-gradient(circle at 90% 80%, var(--accent-secondary), transparent 40%);
+            opacity: 0.1;
+            filter: blur(100px);
+            animation: pulse-background 15s infinite alternate ease-in-out;
+            z-index: 1;
+        }
+        @keyframes pulse-background {
+            0% { transform: scale(1) translate(0, 0); }
+            50% { transform: scale(1.1) translate(10px, -10px); }
+            100% { transform: scale(1) translate(0, 0); }
+        }
+        .hero-content h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+        .hero-content h1 .highlight {
+            color: var(--accent-primary);
+        }
+        .hero-content .subtitle {
+            font-family: var(--font-mono);
+            font-size: clamp(1.2rem, 3vw, 1.75rem);
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+        }
+        .typing-cursor {
+            display: inline-block;
+            width: 4px;
+            height: 1.5rem;
+            background-color: var(--accent-secondary);
+            animation: blink 0.8s infinite;
+            vertical-align: bottom;
+            margin-left: 8px;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_BUTTONS_--                                */
+        /* -------------------------------------------------------------------------- */
+        .btn {
+            display: inline-block;
+            font-family: var(--font-mono);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 1rem 2.5rem;
+            border-radius: var(--border-radius-sm);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition-medium);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .btn-primary {
+            background-color: var(--accent-primary);
+            color: var(--bg-primary);
+            border-color: var(--accent-primary);
+        }
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            color: var(--bg-primary);
+            border-color: var(--accent-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 153, 0.2);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--accent-secondary);
+            color: var(--bg-primary);
+            border-color: var(--accent-secondary);
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_ABOUT_SECTION_--                             */
+        /* -------------------------------------------------------------------------- */
+        #about {
+            background-color: var(--bg-secondary);
+        }
+        .about-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 5rem;
+            align-items: center;
+        }
+        .about-image-container {
+            position: relative;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+        .about-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: var(--border-radius-lg);
+            filter: grayscale(80%);
+            transition: filter var(--transition-medium), transform var(--transition-medium);
+        }
+        .about-image-container:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+        .about-text h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+        .about-text p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            max-width: 60ch;
+        }
+        .about-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_APPROACH_(TIMELINE)_--                          */
+        /* -------------------------------------------------------------------------- */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--border-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            z-index: 1;
+        }
+        .timeline-item {
+            padding: 1rem 3rem;
+            position: relative;
+            width: 50%;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            top: 25px;
+            background-color: var(--bg-primary);
+            border: 4px solid var(--accent-primary);
+            border-radius: 50%;
+            z-index: 2;
+            transition: transform var(--transition-medium);
+        }
+        .timeline-item.right {
+            left: 50%;
+        }
+        .timeline-item.left::after {
+            left: -10px;
+        }
+        .timeline-item.right::after {
+            right: auto;
+            left: -10px;
+        }
+        .timeline-item:hover::after {
+            transform: scale(1.3);
+            background-color: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+        }
+        .timeline-content {
+            padding: 1.5rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            position: relative;
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+        }
+        .timeline-item:hover .timeline-content {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+        .timeline-content .step-number {
+            font-family: var(--font-mono);
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_PORTFOLIO_SECTION_--                           */
+        /* -------------------------------------------------------------------------- */
+        #portfolio {
+            background-color: var(--bg-secondary);
+        }
+        .portfolio-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            font-family: var(--font-mono);
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        .filter-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-primary);
+        }
+        .filter-btn.active {
+            background-color: var(--accent-primary);
+            color: var(--bg-primary);
+            border-color: var(--accent-primary);
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .portfolio-card {
+            background-color: var(--bg-primary);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium), opacity 0.5s ease, transform 0.5s ease;
+        }
+        .portfolio-card.hidden {
+            opacity: 0;
+            transform: scale(0.9);
+            display: none; /* Скрываем после анимации */
+        }
+        .portfolio-card.showing {
+            display: block; /* Показываем до анимации */
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        .portfolio-card.showing.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px var(--shadow-color);
+        }
+        .portfolio-card-img {
+            height: 250px;
+            overflow: hidden;
+        }
+        .portfolio-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .portfolio-card:hover .portfolio-card-img img {
+            transform: scale(1.1);
+        }
+        .portfolio-card-content {
+            padding: 1.5rem;
+        }
+        .portfolio-card-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .portfolio-card-content .category {
+            font-family: var(--font-mono);
+            color: var(--accent-primary);
+            font-size: 0.9rem;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_MODAL_WINDOW_--                             */
+        /* -------------------------------------------------------------------------- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-medium), visibility var(--transition-medium);
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 2.5rem;
+            transform: scale(0.9);
+            transition: transform var(--transition-medium);
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color var(--transition-fast), transform var(--transition-fast);
+        }
+        .modal-close:hover {
+            color: var(--accent-primary);
+            transform: rotate(90deg);
+        }
+        .modal-body h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .modal-body .project-gallery {
+            width: 100%;
+            height: 400px;
+            background-color: var(--bg-tertiary);
+            border-radius: var(--border-radius-md);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        .modal-body .project-gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .modal-body .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .modal-body .project-tech {
+            margin-bottom: 2rem;
+        }
+        .modal-body .project-tech h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .tag {
+            background-color: var(--bg-tertiary);
+            color: var(--text-secondary);
+            padding: 0.4rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .modal-body .project-links a {
+            margin-right: 1.5rem;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_SKILLS_SECTION_--                            */
+        /* -------------------------------------------------------------------------- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .skill-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: 2rem;
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+        }
+        .skill-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            border-color: var(--accent-primary);
+        }
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .skill-header i {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+        }
+        .skill-header h3 {
+            font-size: 1.25rem;
+        }
+        .skill-description {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            margin-bottom: 1.5rem;
+        }
+        .progress-bar {
+            height: 8px;
+            width: 100%;
+            background-color: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar-inner {
+            height: 100%;
+            width: 0; /* Анимируется с помощью JS */
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 4px;
+            transition: width 1.5s ease-out;
+        }
+
+
+        /* -------------------------------------------------------------------------- */
+        /* --_TESTIMONIALS_SECTION_--                        */
+        /* -------------------------------------------------------------------------- */
+        #testimonials {
+            background-color: var(--bg-secondary);
+        }
+        .testimonial-card {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2.5rem;
+            text-align: center;
+        }
+        .testimonial-card i {
+            font-size: 3rem;
+            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
+        }
+        .testimonial-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .testimonial-author span {
+            display: block;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            margin-top: 0.25rem;
+        }
+        
+        /* -------------------------------------------------------------------------- */
+        /* --_BLOG_SECTION_--                             */
+        /* -------------------------------------------------------------------------- */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .blog-card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+        }
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px var(--shadow-color);
+        }
+        .blog-card-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        .blog-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .blog-card:hover .blog-card-img img {
+            transform: scale(1.1);
+        }
+        .blog-card-content {
+            padding: 1.5rem;
+        }
+        .blog-card-meta {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-bottom: 1rem;
+        }
+        .blog-card-meta span {
+            margin-right: 1rem;
+        }
+        .blog-card-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .blog-card-content a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .blog-card-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_CTA_SECTION_--                               */
+        /* -------------------------------------------------------------------------- */
+        #cta {
+            background: linear-gradient(45deg, rgba(0, 255, 153, 0.1), rgba(255, 0, 230, 0.1)), var(--bg-secondary);
+            padding: 6rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        #cta h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        #cta p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2.5rem auto;
+        }
+        
+        /* -------------------------------------------------------------------------- */
+        /* --_CONTACT_SECTION_--                            */
+        /* -------------------------------------------------------------------------- */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .contact-info h3, .contact-form-container h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .contact-info p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .contact-details li {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .contact-details li i {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            width: 30px;
+        }
+        .contact-details li a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        .contact-details li a:hover {
+            color: var(--accent-secondary);
+        }
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .social-links a {
+            font-size: 1.8rem;
+            color: var(--text-secondary);
+            transition: color var(--transition-fast), transform var(--transition-fast);
+        }
+        .social-links a:hover {
+            color: var(--accent-primary);
+            transform: translateY(-5px);
+        }
+        .contact-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            padding: 1rem;
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--highlight-color);
+        }
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_FOOTER_--                                 */
+        /* -------------------------------------------------------------------------- */
+        .main-footer {
+            padding: 3rem 0;
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .footer-content p {
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+        }
+        .footer-content a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .footer-content a:hover {
+            color: var(--accent-primary);
+            text-decoration: underline;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_UTILITY_BUTTONS_--                          */
+        /* -------------------------------------------------------------------------- */
+        .utility-buttons {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 999;
+        }
+        .utility-btn {
+            width: 50px;
+            height: 50px;
+            background-color: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        .utility-btn:hover {
+            background-color: var(--accent-primary);
+            color: var(--bg-primary);
+            transform: scale(1.1) rotate(15deg);
+        }
+        .back-to-top-btn {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity var(--transition-medium), visibility var(--transition-medium), transform var(--transition-medium);
+        }
+        .back-to-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* --_RESPONSIVE_STYLES_--                          */
+        /* -------------------------------------------------------------------------- */
+        @media (max-width: 1024px) {
+            .about-wrapper, .contact-wrapper {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .about-image-container {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            .hero-content {
+                text-align: center;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            html {
+                font-size: 14px;
+            }
+            section {
+                padding: 6rem 0;
+            }
+            .nav-links {
+                display: none; /* Скрываем обычное меню */
+            }
+            .mobile-menu-toggle {
+                display: block; /* Показываем бургер-иконку */
+            }
+            .timeline::after {
+                left: 20px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 50px;
+                padding-right: 1rem;
+            }
+            .timeline-item.left, .timeline-item.right {
+                left: 0;
+            }
+            .timeline-item.left::after, .timeline-item.right::after {
+                left: 10px;
+            }
+            .utility-buttons {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Кастомный курсор -->
+    <div class="custom-cursor"></div>
+
+    <!-- Анимация загрузки -->
+    <div class="preloader">
+        <div class="preloader-logo" aria-label="Загрузка...">KIRILL</div>
+    </div>
+
+    <!-- Навигационная панель -->
+    <header class="main-nav" id="main-nav">
+        <div class="nav-container container">
+            <div class="nav-logo">
+                <a href="#home">K<span>.</span></a>
+            </div>
+            <nav class="nav-links">
+                <a href="#about" class="nav-link">Обо мне</a>
+                <a href="#approach" class="nav-link">Подход</a>
+                <a href="#portfolio" class="nav-link">Портфолио</a>
+                <a href="#skills" class="nav-link">Навыки</a>
+                <a href="#blog" class="nav-link">Блог</a>
+                <a href="#contact" class="nav-link">Контакт</a>
+            </nav>
+            <button class="mobile-menu-toggle" aria-label="Открыть меню">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Мобильное меню (бургер) -->
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="mobile-menu-close" id="mobile-menu-close">&times;</button>
+        <nav class="nav-links">
+            <a href="#about" class="nav-link">Обо мне</a>
+            <a href="#approach" class="nav-link">Подход</a>
+            <a href="#portfolio" class="nav-link">Портфолио</a>
+            <a href="#skills" class="nav-link">Навыки</a>
+            <a href="#blog" class="nav-link">Блог</a>
+            <a href="#contact" class="nav-link">Контакт</a>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Главная секция -->
+        <section id="home">
+            <div class="container">
+                <div class="hero-content animated-element">
+                    <h1>Привет. Я Кирилл, <br><span class="highlight">Frontend-разработчик</span></h1>
+                    <p class="subtitle">Я создаю <span id="typing-text"></span><span class="typing-cursor"></span></p>
+                    <div class="hero-buttons">
+                        <a href="#portfolio" class="btn btn-primary">Мои работы</a>
+                        <a href="#contact" class="btn btn-secondary">Связаться</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция "Обо мне" -->
+        <section id="about" class="animated-element">
+            <div class="container">
+                <h2 class="section-title" data-subtitle="Знакомство"><span>Кто</span> я такой?</h2>
+                <div class="about-wrapper">
+                    <div class="about-image-container animated-element">
+                        <img src="https://placehold.co/600x800/141414/00FF99?text=Kirill" alt="Фотография Кирилла">
+                    </div>
+                    <div class="about-text animated-element" style="transition-delay: 0.2s;">
+                        <h3>Создаю цифровые продукты, которые запоминаются.</h3>
+                        <p>
+                            Я — Senior Frontend-разработчик с более чем 7-летним опытом, специализирующийся на создании высокопроизводительных, интуитивно понятных и визуально совершенных веб-интерфейсов. Моя цель — не просто писать код, а решать бизнес-задачи через технологии, превращая сложные концепции в элегантные и эффективные решения.
+                        </p>
+                        <p>
+                            Мой стек включает <strong>React, Vue.js, и Angular</strong>, подкрепленный глубокими знаниями <strong>TypeScript, HTML5 и CSS3</strong>. Я одержим чистым кодом, архитектурой и оптимизацией производительности. В каждом проекте я стремлюсь достичь идеального баланса между эстетикой и функциональностью.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Секция "Мой подход" -->
+        <section id="approach" class="animated-element">
+            <div class="container">
+                <h2 class="section-title" data-subtitle="Процесс">Мой <span>рабочий</span> подход</h2>
+                <div class="timeline">
+                    <div class="timeline-item left animated-element">
+                        <div class="timeline-content">
+                            <div class="step-number">01</div>
+                            <h3>Анализ и Стратегия</h3>
+                            <p>Глубокое погружение в цели проекта, анализ аудитории и конкурентов. Формирование четкой стратегии и технического задания.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item right animated-element">
+                        <div class="timeline-content">
+                            <div class="step-number">02</div>
+                            <h3>Проектирование и UI/UX</h3>
+                            <p>Создание прототипов и вайрфреймов. Разработка интуитивно понятного интерфейса и пользовательского опыта, ориентированного на результат.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item left animated-element">
+                        <div class="timeline-content">
+                            <div class="step-number">03</div>
+                            <h3>Frontend-разработка</h3>
+                            <p>Написание чистого, масштабируемого кода с использованием современных фреймворков. Создание Pixel-Perfect верстки и плавной анимации.</p>
+                        </div>
+                    </div>
+                     <div class="timeline-item right animated-element">
+                        <div class="timeline-content">
+                            <div class="step-number">04</div>
+                            <h3>Тестирование и QA</h3>
+                            <p>Комплексное тестирование на разных устройствах и браузерах. Оптимизация производительности (Lighthouse, Core Web Vitals) и SEO.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item left animated-element">
+                        <div class="timeline-content">
+                            <div class="step-number">05</div>
+                            <h3>Запуск и Поддержка</h3>
+                            <p>Развертывание проекта на продакшн-серверах (deploy). Обеспечение дальнейшей поддержки, мониторинга и развития продукта.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция "Портфолио" -->
+        <section id="portfolio" class="animated-element">
+            <div class="container">
+                <h2 class="section-title" data-subtitle="Проекты">Избранные <span>работы</span></h2>
+                <div class="portfolio-filters animated-element">
+                    <button class="filter-btn active" data-filter="all">Все</button>
+                    <button class="filter-btn" data-filter="react">React</button>
+                    <button class="filter-btn" data-filter="vue">Vue.js</button>
+                    <button class="filter-btn" data-filter="angular">Angular</button>
+                </div>
+                <div class="portfolio-grid">
+                    <!-- Проект 1 -->
+                    <div class="portfolio-card animated-element" data-category="react" data-project-id="1">
+                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/00FF99?text=Fintech+App" alt="Fintech App"></div>
+                        <div class="portfolio-card-content">
+                            <h3>Финансовый дашборд</h3>
+                            <p class="category">React / TypeScript / D3.js</p>
+                        </div>
+                    </div>
+                    <!-- Проект 2 -->
+                    <div class="portfolio-card animated-element" data-category="vue" data-project-id="2">
+                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/FF00E6?text=E-commerce" alt="E-commerce"></div>
+                        <div class="portfolio-card-content">
+                            <h3>E-commerce платформа</h3>
+                            <p class="category">Vue.js / Nuxt.js / Strapi</p>
+                        </div>
+                    </div>
+                    <!-- Проект 3 -->
+                    <div class="portfolio-card animated-element" data-category="angular" data-project-id="3">
+                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/00FF99?text=CRM+System" alt="CRM System"></div>
+                        <div class="portfolio-card-content">
+                            <h3>Корпоративная CRM</h3>
+                            <p class="category">Angular / RxJS / Node.js</p>
+                        </div>
+                    </div>
+                     <!-- Проект 4 -->
+                    <div class="portfolio-card animated-element" data-category="react" data-project-id="4">
+                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/FF00E6?text=Booking+Service" alt="Booking Service"></div>
+                        <div class="portfolio-card-content">
+                            <h3>Сервис бронирования</h3>
+                            <p class="category">React / Next.js / GraphQL</p>
+                        </div>
+                    </div>
+                     <!-- Проект 5 -->
+                    <div class="portfolio-card animated-element" data-category="vue" data-project-id="5">
+                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/00FF99?text=Dashboard+App" alt="Dashboard App"></div>
+                        <div class="portfolio-card-content">
+                            <h3>Админ-панель для SaaS</h3>
+                            <p class="category">Vue.js / Vue Router / Pinia</p>
+                        </div>
+                    </div>
+                    <!-- Проект 6 -->
+                    <div class="portfolio-card animated-element" data-category="angular" data-project-id="6">
+                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/FF00E6?text=Healthcare+Portal" alt="Healthcare Portal"></div>
+                        <div class="portfolio-card-content">
+                            <h3>Портал здравоохранения</h3>
+                            <p class="category">Angular / Material UI / NestJS</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция "Навыки" -->
+        <section id="skills" class="animated-element">
+             <div class="container">
+                <h2 class="section-title" data-subtitle="Технологии">Мой <span>инструментарий</span></h2>
+                <div class="skills-grid">
+                    <div class="skill-card animated-element" data-level="95">
+                        <div class="skill-header">
+                            <i class="fab fa-react"></i><h3>React & Next.js</h3>
+                        </div>
+                        <p class="skill-description">Создание сложных SPA и SSR-приложений, управление состоянием (Redux, Zustand).</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                    <div class="skill-card animated-element" data-level="90">
+                        <div class="skill-header">
+                            <i class="fab fa-vuejs"></i><h3>Vue.js & Nuxt.js</h3>
+                        </div>
+                        <p class="skill-description">Разработка реактивных интерфейсов, использование Vuex и Composition API.</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                     <div class="skill-card animated-element" data-level="98">
+                        <div class="skill-header">
+                            <i class="fa-brands fa-js"></i><h3>JavaScript & TypeScript</h3>
+                        </div>
+                        <p class="skill-description">Глубокое знание ESNext, асинхронности. Строгая типизация для надежности кода.</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                    <div class="skill-card animated-element" data-level="95">
+                        <div class="skill-header">
+                            <i class="fab fa-css3-alt"></i><h3>HTML5 & CSS3</h3>
+                        </div>
+                        <p class="skill-description">Семантическая верстка, Grid, Flexbox, SCSS, Tailwind CSS, анимации.</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                    <div class="skill-card animated-element" data-level="85">
+                        <div class="skill-header">
+                             <i class="fa-solid fa-server"></i><h3>Backend & DevOps</h3>
+                        </div>
+                        <p class="skill-description">Опыт с Node.js, Express. Настройка CI/CD, работа с Docker и Vercel.</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                    <div class="skill-card animated-element" data-level="90">
+                        <div class="skill-header">
+                            <i class="fa-solid fa-pen-ruler"></i><h3>UI/UX & Инструменты</h3>
+                        </div>
+                        <p class="skill-description">Figma, Webflow. Понимание принципов дизайна, создание прототипов.</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <!-- Секция "Отзывы" -->
+        <section id="testimonials" class="animated-element">
+            <div class="container">
+                 <h2 class="section-title" data-subtitle="Клиенты">Что <span>говорят</span> обо мне</h2>
+                 <div class="grid-container grid-cols-2">
+                     <div class="testimonial-card animated-element">
+                         <i class="fas fa-quote-left"></i>
+                         <p class="testimonial-text">Кирилл — это тот редкий разработчик, который сочетает техническое мастерство с глубоким пониманием дизайна. Он превратил наши идеи в продукт, превзошедший все ожидания.</p>
+                         <p class="testimonial-author">Анна Смирнова <span>CEO, Tech Innovations</span></p>
+                     </div>
+                      <div class="testimonial-card animated-element" style="transition-delay: 0.2s;">
+                         <i class="fas fa-quote-left"></i>
+                         <p class="testimonial-text">Работать с Кириллом было невероятно продуктивно. Его проактивный подход и внимание к деталям позволили нам запустить проект раньше срока и без единого бага.</p>
+                         <p class="testimonial-author">Иван Петров <span>Проектный менеджер, Digital Solutions</span></p>
+                     </div>
+                 </div>
+            </div>
+        </section>
+        
+        <!-- Секция "Блог" -->
+        <section id="blog" class="animated-element">
+            <div class="container">
+                 <h2 class="section-title" data-subtitle="Знания">Мои <span>статьи</span> и мысли</h2>
+                 <div class="blog-grid">
+                     <div class="blog-card animated-element">
+                         <div class="blog-card-img"><img src="https://placehold.co/600x400/1A1A1A/FFFFFF?text=React+Hooks" alt="Статья про React Hooks"></div>
+                         <div class="blog-card-content">
+                             <div class="blog-card-meta"><span>15 Июня, 2025</span> / <span>Frontend</span></div>
+                             <h3>Глубокое погружение в React Hooks</h3>
+                             <a href="#">Читать далее →</a>
+                         </div>
+                     </div>
+                     <div class="blog-card animated-element" style="transition-delay: 0.2s;">
+                         <div class="blog-card-img"><img src="https://placehold.co/600x400/1A1A1A/FFFFFF?text=Web+Performance" alt="Статья про Web Performance"></div>
+                         <div class="blog-card-content">
+                             <div class="blog-card-meta"><span>02 Июля, 2025</span> / <span>Оптимизация</span></div>
+                             <h3>Core Web Vitals: полное руководство</h3>
+                              <a href="#">Читать далее →</a>
+                         </div>
+                     </div>
+                     <div class="blog-card animated-element" style="transition-delay: 0.4s;">
+                         <div class="blog-card-img"><img src="https://placehold.co/600x400/1A1A1A/FFFFFF?text=AI+in+Dev" alt="Статья про AI"></div>
+                         <div class="blog-card-content">
+                             <div class="blog-card-meta"><span>20 Июля, 2025</span> / <span>Будущее</span></div>
+                             <h3>Как AI меняет разработку уже сегодня</h3>
+                              <a href="#">Читать далее →</a>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Секция "Призыв к действию" -->
+        <section id="cta" class="animated-element">
+            <div class="container">
+                <h2>Есть идея для проекта?</h2>
+                <p>Давайте превратим вашу концепцию в реальный продукт. Я готов обсудить ваши цели и предложить лучшее технологическое решение.</p>
+                <a href="#contact" class="btn btn-primary">Начать обсуждение</a>
+            </div>
+        </section>
+
+        <!-- Секция "Контакты" -->
+        <section id="contact" class="animated-element">
+            <div class="container">
+                 <h2 class="section-title" data-subtitle="Диалог">Связаться <span>со мной</span></h2>
+                 <div class="contact-wrapper">
+                     <div class="contact-info animated-element">
+                         <h3>Давайте создадим что-то великое вместе!</h3>
+                         <p>Я всегда открыт для новых проектов, коллабораций и просто интересных бесед. Не стесняйтесь написать мне.</p>
+                         <ul class="contact-details">
+                             <li><i class="fas fa-envelope"></i> <a href="mailto:kirill.dev@email.com">kirill.dev@email.com</a></li>
+                             <li><i class="fab fa-telegram"></i> <a href="#">@kirill_frontend</a></li>
+                         </ul>
+                         <div class="social-links">
+                             <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                             <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                             <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                         </div>
+                     </div>
+                     <div class="contact-form-container animated-element" style="transition-delay: 0.2s;">
+                          <form action="#" class="contact-form">
+                              <div class="form-group">
+                                  <input type="text" name="name" placeholder="Ваше имя" required>
+                              </div>
+                               <div class="form-group">
+                                  <input type="email" name="email" placeholder="Ваш email" required>
+                              </div>
+                               <div class="form-group">
+                                  <textarea name="message" placeholder="Расскажите о вашем проекте" required></textarea>
+                              </div>
+                              <button type="submit" class="btn btn-primary">Отправить сообщение</button>
+                          </form>
+                     </div>
+                 </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Футер -->
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <p>© 2025 Кирилл. Разработано с <i class="fas fa-heart" style="color: var(--accent-secondary);"></i> и кодом. <a href="#">Политика конфиденциальности</a></p>
+        </div>
+    </footer>
+    
+    <!-- Модальное окно для портфолио -->
+    <div class="modal-overlay" id="portfolio-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close-btn">×</button>
+            <div class="modal-body" id="modal-body-content">
+                <!-- Содержимое будет загружено с помощью JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Утилитарные кнопки -->
+    <div class="utility-buttons">
+        <button id="theme-toggle-btn" class="utility-btn" aria-label="Переключить тему">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button id="back-to-top-btn" class="utility-btn back-to-top-btn" aria-label="Вернуться наверх">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <script>
+    // --------------------------------------------------------------------------
+    //                             --_MAIN_SCRIPT_--
+    // --------------------------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // ------------------------- PRELOADER -------------------------
+        const preloader = document.querySelector('.preloader');
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 500); // Небольшая задержка для плавности
+        });
+
+        // ------------------------- CUSTOM CURSOR -------------------------
+        const cursor = document.querySelector('.custom-cursor');
+        // Проверяем, поддерживает ли устройство "тонкий" указатель (мышь/трекпад)
+        if (window.matchMedia("(pointer: fine)").matches) {
+            cursor.style.display = 'block'; // Показываем курсор только для устройств с "тонким" указателем
+            document.addEventListener('mousemove', e => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            // Добавляем эффекты наведения для интерактивных элементов
+            document.querySelectorAll('a, button, .portfolio-card, .filter-btn').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+            });
+            // Добавляем эффекты наведения для текстовых элементов
+            document.querySelectorAll('h1, h2, h3, p, span, li').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('text-mode'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('text-mode'));
+            });
+        }
+
+        // ------------------------- TYPING EFFECT -------------------------
+        const typingTextElement = document.getElementById('typing-text');
+        const textsToType = [
+            "интерактивные веб-приложения.",
+            "адаптивные пользовательские интерфейсы.",
+            "высокопроизводительные сайты.",
+            "элегантные цифровые решения."
+        ];
+        let textIndex = 0;
+        let charIndex = 0;
+
+        function type() {
+            if (charIndex < textsToType[textIndex].length) {
+                typingTextElement.textContent += textsToType[textIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, 100);
+            } else {
+                setTimeout(erase, 2000); // Задержка перед стиранием
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                typingTextElement.textContent = textsToType[textIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, 50); // Скорость стирания
+            } else {
+                textIndex = (textIndex + 1) % textsToType.length; // Переход к следующему тексту
+                setTimeout(type, 500); // Задержка перед началом печати нового текста
+            }
+        }
+        type(); // Запускаем эффект печати при загрузке страницы
+
+        // ------------------------- SCROLL ANIMATIONS -------------------------
+        const animatedElements = document.querySelectorAll('.animated-element');
+        // Создаем Intersection Observer для отслеживания видимости элементов
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Прекращаем наблюдение после появления
+                }
+            });
+        }, { threshold: 0.1 }); // Элемент считается видимым, когда 10% его в области видимости
+
+        animatedElements.forEach(el => observer.observe(el));
+        
+        // --- SKILLS PROGRESS BARS ANIMATION ---
+        const skillCards = document.querySelectorAll('.skill-card');
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const card = entry.target;
+                    const level = card.dataset.level; // Получаем уровень прогресса из data-атрибута
+                    const progressBar = card.querySelector('.progress-bar-inner');
+                    progressBar.style.width = level + '%'; // Устанавливаем ширину для анимации
+                    skillObserver.unobserve(card); // Анимировать только один раз
+                }
+            });
+        }, { threshold: 0.5 }); // Анимируем, когда 50% карточки видно
+
+        skillCards.forEach(card => skillObserver.observe(card));
+
+        // ------------------------- NAVBAR BEHAVIOR -------------------------
+        const nav = document.getElementById('main-nav');
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            // Скрытие/появление навигации при скролле
+            if (lastScrollY < window.scrollY && window.scrollY > 100) {
+                nav.classList.add('nav-hidden');
+            } else {
+                nav.classList.remove('nav-hidden');
+            }
+            lastScrollY = window.scrollY;
+            
+            // --- Active nav link on scroll ---
+            let currentSection = "";
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                // Определяем текущую секцию по положению скролла
+                if (window.scrollY >= sectionTop - nav.offsetHeight - 50) { // Учитываем высоту навигации
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Открытие мобильного меню
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Запрещаем скролл фона
+        });
+
+        // Закрытие мобильного меню
+        mobileMenuClose.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Разрешаем скролл фона
+        });
+
+        // Закрытие мобильного меню при клике на ссылку
+        mobileMenu.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+        
+        // ------------------------- PORTFOLIO FILTERING -------------------------
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const portfolioCards = document.querySelectorAll('.portfolio-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+
+                portfolioCards.forEach(card => {
+                    // Скрываем все карточки с анимацией
+                    card.classList.remove('showing', 'visible');
+                    card.classList.add('hidden');
+
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        // Показываем нужные карточки с задержкой для эффекта
+                        setTimeout(() => {
+                            card.classList.remove('hidden');
+                            card.classList.add('showing');
+                            // Небольшая задержка для активации анимации
+                            setTimeout(() => card.classList.add('visible'), 50); 
+                        }, 300); // Задержка перед появлением
+                    }
+                });
+            });
+        });
+        
+        // ------------------------- PORTFOLIO MODAL -------------------------
+        const modal = document.getElementById('portfolio-modal');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalBody = document.getElementById('modal-body-content');
+
+        // Данные для каждого проекта портфолио
+        const projectData = {
+            1: {
+                title: 'Финансовый дашборд',
+                img: 'https://placehold.co/800x450/1A1A1A/00FF99?text=Dashboard+View',
+                description: 'Комплексное веб-приложение для анализа финансовых данных. Включает интерактивные графики, кастомизируемые виджеты и отчеты в реальном времени. Разработано с фокусом на производительность при работе с большими объемами данных.',
+                tags: ['React', 'TypeScript', 'D3.js', 'Styled Components', 'REST API'],
+                liveLink: '#',
+                repoLink: '#'
+            },
+            2: {
+                title: 'E-commerce платформа',
+                img: 'https://placehold.co/800x450/1A1A1A/FF00E6?text=Product+Page',
+                description: 'Полнофункциональный интернет-магазин с серверным рендерингом для максимального SEO-эффекта. Реализованы корзина, личный кабинет, система фильтрации и интеграция с платежными системами.',
+                tags: ['Vue.js', 'Nuxt.js', 'Vuex', 'SCSS', 'Strapi'],
+                liveLink: '#',
+                repoLink: '#'
+            },
+            3: {
+                title: 'Корпоративная CRM',
+                img: 'https://placehold.co/800x450/1A1A1A/00FF99?text=CRM+Interface',
+                description: 'Масштабируемая CRM-система для управления клиентскими отношениями. Использует реактивное программирование с RxJS для обработки сложных потоков данных и событий. Модульная архитектура обеспечивает легкость расширения.',
+                tags: ['Angular', 'RxJS', 'NgRx', 'TypeScript', 'Node.js'],
+                liveLink: '#',
+                repoLink: '#'
+            },
+             4: {
+                title: 'Сервис бронирования',
+                img: 'https://placehold.co/800x450/1A1A1A/FF00E6?text=Booking+Calendar',
+                description: 'Онлайн-платформа для бронирования услуг с интерактивным календарем. Использование GraphQL позволило оптимизировать запросы и уменьшить нагрузку. Адаптивный дизайн обеспечивает удобство на любых устройствах.',
+                tags: ['React', 'Next.js', 'GraphQL', 'Apollo Client', 'Firebase'],
+                liveLink: '#',
+                repoLink: '#'
+            },
+            5: {
+                title: 'Админ-панель для SaaS',
+                img: 'https://placehold.co/800x450/1A1A1A/00FF99?text=Admin+Dashboard',
+                description: 'Интуитивно понятная и мощная админ-панель для управления SaaS-продуктом. Включает аналитику, управление пользователями и контентом. Разработана с акцентом на модульность и кастомизацию.',
+                tags: ['Vue.js', 'Vue Router', 'Pinia', 'Tailwind CSS', 'REST API'],
+                liveLink: '#',
+                repoLink: '#'
+            },
+            6: {
+                title: 'Портал здравоохранения',
+                img: 'https://placehold.co/800x450/1A1A1A/FF00E6?text=Patient+Portal',
+                description: 'Безопасный и удобный портал для пациентов с доступом к медицинской карте, записям на прием и онлайн-консультациям. Соответствует стандартам безопасности данных.',
+                tags: ['Angular', 'Material UI', 'NgRx', 'TypeScript', 'NestJS'],
+                liveLink: '#',
+                repoLink: '#'
+            }
+        };
+
+        // Открытие модального окна при клике на карточку портфолио
+        portfolioCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const projectId = card.dataset.projectId;
+                const data = projectData[projectId];
+                
+                // Заполняем модальное окно данными проекта
+                modalBody.innerHTML = `
+                    <div class="project-gallery">
+                        <img src="${data.img}" alt="${data.title}">
+                    </div>
+                    <h2>${data.title}</h2>
+                    <p class="project-description">${data.description}</p>
+                    <div class="project-tech">
+                        <h4>Технологии:</h4>
+                        <div class="tags-container">
+                            ${data.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        <a href="${data.liveLink}" class="btn btn-primary" target="_blank">Смотреть live</a>
+                        <a href="${data.repoLink}" class="btn btn-secondary" target="_blank">GitHub репозиторий</a>
+                    </div>
+                `;
+                
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Запрещаем скролл фона
+            });
+        });
+
+        // Функция закрытия модального окна
+        const closeModal = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Разрешаем скролл фона
+        };
+
+        // Закрытие модального окна по кнопке "X"
+        modalCloseBtn.addEventListener('click', closeModal);
+        // Закрытие модального окна при клике вне его содержимого
+        modal.addEventListener('click', e => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // ------------------------- UTILITY BUTTONS -------------------------
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const backToTopBtn = document.getElementById('back-to-top-btn');
+
+        // Переключение темы (светлая/темная)
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const icon = themeToggleBtn.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        });
+
+        // Кнопка "Наверх"
+        window.addEventListener('scroll', () => {
+            // Показываем/скрываем кнопку в зависимости от положения скролла
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Плавный скролл наверх
+        });
+
+    });
+    </script>
+</body>
+</html>
