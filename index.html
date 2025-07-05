@@ -660,21 +660,31 @@
             overflow: hidden;
             border: 1px solid var(--border-color);
             cursor: pointer;
+            /* Обновленные переходы для более плавной анимации фильтрации */
             transition: transform var(--transition-medium), box-shadow var(--transition-medium), opacity 0.5s ease, transform 0.5s ease;
         }
+        /* Стили для скрытых карточек */
         .portfolio-card.hidden {
             opacity: 0;
-            transform: scale(0.9);
-            display: none; /* Скрываем после анимации */
+            transform: scale(0.8); /* Уменьшаем размер для эффекта исчезновения */
+            pointer-events: none; /* Отключаем события мыши для скрытых элементов */
+            position: absolute; /* Позволяет другим элементам заполнить пространство */
+            width: 100%; /* Сохраняем ширину для корректного позиционирования */
+            height: 100%; /* Сохраняем высоту */
+            top: 0;
+            left: 0;
         }
+        /* Стили для появляющихся карточек */
         .portfolio-card.showing {
-            display: block; /* Показываем до анимации */
             opacity: 0;
-            transform: scale(0.9);
+            transform: scale(0.8);
+            pointer-events: none;
+            position: static; /* Возвращаем в обычный поток документа */
         }
         .portfolio-card.showing.visible {
             opacity: 1;
             transform: scale(1);
+            pointer-events: auto;
         }
         .portfolio-card:hover {
             transform: translateY(-10px);
@@ -802,9 +812,15 @@
             font-size: 0.9rem;
             font-weight: 500;
         }
-        .modal-body .project-links a {
-            margin-right: 1.5rem;
+        /* Added style for the "In Development" message */
+        .modal-body .in-development-message {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            padding: 5rem 0;
         }
+
 
         /* -------------------------------------------------------------------------- */
         /* --_SKILLS_SECTION_--                            */
@@ -834,7 +850,7 @@
         }
         .skill-header i {
             font-size: 2.5rem;
-            color: var(--accent-primary);
+            /* Removed default color to allow specific skill icon colors to apply */
         }
         .skill-header h3 {
             font-size: 1.25rem;
@@ -858,6 +874,21 @@
             border-radius: 4px;
             transition: width 1.5s ease-out;
         }
+
+        /* Custom skill icons for specific technologies with vibrant colors */
+        .skill-icon-react { color: #61DAFB; } /* React Blue */
+        .skill-icon-vue { color: #4FC08D; } /* Vue Green */
+        .skill-icon-js { color: #F7DF1E; } /* JavaScript Yellow */
+        .skill-icon-css { color: #1572B6; } /* CSS3 Blue */
+        .skill-icon-php { color: #777BB4; } /* PHP Purple */
+        .skill-icon-nodejs { color: #6DA55F; } /* Node.js Green */
+        .skill-icon-tailwind { color: #06B6D4; } /* Tailwind CSS Teal */
+        .skill-icon-flexbox { color: #FFD700; } /* Flexbox Gold (for a modern touch) */
+        .skill-icon-backend { color: #E74C3C; } /* Backend Red (general server icon) */
+        .skill-icon-sql { color: #4479A1; } /* SQL Blue */
+        .skill-icon-mongodb { color: #47A248; } /* MongoDB Green */
+        .skill-icon-mysql { color: #00758F; } /* MySQL Dark Blue */
+        .skill-icon-postgresql { color: #336791; } /* PostgreSQL Blue */
 
 
         /* -------------------------------------------------------------------------- */
@@ -979,10 +1010,17 @@
         /* -------------------------------------------------------------------------- */
         .contact-wrapper {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr; /* Default to 2 columns */
             gap: 4rem;
             align-items: center;
         }
+        /* Adjust for single column when form is removed */
+        .contact-wrapper.single-column {
+            grid-template-columns: 1fr;
+            justify-content: center; /* Center content horizontally */
+            text-align: center; /* Center text within the column */
+        }
+
         .contact-info h3, .contact-form-container h3 {
             font-size: 2rem;
             margin-bottom: 1rem;
@@ -991,12 +1029,24 @@
             color: var(--text-secondary);
             margin-bottom: 2rem;
         }
+        .contact-details {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+            text-align: left; /* Align contact details to left */
+        }
+        .contact-details.centered {
+            text-align: center; /* Center contact details when in single column */
+        }
         .contact-details li {
             list-style: none;
             display: flex;
             align-items: center;
             gap: 1rem;
             margin-bottom: 1.5rem;
+        }
+        .contact-details.centered li {
+            justify-content: center; /* Center individual list items */
         }
         .contact-details li i {
             font-size: 1.5rem;
@@ -1015,6 +1065,10 @@
             display: flex;
             gap: 1.5rem;
             margin-top: 2rem;
+            justify-content: flex-start; /* Align social links to left */
+        }
+        .social-links.centered {
+            justify-content: center; /* Center social links when in single column */
         }
         .social-links a {
             font-size: 1.8rem;
@@ -1025,29 +1079,7 @@
             color: var(--accent-primary);
             transform: translateY(-5px);
         }
-        .contact-form .form-group {
-            margin-bottom: 1.5rem;
-        }
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius-sm);
-            padding: 1rem;
-            color: var(--text-primary);
-            font-family: var(--font-main);
-            font-size: 1rem;
-            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-        }
-        .contact-form input:focus, .contact-form textarea:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px var(--highlight-color);
-        }
-        .contact-form textarea {
-            resize: vertical;
-            min-height: 150px;
-        }
+        /* Removed contact-form styles as the form is removed */
 
         /* -------------------------------------------------------------------------- */
         /* --_FOOTER_--                                 */
@@ -1119,7 +1151,7 @@
         /* --_RESPONSIVE_STYLES_--                          */
         /* -------------------------------------------------------------------------- */
         @media (max-width: 1024px) {
-            .about-wrapper, .contact-wrapper {
+            .about-wrapper, .contact-wrapper { /* Apply single-column to contact-wrapper here too */
                 grid-template-columns: 1fr;
                 gap: 3rem;
             }
@@ -1131,6 +1163,14 @@
                 text-align: center;
             }
             .hero-buttons {
+                justify-content: center;
+            }
+            /* Center contact details and social links on smaller screens */
+            .contact-details, .social-links {
+                justify-content: center;
+                text-align: center;
+            }
+            .contact-details li {
                 justify-content: center;
             }
         }
@@ -1167,6 +1207,57 @@
                 right: 1rem;
             }
         }
+
+        /* --- New Styles for Services & Prices --- */
+        .service-card {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: 2rem;
+            text-align: center;
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            border-color: var(--accent-primary);
+        }
+        .service-card .icon {
+            font-size: 3rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .service-card .price {
+            font-family: var(--font-mono);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            margin-bottom: 1rem;
+        }
+        .service-card ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        .service-card ul li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .service-card ul li i {
+            color: var(--accent-primary);
+            font-size: 0.9rem;
+        }
+        .service-card .btn {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -1187,10 +1278,9 @@
             </div>
             <nav class="nav-links">
                 <a href="#about" class="nav-link">Обо мне</a>
-                <a href="#approach" class="nav-link">Подход</a>
+                <a href="#services" class="nav-link">Услуги</a>
                 <a href="#portfolio" class="nav-link">Портфолио</a>
                 <a href="#skills" class="nav-link">Навыки</a>
-                <a href="#blog" class="nav-link">Блог</a>
                 <a href="#contact" class="nav-link">Контакт</a>
             </nav>
             <button class="mobile-menu-toggle" aria-label="Открыть меню">
@@ -1204,10 +1294,9 @@
         <button class="mobile-menu-close" id="mobile-menu-close">&times;</button>
         <nav class="nav-links">
             <a href="#about" class="nav-link">Обо мне</a>
-            <a href="#approach" class="nav-link">Подход</a>
+            <a href="#services" class="nav-link">Услуги</a>
             <a href="#portfolio" class="nav-link">Портфолио</a>
             <a href="#skills" class="nav-link">Навыки</a>
-            <a href="#blog" class="nav-link">Блог</a>
             <a href="#contact" class="nav-link">Контакт</a>
         </nav>
     </div>
@@ -1238,175 +1327,213 @@
                     <div class="about-text animated-element" style="transition-delay: 0.2s;">
                         <h3>Создаю цифровые продукты, которые запоминаются.</h3>
                         <p>
-                            Я — Senior Frontend-разработчик с более чем 7-летним опытом, специализирующийся на создании высокопроизводительных, интуитивно понятных и визуально совершенных веб-интерфейсов. Моя цель — не просто писать код, а решать бизнес-задачи через технологии, превращая сложные концепции в элегантные и эффективные решения.
+                            Я — Frontend-разработчик с опытом около <strong>3-х лет</strong>, специализирующийся на создании высокопроизводительных, интуитивно понятных и визуально совершенных веб-интерфейсов. Моя цель — не просто писать код, а решать бизнес-задачи через технологии, превращая сложные концепции в элегантные и эффективные решения.
                         </p>
                         <p>
-                            Мой стек включает <strong>React, Vue.js, и Angular</strong>, подкрепленный глубокими знаниями <strong>TypeScript, HTML5 и CSS3</strong>. Я одержим чистым кодом, архитектурой и оптимизацией производительности. В каждом проекте я стремлюсь достичь идеального баланса между эстетикой и функциональностью.
+                            Последние <strong>несколько месяцев</strong> я активно развиваюсь как <strong>Fullstack-разработчик</strong>, осваивая как Frontend, так и Backend. Мой стек включает <strong>React, Vue.js</strong>, подкрепленный глубокими знаниями <strong>TypeScript, HTML5 и CSS3</strong>. Я одержим чистым кодом, архитектурой и оптимизацией производительности. В каждом проекте я стремлюсь достичь идеального баланса между эстетикой и функциональностью.
                         </p>
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- Секция "Мой подход" -->
-        <section id="approach" class="animated-element">
+        <!-- НОВАЯ Секция "Услуги и Цены" -->
+        <section id="services" class="animated-element">
             <div class="container">
-                <h2 class="section-title" data-subtitle="Процесс">Мой <span>рабочий</span> подход</h2>
-                <div class="timeline">
-                    <div class="timeline-item left animated-element">
-                        <div class="timeline-content">
-                            <div class="step-number">01</div>
-                            <h3>Анализ и Стратегия</h3>
-                            <p>Глубокое погружение в цели проекта, анализ аудитории и конкурентов. Формирование четкой стратегии и технического задания.</p>
-                        </div>
+                <h2 class="section-title" data-subtitle="Предложения">Мои <span>Услуги</span> и Цены</h2>
+                <div class="grid-container grid-cols-3">
+                    <div class="service-card animated-element">
+                        <div class="icon">🚀</div>
+                        <h3>Создание сайта</h3>
+                        <p class="price">от 3000 ₽</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Одностраничный сайт: 3000 ₽</li>
+                            <li><i class="fas fa-check-circle"></i> Каждая доп. страница: 1500 ₽</li>
+                            <li><i class="fas fa-check-circle"></i> Сайт с Backend: от 10000 ₽</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Заказать сайт</a>
                     </div>
-                    <div class="timeline-item right animated-element">
-                        <div class="timeline-content">
-                            <div class="step-number">02</div>
-                            <h3>Проектирование и UI/UX</h3>
-                            <p>Создание прототипов и вайрфреймов. Разработка интуитивно понятного интерфейса и пользовательского опыта, ориентированного на результат.</p>
-                        </div>
+                    <div class="service-card animated-element" style="transition-delay: 0.2s;">
+                        <div class="icon">🤖</div>
+                        <h3>Разработка Ботов</h3>
+                        <p class="price">от 3000 ₽</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Discord/TG бот: от 3000 ₽</li>
+                            <li><i class="fas fa-check-circle"></i> ВК бот: от 5000 ₽</li>
+                            <li><i class="fas fa-check-circle"></i> Индивидуальная логика</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Заказать бота</a>
                     </div>
-                    <div class="timeline-item left animated-element">
-                        <div class="timeline-content">
-                            <div class="step-number">03</div>
-                            <h3>Frontend-разработка</h3>
-                            <p>Написание чистого, масштабируемого кода с использованием современных фреймворков. Создание Pixel-Perfect верстки и плавной анимации.</p>
-                        </div>
-                    </div>
-                     <div class="timeline-item right animated-element">
-                        <div class="timeline-content">
-                            <div class="step-number">04</div>
-                            <h3>Тестирование и QA</h3>
-                            <p>Комплексное тестирование на разных устройствах и браузерах. Оптимизация производительности (Lighthouse, Core Web Vitals) и SEO.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item left animated-element">
-                        <div class="timeline-content">
-                            <div class="step-number">05</div>
-                            <h3>Запуск и Поддержка</h3>
-                            <p>Развертывание проекта на продакшн-серверах (deploy). Обеспечение дальнейшей поддержки, мониторинга и развития продукта.</p>
-                        </div>
+                    <div class="service-card animated-element" style="transition-delay: 0.4s;">
+                        <div class="icon">✨</div>
+                        <h3>Переработка сайта</h3>
+                        <p class="price">от 1500 ₽</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Обновление дизайна</li>
+                            <li><i class="fas fa-check-circle"></i> Оптимизация производительности</li>
+                            <li><i class="fas fa-check-circle"></i> Добавление новых функций</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Обновить сайт</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Секция "Портфолио" -->
+        <!-- ОБНОВЛЕННАЯ Секция "Портфолио" -->
         <section id="portfolio" class="animated-element">
             <div class="container">
-                <h2 class="section-title" data-subtitle="Проекты">Избранные <span>работы</span></h2>
+                <h2 class="section-title" data-subtitle="Проекты">Мое <span>Портфолио</span></h2>
                 <div class="portfolio-filters animated-element">
                     <button class="filter-btn active" data-filter="all">Все</button>
-                    <button class="filter-btn" data-filter="react">React</button>
-                    <button class="filter-btn" data-filter="vue">Vue.js</button>
-                    <button class="filter-btn" data-filter="angular">Angular</button>
+                    <button class="filter-btn" data-filter="web">Веб-сайты</button>
+                    <button class="filter-btn" data-filter="bot">Боты</button>
                 </div>
                 <div class="portfolio-grid">
-                    <!-- Проект 1 -->
-                    <div class="portfolio-card animated-element" data-category="react" data-project-id="1">
-                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/00FF99?text=Fintech+App" alt="Fintech App"></div>
+                    <!-- Проект 1: Этот сайт -->
+                    <div class="portfolio-card animated-element" data-category="web" data-project-id="1">
+                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/00FF99?text=Этот+Сайт" alt="Этот Сайт"></div>
                         <div class="portfolio-card-content">
-                            <h3>Финансовый дашборд</h3>
-                            <p class="category">React / TypeScript / D3.js</p>
+                            <h3>Этот Сайт 🌐</h3>
+                            <p class="category">Frontend / UI/UX</p>
                         </div>
                     </div>
-                    <!-- Проект 2 -->
-                    <div class="portfolio-card animated-element" data-category="vue" data-project-id="2">
-                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/FF00E6?text=E-commerce" alt="E-commerce"></div>
+                    <!-- Проект 2: Discord Alpha Bot -->
+                    <div class="portfolio-card animated-element" data-category="bot" data-project-id="2">
+                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/FF00E6?text=Discord+Alpha+Bot" alt="Discord Alpha Bot"></div>
                         <div class="portfolio-card-content">
-                            <h3>E-commerce платформа</h3>
-                            <p class="category">Vue.js / Nuxt.js / Strapi</p>
+                            <h3>Discord Alpha Bot 🎮</h3>
+                            <p class="category">Discord Bot / Множество команд</p>
                         </div>
                     </div>
-                    <!-- Проект 3 -->
-                    <div class="portfolio-card animated-element" data-category="angular" data-project-id="3">
-                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/00FF99?text=CRM+System" alt="CRM System"></div>
+                    <!-- Проект 3: Telegram Anonim Chat Bot -->
+                    <div class="portfolio-card animated-element" data-category="bot" data-project-id="3">
+                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/00FF99?text=Telegram+Anonim+Chat+Bot" alt="Telegram Anonim Chat Bot"></div>
                         <div class="portfolio-card-content">
-                            <h3>Корпоративная CRM</h3>
-                            <p class="category">Angular / RxJS / Node.js</p>
+                            <h3>Telegram Anonim Chat Bot 🤫</h3>
+                            <p class="category">Telegram Bot / Анонимный чат</p>
                         </div>
                     </div>
-                     <!-- Проект 4 -->
-                    <div class="portfolio-card animated-element" data-category="react" data-project-id="4">
-                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/FF00E6?text=Booking+Service" alt="Booking Service"></div>
+                     <!-- Проект 4: TAF бот Telegram -->
+                    <div class="portfolio-card animated-element" data-category="bot" data-project-id="4">
+                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/FF00E6?text=TAF+Telegram+Bot" alt="TAF Telegram Bot"></div>
                         <div class="portfolio-card-content">
-                            <h3>Сервис бронирования</h3>
-                            <p class="category">React / Next.js / GraphQL</p>
+                            <h3>TAF бот Telegram 🎓</h3>
+                            <p class="category">Telegram Bot / Для учебного заведения</p>
                         </div>
                     </div>
-                     <!-- Проект 5 -->
-                    <div class="portfolio-card animated-element" data-category="vue" data-project-id="5">
-                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/00FF99?text=Dashboard+App" alt="Dashboard App"></div>
+                     <!-- Проект 5: TAF бот ВК -->
+                    <div class="portfolio-card animated-element" data-category="bot" data-project-id="5">
+                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/00FF99?text=TAF+VK+Bot" alt="TAF VK Bot"></div>
                         <div class="portfolio-card-content">
-                            <h3>Админ-панель для SaaS</h3>
-                            <p class="category">Vue.js / Vue Router / Pinia</p>
-                        </div>
-                    </div>
-                    <!-- Проект 6 -->
-                    <div class="portfolio-card animated-element" data-category="angular" data-project-id="6">
-                        <div class="portfolio-card-img"><img src="https://placehold.co/600x400/1A1A1A/FF00E6?text=Healthcare+Portal" alt="Healthcare Portal"></div>
-                        <div class="portfolio-card-content">
-                            <h3>Портал здравоохранения</h3>
-                            <p class="category">Angular / Material UI / NestJS</p>
+                            <h3>TAF бот ВК 📚</h3>
+                            <p class="category">ВК Bot / Для учебного заведения</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Секция "Навыки" -->
+        <!-- Секция "Навыки" (без изменений) -->
         <section id="skills" class="animated-element">
              <div class="container">
                 <h2 class="section-title" data-subtitle="Технологии">Мой <span>инструментарий</span></h2>
                 <div class="skills-grid">
                     <div class="skill-card animated-element" data-level="95">
                         <div class="skill-header">
-                            <i class="fab fa-react"></i><h3>React & Next.js</h3>
+                            <i class="fab fa-react skill-icon-react"></i><h3>React & Next.js</h3>
                         </div>
                         <p class="skill-description">Создание сложных SPA и SSR-приложений, управление состоянием (Redux, Zustand).</p>
                         <div class="progress-bar"><div class="progress-bar-inner"></div></div>
                     </div>
                     <div class="skill-card animated-element" data-level="90">
                         <div class="skill-header">
-                            <i class="fab fa-vuejs"></i><h3>Vue.js & Nuxt.js</h3>
+                            <i class="fab fa-vuejs skill-icon-vue"></i><h3>Vue.js & Nuxt.js</h3>
                         </div>
                         <p class="skill-description">Разработка реактивных интерфейсов, использование Vuex и Composition API.</p>
                         <div class="progress-bar"><div class="progress-bar-inner"></div></div>
                     </div>
-                     <div class="skill-card animated-element" data-level="98">
+                    <div class="skill-card animated-element" data-level="98">
                         <div class="skill-header">
-                            <i class="fa-brands fa-js"></i><h3>JavaScript & TypeScript</h3>
+                            <i class="fa-brands fa-js skill-icon-js"></i><h3>JavaScript & TypeScript</h3>
                         </div>
                         <p class="skill-description">Глубокое знание ESNext, асинхронности. Строгая типизация для надежности кода.</p>
                         <div class="progress-bar"><div class="progress-bar-inner"></div></div>
                     </div>
                     <div class="skill-card animated-element" data-level="95">
                         <div class="skill-header">
-                            <i class="fab fa-css3-alt"></i><h3>HTML5 & CSS3</h3>
+                            <i class="fab fa-css3-alt skill-icon-css"></i><h3>HTML5 & CSS3</h3>
                         </div>
                         <p class="skill-description">Семантическая верстка, Grid, Flexbox, SCSS, Tailwind CSS, анимации.</p>
                         <div class="progress-bar"><div class="progress-bar-inner"></div></div>
                     </div>
-                    <div class="skill-card animated-element" data-level="85">
-                        <div class="skill-header">
-                             <i class="fa-solid fa-server"></i><h3>Backend & DevOps</h3>
-                        </div>
-                        <p class="skill-description">Опыт с Node.js, Express. Настройка CI/CD, работа с Docker и Vercel.</p>
-                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
-                    </div>
                     <div class="skill-card animated-element" data-level="90">
                         <div class="skill-header">
-                            <i class="fa-solid fa-pen-ruler"></i><h3>UI/UX & Инструменты</h3>
+                            <i class="fab fa-php skill-icon-php"></i><h3>PHP</h3>
                         </div>
-                        <p class="skill-description">Figma, Webflow. Понимание принципов дизайна, создание прототипов.</p>
+                        <p class="skill-description">Опыт разработки серверной логики и API на PHP.</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                    <div class="skill-card animated-element" data-level="85">
+                        <div class="skill-header">
+                             <i class="fa-brands fa-node-js skill-icon-nodejs"></i><h3>Node.js & Express</h3>
+                        </div>
+                        <p class="skill-description">Создание RESTful API, работа с базами данных (MongoDB, PostgreSQL).</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                    <div class="skill-card animated-element" data-level="80">
+                        <div class="skill-header">
+                            <i class="fa-solid fa-wind skill-icon-tailwind"></i><h3>Tailwind CSS</h3>
+                        </div>
+                        <p class="skill-description">Быстрая и адаптивная верстка с использованием утилит Tailwind.</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                    <div class="skill-card animated-element" data-level="92">
+                        <div class="skill-header">
+                            <i class="fa-solid fa-box-open skill-icon-flexbox"></i><h3>Flexbox & Grid</h3>
+                        </div>
+                        <p class="skill-description">Мастерское владение современными инструментами для создания сложных макетов.</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                    <div class="skill-card animated-element" data-level="75">
+                        <div class="skill-header">
+                            <i class="fa-solid fa-database skill-icon-sql"></i><h3>SQL</h3>
+                        </div>
+                        <p class="skill-description">Написание сложных запросов, оптимизация баз данных, работа с реляционными СУБД.</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                    <div class="skill-card animated-element" data-level="70">
+                        <div class="skill-header">
+                            <i class="fa-solid fa-leaf skill-icon-mongodb"></i><h3>MongoDB</h3>
+                        </div>
+                        <p class="skill-description">Опыт работы с NoSQL базами данных, агрегации, индексирование.</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                    <div class="skill-card animated-element" data-level="75">
+                        <div class="skill-header">
+                            <i class="fa-solid fa-database skill-icon-mysql"></i><h3>MySQL</h3>
+                        </div>
+                        <p class="skill-description">Проектирование схем баз данных, оптимизация запросов, администрирование.</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                    <div class="skill-card animated-element" data-level="70">
+                        <div class="skill-header">
+                            <i class="fa-solid fa-database skill-icon-postgresql"></i><h3>PostgreSQL</h3>
+                        </div>
+                        <p class="skill-description">Работа с расширенными функциями, хранимыми процедурами, триггерами.</p>
+                        <div class="progress-bar"><div class="progress-bar-inner"></div></div>
+                    </div>
+                    <div class="skill-card animated-element" data-level="75">
+                        <div class="skill-header">
+                            <i class="fa-solid fa-server skill-icon-backend"></i><h3>Немного Backend</h3>
+                        </div>
+                        <p class="skill-description">Базовые знания в области серверной разработки и работы с данными.</p>
                         <div class="progress-bar"><div class="progress-bar-inner"></div></div>
                     </div>
                 </div>
              </div>
         </section>
 
-        <!-- Секция "Отзывы" -->
+        <!-- Секция "Отзывы" (без изменений) -->
         <section id="testimonials" class="animated-element">
             <div class="container">
                  <h2 class="section-title" data-subtitle="Клиенты">Что <span>говорят</span> обо мне</h2>
@@ -1425,40 +1552,9 @@
             </div>
         </section>
         
-        <!-- Секция "Блог" -->
-        <section id="blog" class="animated-element">
-            <div class="container">
-                 <h2 class="section-title" data-subtitle="Знания">Мои <span>статьи</span> и мысли</h2>
-                 <div class="blog-grid">
-                     <div class="blog-card animated-element">
-                         <div class="blog-card-img"><img src="https://placehold.co/600x400/1A1A1A/FFFFFF?text=React+Hooks" alt="Статья про React Hooks"></div>
-                         <div class="blog-card-content">
-                             <div class="blog-card-meta"><span>15 Июня, 2025</span> / <span>Frontend</span></div>
-                             <h3>Глубокое погружение в React Hooks</h3>
-                             <a href="#">Читать далее →</a>
-                         </div>
-                     </div>
-                     <div class="blog-card animated-element" style="transition-delay: 0.2s;">
-                         <div class="blog-card-img"><img src="https://placehold.co/600x400/1A1A1A/FFFFFF?text=Web+Performance" alt="Статья про Web Performance"></div>
-                         <div class="blog-card-content">
-                             <div class="blog-card-meta"><span>02 Июля, 2025</span> / <span>Оптимизация</span></div>
-                             <h3>Core Web Vitals: полное руководство</h3>
-                              <a href="#">Читать далее →</a>
-                         </div>
-                     </div>
-                     <div class="blog-card animated-element" style="transition-delay: 0.4s;">
-                         <div class="blog-card-img"><img src="https://placehold.co/600x400/1A1A1A/FFFFFF?text=AI+in+Dev" alt="Статья про AI"></div>
-                         <div class="blog-card-content">
-                             <div class="blog-card-meta"><span>20 Июля, 2025</span> / <span>Будущее</span></div>
-                             <h3>Как AI меняет разработку уже сегодня</h3>
-                              <a href="#">Читать далее →</a>
-                         </div>
-                     </div>
-                 </div>
-            </div>
-        </section>
+        <!-- Секция "Блог" (удалена, так как не было предоставлено новых данных) -->
 
-        <!-- Секция "Призыв к действию" -->
+        <!-- Секция "Призыв к действию" (без изменений) -->
         <section id="cta" class="animated-element">
             <div class="container">
                 <h2>Есть идея для проекта?</h2>
@@ -1467,38 +1563,25 @@
             </div>
         </section>
 
-        <!-- Секция "Контакты" -->
+        <!-- ОБНОВЛЕННАЯ Секция "Контакты" -->
         <section id="contact" class="animated-element">
             <div class="container">
                  <h2 class="section-title" data-subtitle="Диалог">Связаться <span>со мной</span></h2>
-                 <div class="contact-wrapper">
+                 <div class="contact-wrapper single-column"> <!-- Добавлен класс single-column -->
                      <div class="contact-info animated-element">
                          <h3>Давайте создадим что-то великое вместе!</h3>
                          <p>Я всегда открыт для новых проектов, коллабораций и просто интересных бесед. Не стесняйтесь написать мне.</p>
-                         <ul class="contact-details">
-                             <li><i class="fas fa-envelope"></i> <a href="mailto:kirill.dev@email.com">kirill.dev@email.com</a></li>
-                             <li><i class="fab fa-telegram"></i> <a href="#">@kirill_frontend</a></li>
+                         <ul class="contact-details centered"> <!-- Добавлен класс centered -->
+                             <li><i class="fab fa-vk"></i> <a href="https://vk.com/vkdevloper" target="_blank">vk.com/vkdevloper</a></li>
+                             <li><i class="fab fa-telegram-plane"></i> <a href="https://t.me/alphagamespd" target="_blank">@alphagamespd</a></li>
                          </ul>
-                         <div class="social-links">
-                             <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                             <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                             <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                         <div class="social-links centered"> <!-- Добавлен класс centered -->
+                             <!-- Удалены GitHub и Twitter, оставлены только VK и Telegram -->
+                             <a href="https://vk.com/vkdevloper" aria-label="ВКонтакте" target="_blank"><i class="fab fa-vk"></i></a>
+                             <a href="https://t.me/alphagamespd" aria-label="Telegram" target="_blank"><i class="fab fa-telegram-plane"></i></a>
                          </div>
                      </div>
-                     <div class="contact-form-container animated-element" style="transition-delay: 0.2s;">
-                          <form action="#" class="contact-form">
-                              <div class="form-group">
-                                  <input type="text" name="name" placeholder="Ваше имя" required>
-                              </div>
-                               <div class="form-group">
-                                  <input type="email" name="email" placeholder="Ваш email" required>
-                              </div>
-                               <div class="form-group">
-                                  <textarea name="message" placeholder="Расскажите о вашем проекте" required></textarea>
-                              </div>
-                              <button type="submit" class="btn btn-primary">Отправить сообщение</button>
-                          </form>
-                     </div>
+                     <!-- Удалена форма связи -->
                  </div>
             </div>
         </section>
@@ -1507,7 +1590,7 @@
     <!-- Футер -->
     <footer class="main-footer">
         <div class="container footer-content">
-            <p>© 2025 Кирилл. Разработано с <i class="fas fa-heart" style="color: var(--accent-secondary);"></i> и кодом. <a href="#">Политика конфиденциальности</a></p>
+            <p>© 2025 Кирилл. Разработано с <i class="fas fa-heart" style="color: var(--accent-secondary);"></i> и кодом. <a href="#" id="privacy-policy-link">Политика конфиденциальности</a></p>
         </div>
     </footer>
     
@@ -1686,7 +1769,7 @@
         
         // ------------------------- PORTFOLIO FILTERING -------------------------
         const filterBtns = document.querySelectorAll('.filter-btn');
-        const portfolioCards = document.querySelectorAll('.portfolio-card');
+        const portfolioGrid = document.querySelector('.portfolio-grid'); // Получаем контейнер сетки
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -1694,21 +1777,23 @@
                 btn.classList.add('active');
                 const filter = btn.dataset.filter;
 
-                portfolioCards.forEach(card => {
-                    // Скрываем все карточки с анимацией
+                // Сначала скрываем все карточки
+                Array.from(portfolioGrid.children).forEach(card => {
                     card.classList.remove('showing', 'visible');
                     card.classList.add('hidden');
+                });
 
-                    if (filter === 'all' || card.dataset.category === filter) {
-                        // Показываем нужные карточки с задержкой для эффекта
-                        setTimeout(() => {
+                // Ждем завершения анимации скрытия, затем показываем нужные
+                setTimeout(() => {
+                    Array.from(portfolioGrid.children).forEach(card => {
+                        if (filter === 'all' || card.dataset.category === filter) {
                             card.classList.remove('hidden');
                             card.classList.add('showing');
-                            // Небольшая задержка для активации анимации
+                            // Небольшая задержка для активации анимации появления
                             setTimeout(() => card.classList.add('visible'), 50); 
-                        }, 300); // Задержка перед появлением
-                    }
-                });
+                        }
+                    });
+                }, 500); // Задержка, равная или чуть больше времени transition для 'hidden'
             });
         });
         
@@ -1720,62 +1805,46 @@
         // Данные для каждого проекта портфолио
         const projectData = {
             1: {
-                title: 'Финансовый дашборд',
-                img: 'https://placehold.co/800x450/1A1A1A/00FF99?text=Dashboard+View',
-                description: 'Комплексное веб-приложение для анализа финансовых данных. Включает интерактивные графики, кастомизируемые виджеты и отчеты в реальном времени. Разработано с фокусом на производительность при работе с большими объемами данных.',
-                tags: ['React', 'TypeScript', 'D3.js', 'Styled Components', 'REST API'],
-                liveLink: '#',
-                repoLink: '#'
+                title: 'Этот Сайт 🌐',
+                img: 'https://placehold.co/800x450/1A1A1A/00FF99?text=Этот+Сайт',
+                description: 'Сайт-портфолио, который вы сейчас просматриваете. Разработан с нуля с акцентом на современный дизайн, адаптивность и производительность. Включает интерактивные элементы и плавные анимации.',
+                tags: ['HTML5', 'CSS3', 'JavaScript', 'Responsive Design', 'UI/UX']
             },
             2: {
-                title: 'E-commerce платформа',
-                img: 'https://placehold.co/800x450/1A1A1A/FF00E6?text=Product+Page',
-                description: 'Полнофункциональный интернет-магазин с серверным рендерингом для максимального SEO-эффекта. Реализованы корзина, личный кабинет, система фильтрации и интеграция с платежными системами.',
-                tags: ['Vue.js', 'Nuxt.js', 'Vuex', 'SCSS', 'Strapi'],
-                liveLink: '#',
-                repoLink: '#'
+                title: 'Discord Alpha Bot 🎮',
+                img: 'https://placehold.co/800x450/1A1A1A/FF00E6?text=Discord+Alpha+Bot',
+                description: 'Многофункциональный Discord бот с широким набором команд для модерации, развлечений и утилит. Разработан с использованием Node.js и Discord.js, обеспечивает высокую стабильность и скорость работы.',
+                tags: ['Node.js', 'Discord.js', 'JavaScript', 'API Integration']
             },
             3: {
-                title: 'Корпоративная CRM',
-                img: 'https://placehold.co/800x450/1A1A1A/00FF99?text=CRM+Interface',
-                description: 'Масштабируемая CRM-система для управления клиентскими отношениями. Использует реактивное программирование с RxJS для обработки сложных потоков данных и событий. Модульная архитектура обеспечивает легкость расширения.',
-                tags: ['Angular', 'RxJS', 'NgRx', 'TypeScript', 'Node.js'],
-                liveLink: '#',
-                repoLink: '#'
+                title: 'Telegram Anonim Chat Bot 🤫',
+                img: 'https://placehold.co/800x450/1A1A1A/00FF99?text=Telegram+Anonim+Chat+Bot',
+                description: 'Бот для анонимного общения в Telegram. Позволяет пользователям общаться друг с другом, не раскрывая личных данных. Реализована система подбора собеседников и обработки сообщений.',
+                tags: ['Node.js', 'Telegraf.js', 'Telegram API', 'Anonymity']
             },
              4: {
-                title: 'Сервис бронирования',
-                img: 'https://placehold.co/800x450/1A1A1A/FF00E6?text=Booking+Calendar',
-                description: 'Онлайн-платформа для бронирования услуг с интерактивным календарем. Использование GraphQL позволило оптимизировать запросы и уменьшить нагрузку. Адаптивный дизайн обеспечивает удобство на любых устройствах.',
-                tags: ['React', 'Next.js', 'GraphQL', 'Apollo Client', 'Firebase'],
-                liveLink: '#',
-                repoLink: '#'
+                title: 'TAF бот Telegram �',
+                img: 'https://placehold.co/800x450/1A1A1A/FF00E6?text=TAF+Telegram+Bot',
+                description: 'Telegram бот, разработанный для учебного заведения, для автоматизации различных процессов, таких как расписание занятий, объявления, ответы на часто задаваемые вопросы.',
+                tags: ['Node.js', 'Telegraf.js', 'Telegram API', 'Образование']
             },
             5: {
-                title: 'Админ-панель для SaaS',
-                img: 'https://placehold.co/800x450/1A1A1A/00FF99?text=Admin+Dashboard',
-                description: 'Интуитивно понятная и мощная админ-панель для управления SaaS-продуктом. Включает аналитику, управление пользователями и контентом. Разработана с акцентом на модульность и кастомизацию.',
-                tags: ['Vue.js', 'Vue Router', 'Pinia', 'Tailwind CSS', 'REST API'],
-                liveLink: '#',
-                repoLink: '#'
-            },
-            6: {
-                title: 'Портал здравоохранения',
-                img: 'https://placehold.co/800x450/1A1A1A/FF00E6?text=Patient+Portal',
-                description: 'Безопасный и удобный портал для пациентов с доступом к медицинской карте, записям на прием и онлайн-консультациям. Соответствует стандартам безопасности данных.',
-                tags: ['Angular', 'Material UI', 'NgRx', 'TypeScript', 'NestJS'],
-                liveLink: '#',
-                repoLink: '#'
+                title: 'TAF бот ВК 📚',
+                img: 'https://placehold.co/800x450/1A1A1A/00FF99?text=TAF+VK+Bot',
+                description: 'Бот для социальной сети ВКонтакте, адаптированный для нужд учебного заведения. Функционал аналогичен Telegram боту, но с учетом особенностей платформы ВК.',
+                tags: ['Node.js', 'VK API', 'JavaScript', 'Образование']
             }
         };
 
         // Открытие модального окна при клике на карточку портфолио
-        portfolioCards.forEach(card => {
-            card.addEventListener('click', () => {
+        // Используем делегирование событий для динамически добавляемых карточек
+        portfolioGrid.addEventListener('click', (e) => {
+            const card = e.target.closest('.portfolio-card');
+            if (card) {
                 const projectId = card.dataset.projectId;
                 const data = projectData[projectId];
                 
-                // Заполняем модальное окно данными проекта
+                // Заполняем модальное окно данными проекта, удалены кнопки liveLink и repoLink
                 modalBody.innerHTML = `
                     <div class="project-gallery">
                         <img src="${data.img}" alt="${data.title}">
@@ -1788,15 +1857,11 @@
                             ${data.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>
                     </div>
-                    <div class="project-links">
-                        <a href="${data.liveLink}" class="btn btn-primary" target="_blank">Смотреть live</a>
-                        <a href="${data.repoLink}" class="btn btn-secondary" target="_blank">GitHub репозиторий</a>
-                    </div>
                 `;
                 
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden'; // Запрещаем скролл фона
-            });
+            }
         });
 
         // Функция закрытия модального окна
@@ -1839,6 +1904,28 @@
             window.scrollTo({ top: 0, behavior: 'smooth' }); // Плавный скролл наверх
         });
 
+        // Инициализация отображения карточек при загрузке
+        // Это гарантирует, что все карточки будут правильно анимированы при первой загрузке
+        // без необходимости кликать на фильтр "Все"
+        setTimeout(() => {
+            Array.from(portfolioGrid.children).forEach(card => {
+                card.classList.add('showing', 'visible');
+            });
+        }, 100); // Небольшая задержка после загрузки DOM
+
+        // ------------------------- PRIVACY POLICY LINK HANDLER -------------------------
+        const privacyPolicyLink = document.getElementById('privacy-policy-link');
+        privacyPolicyLink.addEventListener('click', (e) => {
+            e.preventDefault(); // Предотвращаем стандартное поведение ссылки
+
+            modalBody.innerHTML = `
+                <div class="in-development-message">
+                    В разработке 🚧
+                </div>
+            `;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
     });
     </script>
 </body>
