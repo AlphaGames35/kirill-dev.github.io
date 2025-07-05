@@ -890,6 +890,50 @@
         .skill-icon-mysql { color: #00758F; } /* MySQL Dark Blue */
         .skill-icon-postgresql { color: #336791; } /* PostgreSQL Blue */
 
+        /* Styles for certification block */
+        .certification-block {
+            margin-top: 1.5rem; /* Space from skill description */
+            margin-bottom: 1.5rem; /* Space before progress bar */
+            padding: 1rem;
+            background-color: var(--bg-primary); /* Slightly darker than skill-card bg */
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all var(--transition-fast);
+        }
+        .certification-block:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
+        .certification-block h4 {
+            font-size: 1rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.75rem;
+            font-family: var(--font-mono);
+            font-weight: 700;
+        }
+        .certification-block ul {
+            list-style: none;
+            padding: 0;
+        }
+        .certification-block ul li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .certification-block ul li:last-child {
+            margin-bottom: 0;
+        }
+        .certification-block ul li i {
+            color: var(--accent-secondary); /* Use secondary accent for icons */
+            font-size: 1rem;
+            min-width: 1rem; /* Consistent icon size */
+        }
+
 
         /* -------------------------------------------------------------------------- */
         /* --_TESTIMONIALS_SECTION_--                        */
@@ -1330,7 +1374,7 @@
                             Я — Frontend-разработчик с опытом около <strong>3-х лет</strong>, специализирующийся на создании высокопроизводительных, интуитивно понятных и визуально совершенных веб-интерфейсов. Моя цель — не просто писать код, а решать бизнес-задачи через технологии, превращая сложные концепции в элегантные и эффективные решения.
                         </p>
                         <p>
-                            Последние <strong>несколько месяцев</strong> я активно развиваюсь как <strong>Fullstack-разработчик</strong>, осваивая как Frontend, так и Backend. Мой стек включает <strong>React, Vue.js</strong>, подкрепленный глубокими знаниями <strong>TypeScript, HTML5 и CSS3</strong>. Я одержим чистым кодом, архитектурой и оптимизацией производительности. В каждом проекте я стремлюсь достичь идеального баланса между эстетикой и функциональностью.
+                            Последние <strong>несколько месяцев</strong> я активно развиваюсь как <strong>Fullstack-разработчик</strong>, осваивая как Frontend, так и Backend. Мой стек включает <strong>React, Vue.js, и Angular</strong>, подкрепленный глубокими знаниями <strong>TypeScript, HTML5 и CSS3</strong>. Я одержим чистым кодом, архитектурой и оптимизацией производительности. В каждом проекте я стремлюсь достичь идеального баланса между эстетикой и функциональностью.
                         </p>
                     </div>
                 </div>
@@ -1433,10 +1477,13 @@
             </div>
         </section>
 
-        <!-- Секция "Навыки" (без изменений) -->
+        <!-- Секция "Навыки" -->
         <section id="skills" class="animated-element">
              <div class="container">
                 <h2 class="section-title" data-subtitle="Технологии">Мой <span>инструментарий</span></h2>
+                <p class="certification-intro animated-element" style="text-align: center; margin-bottom: 2rem; color: var(--text-secondary);">
+                    Мои навыки подтверждены сертификатами МинЦифрами РФ. Ниже представлены детали по ключевым компетенциям:
+                </p>
                 <div class="skills-grid">
                     <div class="skill-card animated-element" data-level="95">
                         <div class="skill-header">
@@ -1456,12 +1503,28 @@
                         <div class="skill-header">
                             <i class="fa-brands fa-js skill-icon-js"></i><h3>JavaScript & TypeScript</h3>
                         </div>
+                        <div class="certification-block">
+                            <h4>Сертификат МинЦифр РФ</h4>
+                            <ul>
+                                <li><i class="fas fa-certificate"></i> Навык: JavaScript</li>
+                                <li><i class="fas fa-chart-line"></i> Уровень: Продвинутый</li>
+                                <li><i class="fas fa-calendar-alt"></i> Действителен до: 03.07.2026</li>
+                            </ul>
+                        </div>
                         <p class="skill-description">Глубокое знание ESNext, асинхронности. Строгая типизация для надежности кода.</p>
                         <div class="progress-bar"><div class="progress-bar-inner"></div></div>
                     </div>
                     <div class="skill-card animated-element" data-level="95">
                         <div class="skill-header">
                             <i class="fab fa-css3-alt skill-icon-css"></i><h3>HTML5 & CSS3</h3>
+                        </div>
+                        <div class="certification-block">
+                            <h4>Сертификаты МинЦифр РФ</h4>
+                            <ul>
+                                <li><i class="fas fa-certificate"></i> HTML: Продвинутый уровень</li>
+                                <li><i class="fas fa-certificate"></i> CSS: Средний уровень</li>
+                                <li><i class="fas fa-calendar-alt"></i> Действительны до: 03.07.2026</li>
+                            </ul>
                         </div>
                         <p class="skill-description">Семантическая верстка, Grid, Flexbox, SCSS, Tailwind CSS, анимации.</p>
                         <div class="progress-bar"><div class="progress-bar-inner"></div></div>
@@ -1476,6 +1539,14 @@
                     <div class="skill-card animated-element" data-level="85">
                         <div class="skill-header">
                              <i class="fa-brands fa-node-js skill-icon-nodejs"></i><h3>Node.js & Express</h3>
+                        </div>
+                        <div class="certification-block">
+                            <h4>Сертификат МинЦифр РФ</h4>
+                            <ul>
+                                <li><i class="fas fa-certificate"></i> Навык: API</li>
+                                <li><i class="fas fa-chart-line"></i> Уровень: Продвинутый</li>
+                                <li><i class="fas fa-calendar-alt"></i> Действителен до: 03.07.2026</li>
+                            </ul>
                         </div>
                         <p class="skill-description">Создание RESTful API, работа с базами данных (MongoDB, PostgreSQL).</p>
                         <div class="progress-bar"><div class="progress-bar-inner"></div></div>
@@ -1518,6 +1589,14 @@
                     <div class="skill-card animated-element" data-level="70">
                         <div class="skill-header">
                             <i class="fa-solid fa-database skill-icon-postgresql"></i><h3>PostgreSQL</h3>
+                        </div>
+                        <div class="certification-block">
+                            <h4>Сертификат МинЦифр РФ</h4>
+                            <ul>
+                                <li><i class="fas fa-certificate"></i> Навык: PostgreSQL</li>
+                                <li><i class="fas fa-chart-line"></i> Уровень: Продвинутый</li>
+                                <li><i class="fas fa-calendar-alt"></i> Действителен до: 03.07.2026</li>
+                            </ul>
                         </div>
                         <p class="skill-description">Работа с расширенными функциями, хранимыми процедурами, триггерами.</p>
                         <div class="progress-bar"><div class="progress-bar-inner"></div></div>
@@ -1823,13 +1902,13 @@
                 tags: ['Node.js', 'Telegraf.js', 'Telegram API', 'Anonymity']
             },
              4: {
-                title: 'TAF бот Telegram �',
+                title: 'TAF бот Telegram 🎓',
                 img: 'https://placehold.co/800x450/1A1A1A/FF00E6?text=TAF+Telegram+Bot',
                 description: 'Telegram бот, разработанный для учебного заведения, для автоматизации различных процессов, таких как расписание занятий, объявления, ответы на часто задаваемые вопросы.',
                 tags: ['Node.js', 'Telegraf.js', 'Telegram API', 'Образование']
             },
             5: {
-                title: 'TAF бот ВК 📚',
+                title: 'TAF бот ВК �',
                 img: 'https://placehold.co/800x450/1A1A1A/00FF99?text=TAF+VK+Bot',
                 description: 'Бот для социальной сети ВКонтакте, адаптированный для нужд учебного заведения. Функционал аналогичен Telegram боту, но с учетом особенностей платформы ВК.',
                 tags: ['Node.js', 'VK API', 'JavaScript', 'Образование']
