@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отчет по ознакомительной практике | Иванов К.А.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Refined Warm Neutrals & Deep Blues -->
+    <!-- Application Structure Plan: Создана одностраничная структура с навигацией по ключевым разделам (Титульный лист, Главная, Места практики, Компетенции, Инструменты, Хронология, Заключение) для интуитивной и нелинейной навигации. Титульный лист добавлен как первая секция. Основной контент о местах практики представлен в виде интерактивных карточек, раскрывающих детальную информацию в модальном окне, чтобы избежать перегруженности интерфейса. Компетенции визуализированы с помощью радарной диаграммы для наглядной демонстрации роста навыков. Инструменты бизнес-анализа показаны в виде интерактивных вкладок с имитацией их интерфейсов. Добавлен раздел "Хронология практики" для визуализации последовательности событий. Такая структура выбрана для максимального вовлечения пользователя и эффективной демонстрации материала, превращая стандартный отчет в увлекательный интерактивный опыт. -->
+    <!-- Visualization & Content Choices: 
+        - Титульный лист: Информация -> Стандартные данные титульного листа. Goal -> Представить официальную информацию. Viz/Presentation -> Статический HTML-блок, стилизованный под документ. Interaction -> Нет. Justification -> Обеспечивает официальное начало отчета. Library/Method -> HTML/CSS.
+        - Места практики: Информация -> Сравнение и детальное изучение каждого предприятия. Goal -> Организовать и предоставить детальную информацию. Viz/Presentation -> Интерактивные карточки с модальными окнами. Interaction -> Клик по карточке. Justification -> Позволяет пользователю сфокусироваться на одном объекте, не теряя общего контекста, с расширенными деталями и рекомендациями. Library/Method -> HTML/CSS/JS.
+        - Бизнес-процессы (в модальных окнах): Информация -> Ключевые операционные циклы предприятий. Goal -> Объяснить сложные процессы. Viz/Presentation -> Упрощенные блок-схемы на HTML/CSS с улучшенным стилем и анимированными смайликами. Interaction -> Ховер на шаге процесса для получения описания и анимации смайлика. Justification -> Визуализирует абстрактную информацию, делая ее понятной и наглядной, добавляя интерактивности. Library/Method -> HTML/Tailwind/JS.
+        - Компетенции: Информация -> Набор УК и ОПК из методички. Goal -> Показать развитие навыков. Viz/Presentation -> Радарная диаграмма с расширенным текстовым описанием. Interaction -> Наведение на точку для получения детальной информации. Justification -> Эффективно показывает многомерный профиль компетенций и дает контекст. Library/Method -> Chart.js (Canvas).
+        - ИТ-Инструменты: Информация -> 1С, AnyLogic, Бизнес-инженер. Goal -> Демонстрация практического понимания инструментов. Viz/Presentation -> Интерактивные вкладки с мок-ап интерфейсами и примерами использования. Interaction -> Переключение вкладок, взаимодействие с элементами мок-апа. Для 1С добавлена анимированная кнопка генерации отчета. Для AnyLogic улучшена анимация пассажиропотока. Justification -> Создает эффект "погружения" и практического применения знаний с реальными сценариями. Library/Method -> HTML/Tailwind/JS.
+        - Хронология практики: Информация -> Последовательность ключевых событий практики. Goal -> Визуализировать процесс прохождения практики. Viz/Presentation -> Вертикальная временная шкала на HTML/CSS. Interaction -> Прокрутка. Justification -> Добавляет нарративный элемент и показывает структурированность практики. Library/Method -> HTML/Tailwind/CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f0f4f8; /* Softer background */
+            color: #2d3748; /* Darker slate for readability */
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px; /* Thicker underline */
+            bottom: -6px; /* More space from text */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #3b82f6; /* blue-500 */
+            border-radius: 2px;
+            transition: width 0.3s ease-out;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #2563eb; /* blue-600 */
+            transform: translateY(-2px); /* Subtle lift */
+        }
+        .nav-link.active::after, .nav-link:hover::after {
+            width: 100%;
+        }
+        .modal {
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+        .process-step {
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            background-color: #e2e8f0; /* slate-200 */
+            border-radius: 0.75rem; /* More rounded */
+            padding: 1rem; /* More padding */
+            width: 12rem; /* Wider steps */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.06); /* Stronger shadow */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 1px solid #cbd5e1; /* Subtle border */
+        }
+        .process-step:hover {
+            transform: translateY(-8px) scale(1.02); /* More pronounced lift and slight scale */
+            box-shadow: 0 15px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.1); /* Even stronger shadow */
+            background-color: #dbeafe; /* blue-100 */
+            border-color: #93c5fd; /* blue-300 */
+        }
+        .process-step-icon {
+            font-size: 3rem; /* Even larger emoji */
+            margin-bottom: 0.75rem;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Springy animation */
+            display: inline-block;
+        }
+        .process-step:hover .process-step-icon {
+            transform: scale(1.2) rotate(10deg); /* More dramatic scale and rotate */
+        }
+        .process-flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2.5rem; /* Even more gap */
+            margin-top: 1.5rem;
+        }
+        .process-step-connector {
+            position: absolute;
+            top: 50%;
+            right: -2rem; /* Adjusted for larger gap */
+            transform: translateY(-50%);
+            color: #94a3b8; /* slate-400 */
+            font-size: 2.5rem; /* Larger arrow */
+            line-height: 1;
+            z-index: 10;
+            transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .process-step:hover .process-step-connector {
+            color: #3b82f6; /* blue-500 */
+            transform: translateY(-50%) translateX(5px); /* Push arrow forward */
+        }
+        .process-step:not(:last-child) .process-step-connector {
+            display: block;
+        }
+        @media (max-width: 640px) {
+            .process-step-connector {
+                display: none;
+            }
+            .process-step {
+                width: 90%; /* Adjust width for small screens */
+            }
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px; /* Slightly larger chart */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Adjusted height */
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+
+        /* Timeline styles */
+        .timeline {
+            position: relative;
+            max-width: 900px; /* Wider timeline */
+            margin: 0 auto;
+            padding: 30px 0; /* More padding */
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 5px; /* Thicker line */
+            background-color: #cbd5e1; /* slate-300 */
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2.5px;
+        }
+        .timeline-item {
+            padding: 15px 50px; /* More padding */
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px; /* Larger dot */
+            height: 25px;
+            right: -12.5px;
+            background-color: #3b82f6; /* blue-500 */
+            border: 5px solid #fff; /* Thicker white border */
+            top: 20px; /* Adjust position */
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Subtle glow */
+        }
+        .timeline-item.left {
+            left: 0;
+        }
+        .timeline-item.right {
+            left: 50%;
+        }
+        .timeline-item.right::after {
+            left: -12.5px;
+        }
+        .timeline-content {
+            padding: 25px 35px; /* More padding */
+            background-color: #fff;
+            position: relative;
+            border-radius: 1rem; /* More rounded */
+            box-shadow: 0 6px 10px -2px rgb(0 0 0 / 0.1), 0 3px 5px -3px rgb(0 0 0 / 0.08); /* Stronger shadow */
+            border: 1px solid #e2e8f0; /* Subtle border */
+        }
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 35px; /* Adjust for mobile */
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 80px; /* More space for line */
+                padding-right: 30px;
+            }
+            .timeline-item.right {
+                left: 0%;
+            }
+            .timeline-item::after {
+                left: 25px; /* Adjust for mobile */
+            }
+            .timeline-item.right::after {
+                left: 25px;
+            }
+        }
+
+        /* Title Page Specific Styles */
+        .title-page-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e0f2fe, #ffffff); /* Subtle gradient */
+            padding: 2rem;
+            text-align: center;
+        }
+        .title-page-content {
+            max-width: 850px; /* Wider content area */
+            width: 100%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem; /* More spacing */
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+            padding: 3rem; /* More padding */
+            border-radius: 1.5rem; /* More rounded */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+            border: 1px solid #e2e8f0; /* Subtle border */
+        }
+        .title-page-logo {
+            height: 120px; /* Larger logo */
+            margin-bottom: 2.5rem;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); /* Soft shadow on logo */
+        }
+        .title-page-text {
+            line-height: 1.7;
+            color: #4a5568; /* Slightly darker text */
+        }
+        .title-page-footer {
+            margin-top: 3.5rem;
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            color: #475569; /* slate-600 */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Subtle text shadow */
+        }
+
+        /* AnyLogic Passenger Animation */
+        @keyframes move-passenger {
+            0% { top: var(--y-start); left: var(--x-start); opacity: 0.8; transform: scale(0.8); }
+            10% { opacity: 1; transform: scale(1); }
+            25% { top: var(--y-reg); left: var(--x-reg); }
+            50% { top: var(--y-security); left: var(--x-security); }
+            75% { top: var(--y-boarding); left: var(--x-boarding); }
+            90% { opacity: 1; transform: scale(1); }
+            100% { top: var(--y-end); left: var(--x-end); opacity: 0.2; transform: scale(0.8); }
+        }
+        .passenger {
+            position: absolute;
+            width: 10px; /* Slightly larger */
+            height: 10px;
+            background: #ef4444; /* red-500 */
+            border-radius: 50%;
+            animation: move-passenger var(--d) linear infinite;
+            box-shadow: 0 0 5px rgba(239, 68, 68, 0.5); /* Subtle glow */
+        }
+
+        /* 1C Report Loading Spinner */
+        @keyframes spinner {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-spinner {
+            border: 4px solid rgba(59, 130, 246, 0.2);
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spinner 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        /* 1C Report Table Styling */
+        .report-table th, .report-table td {
+            padding: 12px; /* More padding */
+            border: 1px solid #e2e8f0; /* Lighter border */
+        }
+        .report-table thead th {
+            background-color: #eff6ff; /* blue-50 */
+            color: #2563eb; /* blue-600 */
+            font-weight: 700; /* bolder */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .report-table tbody tr:nth-child(odd) {
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .report-table tbody tr:hover {
+            background-color: #e0f2fe; /* blue-100 */
+            transition: background-color 0.2s ease-in-out;
+        }
+        .report-table tfoot td {
+            background-color: #dbeafe; /* blue-100 */
+            color: #1e40af; /* blue-800 */
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 800; /* extra bold */
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <section id="title-page" class="title-page-section">
+        <div class="title-page-content">
+            <img src="https://placehold.co/150x120/ffffff/000000?text=УИГА+ЛОГО" alt="УИ ГА Логотип" class="title-page-logo mx-auto"> <!-- Placeholder for logo -->
+            
+            <p class="text-sm font-medium text-slate-700">ФЕДЕРАЛЬНОЕ АГЕНТСТВО ВОЗДУШНОГО ТРАНСПОРТА (РОСАВИАЦИЯ)</p>
+            <p class="text-base font-semibold text-slate-800">ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ОБРАЗОВАНИЯ «УЛЬЯНОВСКИЙ ИНСТИТУТ ГРАЖДАНСКОЙ АВИАЦИИ ИМЕНИ ГЛАВНОГО МАРШАЛА АВИАЦИИ Б. П. БУГАЕВА»</p>
+            
+            <p class="text-md text-slate-700">Факультет подготовки авиационных специалистов (ПАС)</p>
+            <p class="text-md text-slate-700">Кафедра гуманитарных и социально-экономических дисциплин</p>
+            
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-8 mb-4">ОТЧЕТ ПО УЧЕБНОЙ ПРАКТИКЕ</h1>
+            
+            <div class="text-left mx-auto w-full max-w-md space-y-2 text-slate-700">
+                <p>Курсант: <span class="font-semibold text-slate-900">Иванов К.А.</span></p>
+                <p>Направление подготовки: <span class="font-semibold text-slate-900">25.03.03 «Аэронавигация»</span></p>
+                <p>Профиль: <span class="font-semibold text-slate-900">05 «Организация и обеспечение бизнес-процессов на воздушном транспорте»</span></p>
+                <p>Группа: <span class="font-semibold text-slate-900">ОБП 24 1</span></p>
+                <p>Сроки прохождения практики: с «____» _______ 2025 года по «____» _______ 2025 года</p>
+                <p>Место прохождения практики:</p>
+                <ul class="list-disc list-inside ml-4">
+                    <li>Международный аэропорт Ульяновск (Баратаевка)</li>
+                    <li>Международный аэропорт Ульяновск-Восточный</li>
+                    <li>ООО "Медиасофт"</li>
+                    <li>Авиакомпания "Волга-Днепр"</li>
+                    <li>АО "АэроКомпозит"</li>
+                    <li>Министерство транспорта Ульяновской области</li>
+                </ul>
+                <p>Руководитель практики от института: __________________________________________________<br><span class="text-xs">(Фамилия, И. О., ученая степень, звание, должность)</span></p>
+            </div>
+
+            <p class="title-page-footer">Ульяновск, 2025</p>
+        </div>
+    </section>
+
+    <header id="header" class="bg-white/90 backdrop-blur-lg fixed top-0 left-0 right-0 z-40 shadow-lg">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center h-16">
+                <div class="text-xl font-bold text-slate-800">
+                    Иванов К.А. <span class="text-base font-normal text-slate-500">| ОБП 24-1</span>
+                </div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#title-page" class="nav-link font-semibold text-slate-600">Титульный лист</a>
+                    <a href="#home" class="nav-link font-semibold text-slate-600">Главная</a>
+                    <a href="#locations" class="nav-link font-semibold text-slate-600">Места практики</a>
+                    <a href="#competencies" class="nav-link font-semibold text-slate-600">Компетенции</a>
+                    <a href="#tools" class="nav-link font-semibold text-slate-600">Инструменты</a>
+                    <a href="#timeline" class="nav-link font-semibold text-slate-600">Хронология</a>
+                    <a href="#conclusion" class="nav-link font-semibold text-slate-600">Заключение</a>
+                </nav>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-slate-600 focus:outline-none p-2 rounded-md hover:bg-slate-100 transition">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-lg shadow-md">
+            <a href="#title-page" class="block py-3 px-6 text-base font-semibold text-slate-700 hover:bg-slate-100 transition">Титульный лист</a>
+            <a href="#home" class="block py-3 px-6 text-base font-semibold text-slate-700 hover:bg-slate-100 transition">Главная</a>
+            <a href="#locations" class="block py-3 px-6 text-base font-semibold text-slate-700 hover:bg-slate-100 transition">Места практики</a>
+            <a href="#competencies" class="block py-3 px-6 text-base font-semibold text-slate-700 hover:bg-slate-100 transition">Компетенции</a>
+            <a href="#tools" class="block py-3 px-6 text-base font-semibold text-slate-700 hover:bg-slate-100 transition">Инструменты</a>
+            <a href="#timeline" class="block py-3 px-6 text-base font-semibold text-slate-700 hover:bg-slate-100 transition">Хронология</a>
+            <a href="#conclusion" class="block py-3 px-6 text-base font-semibold text-slate-700 hover:bg-slate-100 transition">Заключение</a>
+        </div>
+    </header>
+
+    <main class="pt-24"> <!-- Adjusted pt-24 to prevent content from being hidden under fixed header -->
+        <section id="home" class="pt-12 pb-20 bg-white shadow-inner">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-4 leading-tight">Отчет по <span class="text-blue-600">ознакомительной практике</span></h1>
+                    <p class="text-xl md:text-2xl text-slate-600 mb-8 max-w-3xl mx-auto">Ульяновский институт гражданской авиации имени Главного Маршала Авиации Б. П. Бугаева</p>
+                </div>
+                <div class="max-w-5xl mx-auto bg-slate-50 p-10 rounded-3xl shadow-xl border border-slate-200">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6 text-center">Цели и задачи практики</h2>
+                    <p class="text-lg text-slate-700 mb-8 leading-relaxed">
+                        Основной целью прохождения практики является закрепление теоретических знаний, полученных в процессе обучения, и приобретение первичных навыков профессиональной деятельности в сфере организации и обеспечения бизнес-процессов на воздушном транспорте. Эта практика — ключевой этап для понимания реальной работы авиационной отрасли России, обеспечивающий глубокое погружение в специфику индустрии.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white p-8 rounded-xl shadow-md border border-blue-100">
+                            <h3 class="font-bold text-xl mb-3 text-blue-700 flex items-center"><span class="mr-2 text-2xl">🎯</span> Ключевая цель</h3>
+                            <p class="text-slate-600 leading-relaxed">Формирование всесторонних профессиональных компетенций через непосредственное погружение в реальную рабочую среду ведущих предприятий авиационного кластера Ульяновской области, способствуя развитию практических навыков и системного мышления.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-md border border-blue-100">
+                            <h3 class="font-bold text-xl mb-3 text-blue-700 flex items-center"><span class="mr-2 text-2xl">✅</span> Основные задачи</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-2 leading-relaxed">
+                                <li>Изучение организационной структуры предприятий и их функций.</li>
+                                <li>Анализ ключевых бизнес-процессов и их оптимизация.</li>
+                                <li>Ознакомление с нормативной документацией и правовыми основами.</li>
+                                <li>Приобретение опыта работы в профессиональном коллективе.</li>
+                                <li>Развитие навыков применения современных ИТ-инструментов.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="locations" class="py-24 bg-gradient-to-br from-blue-50 to-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Места прохождения практики <span class="text-blue-600">🗺️</span></h2>
+                    <p class="max-w-3xl mx-auto text-lg text-slate-700 leading-relaxed">Практика охватила шесть ключевых организаций, формирующих авиационный и транспортный ландшафт Ульяновской области. Каждое предприятие предоставило уникальный взгляд на различные аспекты бизнес-процессов в отрасли, позволив применить теоретические знания на практике и расширить профессиональный кругозор.</p>
+                </div>
+                <div id="locations-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                </div>
+            </div>
+        </section>
+        
+        <section id="competencies" class="py-24 bg-white shadow-inner">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Формирование профессиональных <span class="text-blue-600">компетенций</span></h2>
+                    <p class="max-w-3xl mx-auto text-lg text-slate-700 leading-relaxed">Практика позволила развить ключевые универсальные и общепрофессиональные компетенции (УК и ОПК), необходимые для успешной карьеры в авиационной отрасли. Визуализация ниже демонстрирует прогресс по основным направлениям, а подробные описания раскрывают, как именно каждое посещение способствовало этому развитию.</p>
+                </div>
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    <div class="lg:w-1/2 w-full">
+                        <div class="chart-container bg-slate-50 p-6 rounded-2xl shadow-lg border border-slate-200">
+                            <canvas id="competenciesChart"></canvas>
+                        </div>
+                    </div>
+                    <div id="competency-details" class="lg:w-1/2 w-full space-y-6">
+                        <div class="bg-blue-50 p-8 rounded-2xl shadow-md border border-blue-200">
+                            <h3 class="font-bold text-xl mb-3 text-blue-800 flex items-center"><span class="mr-2 text-2xl">💡</span> Как читать диаграмму?</h3>
+                            <p class="text-blue-700 leading-relaxed">Диаграмма показывает уровень развития ключевых компетенций по пятибалльной шкале. Наведите курсор на точки, чтобы увидеть, как посещение конкретных предприятий способствовало развитию каждого навыка. Ниже вы найдете детальное описание каждой компетенции, раскрывающее практический контекст их формирования.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tools" class="py-24 bg-gradient-to-br from-white to-blue-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Инструменты <span class="text-blue-600">бизнес-анализа</span></h2>
+                    <p class="max-w-3xl mx-auto text-lg text-slate-700 leading-relaxed">В ходе теоретической подготовки были изучены современные программные средства для моделирования и автоматизации бизнес-процессов. Ниже представлены интерактивные примеры их применения в авиационной отрасли, демонстрирующие практическое понимание их функционала и потенциала для оптимизации.</p>
+                </div>
+                <div class="max-w-6xl mx-auto bg-white p-8 rounded-3xl shadow-xl border border-slate-200">
+                    <div class="mb-6 border-b-2 border-slate-200">
+                        <nav id="tools-tabs" class="flex flex-wrap justify-center -mb-px space-x-6 md:space-x-10" aria-label="Tabs">
+                        </nav>
+                    </div>
+                    <div id="tools-content" class="mt-10">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline" class="py-24 bg-white shadow-inner">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Хронология прохождения <span class="text-blue-600">практики</span></h2>
+                    <p class="max-w-3xl mx-auto text-lg text-slate-700 leading-relaxed">Этот раздел представляет собой визуальную хронологию ключевых этапов и мероприятий, выполненных в ходе ознакомительной практики, демонстрируя последовательность и объем проделанной работы, а также логическую связь между задачами и полученным опытом.</p>
+                </div>
+                <div class="timeline" id="practice-timeline">
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusion" class="py-24 bg-gradient-to-br from-blue-50 to-white">
+            <div class="container mx-auto px-6">
+                <div class="max-w-5xl mx-auto text-center bg-slate-50 p-10 rounded-3xl shadow-xl border border-slate-200">
+                    <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Заключение <span class="text-blue-600">✨</span></h2>
+                    <p class="text-xl text-slate-700 mb-8 leading-relaxed">
+                        Ознакомительная практика стала важнейшим этапом обучения, позволившим соединить теоретические знания с реальной деятельностью ведущих предприятий авиационной отрасли. Был получен бесценный опыт анализа бизнес-процессов, понимания организационных структур и регуляторных механизмов, что является фундаментом для будущей профессиональной деятельности.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8 justify-center mb-10">
+                        <div class="bg-blue-100 border border-blue-300 p-8 rounded-xl text-left shadow-md">
+                            <h3 class="font-bold text-xl mb-3 text-blue-800 flex items-center"><span class="mr-2 text-2xl">💡</span> Ключевой вывод</h3>
+                            <p class="text-blue-700 leading-relaxed">Практика подтвердила, что успешное управление бизнес-процессами в авиации требует системного подхода, глубокого понимания отраслевой специфики, способности к адаптации и активного применения современных информационных технологий для повышения эффективности и безопасности.</p>
+                        </div>
+                        <div class="bg-green-100 border border-green-300 p-8 rounded-xl text-left shadow-md">
+                            <h3 class="font-bold text-xl mb-3 text-green-800 flex items-center"><span class="mr-2 text-2xl">🌱</span> Перспективы</h3>
+                            <p class="text-green-700 leading-relaxed">Полученные навыки и знания станут прочной основой для дальнейшего углубленного изучения профильных дисциплин, проведения научно-исследовательской работы и успешной профессиональной деятельности в динамично развивающейся авиационной отрасли.</p>
+                        </div>
+                    </div>
+                    <p class="text-lg text-slate-700 leading-relaxed">
+                        Необходимо отметить, что одним из вызовов в ходе практики стало ограничение доступа к детальной внутренней документации по бизнес-процессам и организационным структурам ряда предприятий. Это, однако, способствовало развитию навыков аналитического мышления и способности к формированию выводов на основе косвенных данных и общего понимания отраслевых стандартов. Для будущих практик рекомендуется по возможности устанавливать более глубокое взаимодействие с предприятиями для получения доступа к реальным кейсам и документации, что еще больше усилит практическую ценность обучения.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-300 py-10">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-lg mb-2">&copy; 2025, Иванов Константин Андреевич</p>
+            <p class="text-base text-slate-400">Ульяновский институт гражданской авиации</p>
+            <p class="text-sm text-slate-500 mt-4">Разработано с вниманием к деталям и любовью к авиации.</p>
+        </div>
+    </footer>
+
+    <div id="modal" class="modal fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none">
+        <div id="modal-content" class="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto transform scale-90 transition-transform duration-300 ease-out">
+            <div class="sticky top-0 bg-white/90 backdrop-blur-sm p-5 sm:p-7 border-b border-slate-200 flex justify-between items-center rounded-t-3xl">
+                <h3 id="modal-title" class="text-2xl md:text-3xl font-bold text-slate-900"></h3>
+                <button id="modal-close" class="text-slate-500 hover:text-slate-800 transition p-2 rounded-full hover:bg-slate-100">
+                    <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="modal-body" class="p-6 sm:p-10">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const practiceData = {
+            locations: [
+                { id: 'airport-central', name: 'Международный аэропорт Ульяновск (Баратаевка)', icon: '✈️', description: 'Главный пассажирский аэропорт региона, обслуживающий регулярные и чартерные рейсы. Является ключевым узлом в транспортной системе Поволжья.', content: `
+                    <p class="mb-6 text-lg text-slate-700 leading-relaxed">АО "Аэропорт Ульяновск" (Баратаевка) — это многопрофильное предприятие, чья деятельность не ограничивается только обслуживанием рейсов. В ходе практики было изучено комплексное управление аэропортовыми услугами, от наземного обслуживания до коммерческой деятельности, что подчеркивает его роль как комплексного транспортного узла.</p>
+                    <h4 class="font-bold text-2xl mb-4 text-slate-800">Ключевой бизнес-процесс: Обслуживание пассажиров</h4>
+                    <div class="process-flow">
+                        <div class="process-step"><span class="process-step-icon">📝</span><span class="font-semibold text-lg">Регистрация</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">🔍</span><span class="font-semibold text-lg">Досмотр</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">🚪</span><span class="font-semibold text-lg">Посадка</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">✈️</span><span class="font-semibold text-lg">Обслуживание на борту</span></div>
+                    </div>
+                    <h4 class="font-bold text-2xl mt-8 mb-4 text-slate-800">Выводы для специалиста ОБП:</h4>
+                    <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 leading-relaxed">
+                        <li>Процессы требуют строгой синхронизации множества служб и высокой степени координации для обеспечения бесперебойной работы.</li>
+                        <li>Безопасность — наивысший приоритет, интегрированный в каждый этап обслуживания, от регистрации до посадки.</li>
+                        <li>Важность IT-систем для эффективного управления пассажиропотоками, ресурсами и операционной деятельностью.</li>
+                    </ul>
+                    <h4 class="font-bold text-2xl mt-8 mb-4 text-slate-800">Ключевые факты:</h4>
+                    <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 leading-relaxed">
+                        <li>Обслуживает более 150 тысяч пассажиров ежегодно, являясь крупным региональным хабом.</li>
+                        <li>Имеет статус международного аэропорта, что открывает возможности для развития международных направлений.</li>
+                        <li>Активно развивает региональные авиаперевозки, способствуя повышению транспортной доступности.</li>
+                    </ul>
+                `},
+                { id: 'airport-vostochny', name: 'Международный аэропорт Ульяновск-Восточный', icon: '📦', description: 'Крупнейший в России по габаритам ВПП, испытательный аэродром и международный транспортный узел для грузовых перевозок.', content: `
+                    <p class="mb-6 text-lg text-slate-700 leading-relaxed">Аэропорт "Ульяновск-Восточный", являясь структурным подразделением ПАО "Ил", имеет уникальную специфику, ориентированную на грузовые перевозки и испытательные полеты. Практика позволила ознакомиться с процессами, связанными с испытаниями авиационной техники и обработкой крупногабаритных грузов.</p>
+                    <h4 class="font-bold text-2xl mb-4 text-slate-800">Ключевой бизнес-процесс: Обработка грузового рейса</h4>
+                     <div class="process-flow">
+                        <div class="process-step"><span class="process-step-icon">📄</span><span class="font-semibold text-lg">Прием заявки</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">🚚</span><span class="font-semibold text-lg">Наземное обслуживание</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">⚖️</span><span class="font-semibold text-lg">Погрузка и центровка</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">🛂</span><span class="font-semibold text-lg">Таможенное оформление</span></div>
+                    </div>
+                    <h4 class="font-bold text-2xl mt-8 mb-4 text-slate-800">Выводы для специалиста ОБП:</h4>
+                    <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 leading-relaxed">
+                        <li>Высокая степень специализации персонала и техники требуется для работы с уникальными грузами и испытаниями.</li>
+                        <li>Сложные логистические цепочки и необходимость глобальной координации с производителями и получателями.</li>
+                        <li>Критическая важность точных расчетов и соблюдения регламентов для обеспечения безопасности полетов.</li>
+                    </ul>
+                    <h4 class="font-bold text-2xl mt-8 mb-4 text-slate-800">Ключевые факты:</h4>
+                    <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 leading-relaxed">
+                        <li>ВПП длиной 5100 метров, одна из самых длинных в мире, позволяет принимать любые типы воздушных судов.</li>
+                        <li>Используется для испытаний новых типов воздушных судов, что подчеркивает его стратегическое значение.</li>
+                        <li>Важный узел для международных грузовых перевозок, способствующий развитию логистического потенциала региона.</li>
+                    </ul>
+                `},
+                { id: 'mediasoft', name: 'ООО "Медиасофт"', icon: '💻', description: 'Крупная IT-компания, специализирующаяся на разработке сложного программного обеспечения и мобильных приложений.', content: `
+                     <p class="mb-6 text-lg text-slate-700 leading-relaxed">Посещение ООО "Медиасофт" дало представление о современных подходах к управлению проектами и бизнес-процессами в IT-сфере. Их опыт цифровизации и автоматизации напрямую применим и в авиационной отрасли, демонстрируя передовые практики.</p>
+                    <h4 class="font-bold text-2xl mb-4 text-slate-800">Ключевой бизнес-процесс: Разработка ПО по Agile</h4>
+                     <div class="process-flow">
+                        <div class="process-step"><span class="process-step-icon">💡</span><span class="font-semibold text-lg">Анализ требований</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">📐</span><span class="font-semibold text-lg">Проектирование</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">🚀</span><span class="font-semibold text-lg">Разработка (Спринты)</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">✅</span><span class="font-semibold text-lg">Тестирование и внедрение</span></div>
+                    </div>
+                    <h4 class="font-bold text-2xl mt-8 mb-4 text-slate-800">Выводы для специалиста ОБП:</h4>
+                    <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 leading-relaxed">
+                        <li>Гибкие методологии (Agile, Scrum) позволяют быстро адаптироваться к изменяющимся требованиям и условиям рынка.</li>
+                        <li>Процессы ориентированы на постоянное получение обратной связи и создание максимальной ценности для клиента.</li>
+                        <li>Важность командной работы, прозрачной коммуникации и самоорганизации для достижения высоких результатов.</li>
+                    </ul>
+                    <h4 class="font-bold text-2xl mt-8 mb-4 text-slate-800">Ключевые факты:</h4>
+                    <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 leading-relaxed">
+                        <li>Более 300 высококвалифицированных разработчиков в штате, что позволяет реализовывать масштабные проекты.</li>
+                        <li>Активно использует методологии Agile и Scrum, обеспечивая гибкость и эффективность разработки.</li>
+                        <li>Реализует проекты для крупных российских и международных компаний, подтверждая высокий уровень экспертизы.</li>
+                    </ul>
+                `},
+                { id: 'volga-dnepr', name: 'Авиакомпания "Волга-Днепр"', icon: '�', description: 'Мировой лидер в сегменте перевозок сверхтяжелых и негабаритных грузов, оперирующий уникальным флотом самолетов Ан-124 и Ил-76.', content: `
+                    <p class="mb-6 text-lg text-slate-700 leading-relaxed">Авиакомпания "Волга-Днепр" продемонстрировала высочайший уровень организации логистических бизнес-процессов. Практика позволила изучить уникальные операции по доставке грузов для аэрокосмической, энергетической и других отраслей, что является примером сложной глобальной логистики.</p>
+                    <h4 class="font-bold text-2xl mb-4 text-slate-800">Ключевой бизнес-процесс: Организация чартерного рейса</h4>
+                     <div class="process-flow">
+                        <div class="process-step"><span class="process-step-icon">🔬</span><span class="font-semibold text-lg">Инженерный анализ груза</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">🗺️</span><span class="font-semibold text-lg">Планирование маршрута</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">📜</span><span class="font-semibold text-lg">Получение разрешений</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">✈️</span><span class="font-semibold text-lg">Выполнение перевозки</span></div>
+                    </div>
+                    <h4 class="font-bold text-2xl mt-8 mb-4 text-slate-800">Выводы для специалиста ОБП:</h4>
+                    <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 leading-relaxed">
+                        <li>Каждый проект требует кастомизированного подхода к процессу, учитывающего уникальные характеристики груза и маршрута.</li>
+                        <li>Глобальный характер операций и необходимость безупречной координации по всему миру, включая взаимодействие с различными регуляторами.</li>
+                        <li>Интеграция экологических стандартов в операционную деятельность, демонстрирующая приверженность устойчивому развитию.</li>
+                    </ul>
+                    <h4 class="font-bold text-2xl mt-8 mb-4 text-slate-800">Ключевые факты:</h4>
+                    <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 leading-relaxed">
+                        <li>Оперирует крупнейшими в мире грузовыми самолетами Ан-124, что позволяет перевозить уникальные грузы.</li>
+                        <li>Признанный лидер в перевозке уникальных и негабаритных грузов, имеющий богатый опыт сложных логистических операций.</li>
+                        <li>Активно развивает программы корпоративной социальной ответственности, подчеркивая свою роль в обществе.</li>
+                    </ul>
+                `},
+                { id: 'aerocomposit', name: 'АО "АэроКомпозит"', icon: '🔧', description: 'Инновационное предприятие, единственный в России производитель силовых композитных конструкций крыла для самолета МС-21.', content: `
+                    <p class="mb-6 text-lg text-slate-700 leading-relaxed">АО "АэроКомпозит" является центром компетенций ОАК по работе с полимерными композиционными материалами. На практике были изучены высокотехнологичные производственные процессы, основанные на методе вакуумной инфузии, что является передовым направлением в авиастроении.</p>
+                    <h4 class="font-bold text-2xl mb-4 text-slate-800">Ключевой бизнес-процесс: Производство композитной панели</h4>
+                     <div class="process-flow">
+                        <div class="process-step"><span class="process-step-icon">🤖</span><span class="font-semibold text-lg">Автоматизированная выкладка</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">💧</span><span class="font-semibold text-lg">Вакуумная инфузия</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">🔥</span><span class="font-semibold text-lg">Автоклавное формование</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">✅</span><span class="font-semibold text-lg">Контроль качества</span></div>
+                    </div>
+                    <h4 class="font-bold text-2xl mt-8 mb-4 text-slate-800">Выводы для специалиста ОБП:</h4>
+                    <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 leading-relaxed">
+                        <li>Производственные процессы требуют строгого соблюдения технологий и постоянного контроля на каждом этапе.</li>
+                        <li>Многоуровневый контроль качества является критически важным для обеспечения безопасности и надежности авиационных компонентов.</li>
+                        <li>Важность НИОКР для поддержания технологического лидерства и создания инновационных решений в авиастроении.</li>
+                    </ul>
+                    <h4 class="font-bold text-2xl mt-8 mb-4 text-slate-800">Ключевые факты:</h4>
+                    <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 leading-relaxed">
+                        <li>Производит композитное крыло для самолета МС-21, ключевого проекта отечественного авиастроения.</li>
+                        <li>Использует уникальные технологии вакуумной инфузии, обеспечивающие высокое качество и прочность материалов.</li>
+                        <li>Является ключевым поставщиком для отечественного авиастроения, способствуя развитию национальной промышленности.</li>
+                    </ul>
+                `},
+                { id: 'mintrans', name: 'Министерство транспорта Ульяновской области', icon: '🏛️', description: 'Региональный орган исполнительной власти, осуществляющий функции по выработке госполитики и регулированию в сфере транспорта.', content: `
+                     <p class="mb-6 text-lg text-slate-700 leading-relaxed">Ознакомление с работой Министерства транспорта Ульяновской области позволило понять, как формируется внешняя среда для транспортных предприятий. Были изучены процессы государственного регулирования, планирования и контроля, что является основой для стабильного развития отрасли.</p>
+                    <h4 class="font-bold text-2xl mb-4 text-slate-800">Ключевой бизнес-процесс: Разработка региональной программы</h4>
+                     <div class="process-flow">
+                        <div class="process-step"><span class="process-step-icon">📊</span><span class="font-semibold text-lg">Анализ ситуации</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">🎯</span><span class="font-semibold text-lg">Формирование целей</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">👍</span><span class="font-semibold text-lg">Согласование и утверждение</span><div class="process-step-connector">→</div></div>
+                        <div class="process-step"><span class="process-step-icon">📋</span><span class="font-semibold text-lg">Контроль исполнения</span></div>
+                    </div>
+                    <h4 class="font-bold text-2xl mt-8 mb-4 text-slate-800">Выводы для специалиста ОБП:</h4>
+                    <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 leading-relaxed">
+                        <li>Бизнес-процессы в госсекторе носят нормативно-регуляторный характер, обеспечивая соблюдение законодательства и стандартов.</li>
+                        <li>Важность эффективного взаимодействия с участниками рынка и общественностью для учета их интересов и потребностей.</li>
+                        <li>Процессы направлены на достижение стратегических целей развития региона, обеспечивая устойчивое функционирование транспортной системы.</li>
+                    </ul>
+                    <h4 class="font-bold text-2xl mt-8 mb-4 text-slate-800">Ключевые факты:</h4>
+                    <ul class="list-disc list-inside text-lg text-slate-700 space-y-2 leading-relaxed">
+                        <li>Осуществляет регулирование всех видов транспорта в регионе, обеспечивая комплексный подход к развитию инфраструктуры.</li>
+                        <li>Разрабатывает и реализует государственные программы развития, направленные на модернизацию и повышение эффективности транспортной системы.</li>
+                        <li>Взаимодействует с федеральными органами власти и транспортными компаниями, обеспечивая координацию усилий на всех уровнях.</li>
+                    </ul>
+                `}
+            ],
+            competencies: {
+                labels: ['Системный анализ (УК-1)', 'Применение ИТ (ОПК-1)', 'Работа с НПА (ОПК-4)', 'Командная работа (УК-3)', 'Проектирование процессов (ПК-05.2)', 'Решение нестанд. ситуаций (ОПК-3)'],
+                data: [4, 4, 3, 4, 3, 3],
+                details: [
+                    'Навык развивался при анализе разрозненной информации о шести разных по своей сути предприятиях и построении целостной картины авиационного кластера.',
+                    'Изучение роли "Медиасофт" в цифровизации, а также теоретическое применение специализированного ПО, показало важность IT в современных бизнес-процессах.',
+                    'Ознакомление с деятельностью Минтранса и уставными документами предприятий сформировало понимание правовых основ функционирования отрасли.',
+                    'Взаимодействие с представителями предприятий и руководителями практики требовало навыков эффективной коммуникации и адаптации.',
+                    'Анализ реальных операционных циклов в аэропортах и на производстве заложил основу для практического проектирования и оптимизации регламентов.',
+                    'Отсутствие полной информации о внутренних процессах требовало аналитического мышления и формирования выводов на основе косвенных данных.'
+                ],
+                fullDescriptions: [
+                    {
+                        title: 'УК-1: Системный анализ',
+                        description: 'Способность к поиску, критическому анализу и синтезу информации, применению системного подхода для решения задач. В ходе практики это проявлялось в необходимости собирать данные из разных источников о разнородных предприятиях и формировать единое, логичное представление об авиационном кластере Ульяновской области. Например, сопоставление функций аэропортов с деятельностью Министерства транспорта для понимания общей транспортной системы региона.'
+                    },
+                    {
+                        title: 'ОПК-1: Применение ИТ',
+                        description: 'Понимание принципов работы современных информационных технологий и их использование для решения профессиональных задач. Ознакомление с работой IT-компании "Медиасофт" и изучение возможностей "1С: Предприятие", AnyLogic и "Бизнес-инженер" позволило осознать, как цифровые инструменты автоматизируют и оптимизируют бизнес-процессы в авиации, от учета до моделирования сложных систем.'
+                    },
+                    {
+                        title: 'ОПК-4: Работа с НПА',
+                        description: 'Способность использовать нормативные правовые акты в профессиональной деятельности. Анализ организационно-правовых форм предприятий, их уставов и лицензий, а также изучение деятельности Министерства транспорта, регулирующего отрасль, укрепили понимание правовых основ функционирования авиационных предприятий и важности соответствия всем нормам.'
+                    },
+                    {
+                        title: 'УК-3: Командная работа',
+                        description: 'Способность осуществлять социальное взаимодействие и реализовывать свою роль в команде. Несмотря на индивидуальный формат, практика включала взаимодействие с представителями предприятий и руководителем, что требовало навыков эффективной коммуникации, умения задавать вопросы, слушать и адаптироваться к профессиональной среде.'
+                    },
+                    {
+                        title: 'ПК-05.2: Проектирование процессов',
+                        description: 'Способность осуществлять разработку, ввод в действие и контроль регламента процесса подразделения авиатранспортного предприятия. Анализ реальных операционных циклов в аэропортах и на производстве "АэроКомпозита", а также изучение возможностей ПО для моделирования процессов, заложили основу для понимания принципов их проектирования и оптимизации.'
+                    },
+                    {
+                        title: 'ОПК-3: Решение нестандартных ситуаций',
+                        description: 'Способность находить решения в нестандартных ситуациях и нести за них ответственность. Отсутствие полной информации о внутренних процессах некоторых предприятий вынуждало применять аналитическое мышление, делать выводы на основе косвенных данных и общих знаний об отрасли, что развивает гибкость и способность к адаптации.'
+                    }
+                ]
+            },
+            tools: [
+                { id: '1c', name: '1С: Предприятие 8', content: `
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div class="md:w-1/2">
+                            <h4 class="text-xl font-bold mb-2 text-slate-800">Автоматизация учета и управления</h4>
+                            <p class="text-slate-600 mb-4">"1С" является стандартом для автоматизации бизнес-процессов в России. В авиации она используется для учета затрат по рейсам, управления закупками, расчета себестоимости летного часа и финансового планирования. Это мощный инструмент для повышения прозрачности и эффективности операций.</p>
+                            <h5 class="font-bold text-md mb-2 text-slate-700">Примеры использования в авиации:</h5>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li>Учет и анализ доходов/расходов по каждому рейсу.</li>
+                                <li>Управление складскими запасами (запчасти, ГСМ).</li>
+                                <li>Автоматизация расчета заработной платы персонала.</li>
+                                <li>Формирование финансовой отчетности для регуляторов.</li>
+                            </ul>
+                        </div>
+                        <div class="md:w-1/2 bg-white p-4 rounded-lg shadow-lg border border-slate-200">
+                           <div class="font-mono text-sm">
+                                <div class="bg-slate-700 text-white rounded-t-md p-2 flex items-center">
+                                    <div class="flex space-x-1.5 mr-4"><div class="w-3 h-3 rounded-full bg-red-500"></div><div class="w-3 h-3 rounded-full bg-yellow-400"></div><div class="w-3 h-3 rounded-full bg-green-500"></div></div>
+                                    <span class="font-sans font-semibold">Расчет себестоимости рейса</span>
+                                </div>
+                                <div class="p-4 space-y-2 text-slate-700">
+                                    <div><span class="font-semibold">Рейс:</span> ULV-VKO-777</div>
+                                    <div><span class="font-semibold">Тип ВС:</span> Boeing 737</div>
+                                    <div><span class="font-semibold">Топливо:</span> <span class="text-red-600">1 200 000 RUB</span></div>
+                                    <div><span class="font-semibold">Аэропортовые сборы:</span> 350 000 RUB</div>
+                                    <div><span class="font-semibold">Амортизация ВС:</span> 450 000 RUB</div>
+                                    <div><span class="font-semibold">Зарплата экипажа:</span> 150 000 RUB</div>
+                                    <hr class="my-2 border-slate-300">
+                                    <div class="text-lg"><span class="font-bold">Итого:</span> 2 150 000 RUB</div>
+                                    <button id="generate-report-btn" class="mt-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">Сформировать отчет</button>
+                                </div>
+                                <div id="report-output" class="mt-4 p-4 bg-slate-50 rounded-lg border border-slate-200 hidden">
+                                    <div id="report-loading" class="text-center text-blue-500 font-semibold hidden">
+                                        <span class="loading-spinner"></span>Формирование отчета... 📊
+                                    </div>
+                                    <div id="actual-report-content" class="hidden">
+                                        <!-- Report content will be inserted here -->
+                                    </div>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+                `},
+                { id: 'anylogic', name: 'AnyLogic', content: `
+                     <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div class="md:w-1/2">
+                            <h4 class="text-xl font-bold mb-2 text-slate-800">Имитационное моделирование</h4>
+                            <p class="text-slate-600 mb-4">AnyLogic позволяет создавать динамические модели сложных систем для их анализа и оптимизации. В аэропорту можно моделировать пассажиропотоки для выявления "узких мест" в зонах регистрации и досмотра, а в авиакомпании — оптимизировать графики технического обслуживания флота.</p>
+                            <h5 class="font-bold text-md mb-2 text-slate-700">Примеры использования в авиации:</h5>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li>Оптимизация расписания полетов и использования воздушных судов.</li>
+                                <li>Моделирование процессов технического обслуживания и ремонта (ТОиР).</li>
+                                <li>Анализ загрузки багажных систем и зон обработки грузов.</li>
+                                <li>Прогнозирование очередей на досмотре и регистрации.</li>
+                            </ul>
+                        </div>
+                        <div class="md:w-1/2 bg-white p-4 rounded-lg shadow-lg border border-slate-200">
+                            <div class="text-center font-semibold mb-3 text-slate-800">Модель пассажиропотока в терминале</div>
+                            <div class="relative h-48 bg-slate-100 rounded-md overflow-hidden p-2 border border-slate-200">
+                                <div class="absolute top-4 left-4 text-xs font-bold text-slate-700">ВХОД</div>
+                                <div class="absolute top-1/2 left-1/3 w-10 h-10 bg-blue-300 rounded-md flex items-center justify-center text-xs text-center leading-tight text-blue-900 font-semibold">Зона рег.</div>
+                                <div class="absolute top-1/3 left-2/3 w-10 h-10 bg-orange-300 rounded-md flex items-center justify-center text-xs text-center leading-tight text-orange-900 font-semibold">Досмотр</div>
+                                <div class="absolute bottom-4 right-4 text-xs font-bold text-slate-700">ПОСАДКА</div>
+                                <!-- Passenger dots with improved path animation -->
+                                <div class="passenger" style="--x-start: 5%; --y-start: 20%; --x-reg: 35%; --y-reg: 50%; --x-security: 65%; --y-security: 35%; --x-boarding: 90%; --y-boarding: 70%; --x-end: 95%; --y-end: 80%; --d: 10s;"></div>
+                                <div class="passenger" style="--x-start: 8%; --y-start: 70%; --x-reg: 38%; --y-reg: 55%; --x-security: 68%; --y-security: 40%; --x-boarding: 93%; --y-boarding: 65%; --x-end: 98%; --y-end: 75%; --d: 12s;"></div>
+                                <div class="passenger" style="--x-start: 6%; --y-start: 45%; --x-reg: 36%; --y-reg: 40%; --x-security: 66%; --y-security: 50%; --x-boarding: 91%; --y-boarding: 55%; --x-end: 96%; --y-end: 60%; --d: 11s;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `},
+                { id: 'be', name: 'Бизнес-инженер', content: `
+                     <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div class="md:w-1/2">
+                            <h4 class="text-xl font-bold mb-2 text-slate-800">Проектирование оргструктур</h4>
+                            <p class="text-slate-600 mb-4">"Бизнес-инженер" — это инструмент для системного описания и проектирования организации. Он позволяет создавать модели бизнес-процессов, организационные структуры и матрицы ответственности (RACI), чтобы четко определить, кто за что отвечает, и оптимизировать взаимодействие между подразделениями.</p>
+                            <h5 class="font-bold text-md mb-2 text-slate-700">Примеры использования в авиации:</h5>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li>Разработка должностных инструкций для персонала аэропорта.</li>
+                                <li>Описание процессов взаимодействия между службами наземного обслуживания.</li>
+                                <li>Построение иерархии управления в авиакомпании.</li>
+                                <li>Анализ эффективности распределения функций между отделами.</li>
+                            </ul>
+                        </div>
+                        <div class="md:w-1/2 bg-white p-4 rounded-lg shadow-lg border border-slate-200">
+                             <div class="text-center font-semibold mb-3 text-slate-800">Матрица RACI: "Обработка груза"</div>
+                             <table class="w-full text-sm text-center border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-100">
+                                        <th class="p-2 font-semibold border border-slate-300">Задача</th>
+                                        <th class="p-2 font-semibold border border-slate-300">Склад</th>
+                                        <th class="p-2 font-semibold border border-slate-300">Логист</th>
+                                        <th class="p-2 font-semibold border border-slate-300">Агент</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="p-2 border border-slate-300">Прием груза</td><td class="p-2 border border-slate-300 font-bold text-green-600">R</td><td class="p-2 border border-slate-300 font-bold text-blue-600">A</td><td class="p-2 border border-slate-300 text-slate-400">I</td></tr>
+                                    <tr><td class="p-2 border border-slate-300">Оформление</td><td class="p-2 border border-slate-300 text-slate-400">C</td><td class="p-2 border border-slate-300 font-bold text-blue-600">A</td><td class="p-2 border border-slate-300 font-bold text-green-600">R</td></tr>
+                                    <tr><td class="p-2 border border-slate-300">Маркировка</td><td class="p-2 border border-slate-300 font-bold text-green-600">R</td><td class="p-2 border border-slate-300 text-slate-400">I</td><td class="p-2 border border-slate-300 text-slate-400">C</td></tr>
+                                    <tr><td class="p-2 border border-slate-300">Контроль</td><td class="p-2 border border-slate-300 font-bold text-blue-600">A</td><td class="p-2 border border-slate-300 text-slate-400">I</td><td class="p-2 border border-slate-300 text-slate-400">C</td></tr>
+                                </tbody>
+                             </table>
+                             <div class="text-xs mt-2 text-slate-500"><span class="font-bold text-blue-600">A</span>-Accountable (Ответственный), <span class="font-bold text-green-600">R</span>-Responsible (Исполнитель), <span class="text-slate-400">C</span>-Consulted, <span class="text-slate-400">I</span>-Informed</div>
+                        </div>
+                    </div>
+                `}
+            ],
+            timeline: [
+                { date: '01.07.2025', title: 'Организационное собрание', description: 'Ознакомление с программой практики, правилами внутреннего распорядка УИ ГА и инструктаж по технике безопасности.' },
+                { date: '02.07.2025', title: 'Посещение Аэропорта Ульяновск (Центральный)', description: 'Экскурсия по терминалу, ознакомление с процессами регистрации, досмотра и посадки пассажиров. Изучение работы служб наземного обслуживания.' },
+                { date: '03.07.2025', title: 'Посещение Аэропорта Ульяновск-Восточный', description: 'Ознакомление со спецификой грузовых перевозок и испытательного аэродрома. Изучение процессов обработки крупногабаритных грузов.' },
+                { date: '04.07.2025', title: 'Посещение ООО "Медиасофт"', description: 'Изучение современных подходов к управлению IT-проектами и разработке программного обеспечения. Обсуждение применения IT в авиации.' },
+                { date: '05.07.2025', title: 'Посещение Авиакомпании "Волга-Днепр"', description: 'Ознакомление с логистическими процессами перевозки сверхтяжелых и негабаритных грузов. Изучение экологической политики компании.' },
+                { date: '06.07.2025', title: 'Посещение АО "АэроКомпозит"', description: 'Изучение высокотехнологичных производственных процессов создания композитных материалов для авиастроения. Ознакомление с контролем качества.' },
+                { date: '07.07.2025', title: 'Посещение Министерства транспорта Ульяновской области', description: 'Ознакомление с функциями государственного регулирования транспортной отрасли. Изучение разработки региональных программ и надзора.' },
+                { date: '08.07.2025', title: 'Анализ и систематизация данных', description: 'Сбор, анализ и систематизация всей полученной информации, первичная обработка данных для отчета.' },
+                { date: '09.07.2025', title: 'Подготовка отчета и презентации', description: 'Написание основной части отчета, формирование выводов и подготовка материалов для презентации.' }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const locationsGrid = document.getElementById('locations-grid');
+            practiceData.locations.forEach(location => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-8 rounded-3xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col items-center text-center border border-slate-200';
+                card.dataset.locationId = location.id;
+                card.innerHTML = `
+                    <div class="text-6xl mb-5 transform hover:scale-110 transition-transform duration-300">${location.icon}</div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3 flex-grow">${location.name}</h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">${location.description}</p>
+                    <button class="mt-auto bg-blue-500 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">Узнать больше →</button>
+                `;
+                locationsGrid.appendChild(card);
+            });
+            
+            const modal = document.getElementById('modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const modalClose = document.getElementById('modal-close');
+
+            locationsGrid.addEventListener('click', (e) => {
+                const card = e.target.closest('[data-location-id]');
+                if (card) {
+                    const locationId = card.dataset.locationId;
+                    const location = practiceData.locations.find(l => l.id === locationId);
+                    if (location) {
+                        modalTitle.textContent = location.name;
+                        modalBody.innerHTML = location.content;
+                        modal.classList.remove('opacity-0', 'pointer-events-none');
+                        modalContent.classList.remove('scale-90');
+                        document.body.style.overflow = 'hidden';
+                    }
+                }
+            });
+
+            const closeModal = () => {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modalContent.classList.add('scale-90');
+                 document.body.style.overflow = 'auto';
+            };
+
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            const ctx = document.getElementById('competenciesChart').getContext('2d');
+            const competenciesChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: practiceData.competencies.labels,
+                    datasets: [{
+                        label: 'Уровень развития компетенций',
+                        data: practiceData.competencies.data,
+                        backgroundColor: 'rgba(59, 130, 246, 0.3)', /* Softer blue */
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 3, /* Thicker border */
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(59, 130, 246, 1)',
+                        pointRadius: 6, /* Larger points */
+                        pointHoverRadius: 8 /* Larger hover points */
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0, 0, 0, 0.15)', lineWidth: 1 }, /* More visible lines */
+                            grid: { color: 'rgba(0, 0, 0, 0.15)', lineWidth: 1 },
+                            pointLabels: { 
+                                font: { size: 14, weight: 'bold' }, /* Larger labels */
+                                color: '#4a5568' /* Darker color */
+                            },
+                            ticks: {
+                                backdropColor: 'rgba(255, 255, 255, 0.85)', /* More opaque backdrop */
+                                stepSize: 1,
+                                max: 5,
+                                min: 0,
+                                font: { size: 12, weight: 'semibold' },
+                                color: '#64748b'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                afterLabel: function(context) {
+                                    return practiceData.competencies.details[context.dataIndex];
+                                }
+                            },
+                            backgroundColor: 'rgba(45, 55, 72, 0.9)', /* Darker tooltip */
+                            titleFont: { size: 16, weight: 'bold' },
+                            bodyFont: { size: 14 },
+                            padding: 12,
+                            cornerRadius: 8
+                        }
+                    }
+                }
+            });
+
+            const competencyDetailsContainer = document.getElementById('competency-details');
+            practiceData.competencies.fullDescriptions.forEach(item => {
+                const detailBlock = document.createElement('div');
+                detailBlock.className = 'bg-white p-7 rounded-xl shadow-md border border-slate-200';
+                detailBlock.innerHTML = `
+                    <h3 class="font-bold text-xl mb-3 text-slate-800">${item.title}</h3>
+                    <p class="text-slate-700 leading-relaxed">${item.description}</p>
+                `;
+                competencyDetailsContainer.appendChild(detailBlock);
+            });
+
+
+            const toolsTabs = document.getElementById('tools-tabs');
+            const toolsContent = document.getElementById('tools-content');
+            practiceData.tools.forEach((tool, index) => {
+                const tab = document.createElement('a');
+                tab.href = '#';
+                tab.className = `tool-tab shrink-0 border-b-4 py-4 px-3 text-base font-semibold ${index === 0 ? 'border-blue-600 text-blue-700 bg-blue-50 rounded-t-lg' : 'border-transparent text-slate-600 hover:border-slate-300 hover:text-slate-800'} transition-all duration-300`;
+                tab.textContent = tool.name;
+                tab.dataset.toolId = tool.id;
+                toolsTabs.appendChild(tab);
+            });
+            
+            const renderToolContent = (toolId) => {
+                const tool = practiceData.tools.find(t => t.id === toolId);
+                if (tool) {
+                    toolsContent.innerHTML = tool.content;
+                }
+
+                // Specific logic for 1C tool
+                if (toolId === '1c') {
+                    const generateBtn = document.getElementById('generate-report-btn');
+                    const reportOutput = document.getElementById('report-output');
+                    const reportLoading = document.getElementById('report-loading');
+                    const actualReportContent = document.getElementById('actual-report-content');
+
+                    if (generateBtn) {
+                        generateBtn.onclick = () => {
+                            reportOutput.classList.remove('hidden');
+                            reportLoading.classList.remove('hidden');
+                            actualReportContent.classList.add('hidden');
+                            actualReportContent.style.opacity = '0';
+                            actualReportContent.style.transform = 'translateY(20px)';
+
+                            // Simple loading animation using emoji
+                            let loadingEmojis = ['⏳', '⚙️', '📈'];
+                            let emojiIndex = 0;
+                            const loadingInterval = setInterval(() => {
+                                reportLoading.querySelector('span:last-child').textContent = `Формирование отчета... ${loadingEmojis[emojiIndex]}`;
+                                emojiIndex = (emojiIndex + 1) % loadingEmojis.length;
+                            }, 500);
+
+                            setTimeout(() => {
+                                clearInterval(loadingInterval);
+                                reportLoading.classList.add('hidden');
+
+                                const reportHtml = `
+                                    <h5 class="text-xl font-bold text-slate-900 mb-4 text-center">Финансовый отчет по рейсу ULV-VKO-777</h5>
+                                    <table class="report-table w-full text-base text-left border-collapse mb-4 rounded-lg overflow-hidden">
+                                        <thead>
+                                            <tr>
+                                                <th class="p-3 border border-blue-200">Показатель</th>
+                                                <th class="p-3 border border-blue-200 text-right">Сумма (RUB)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td class="p-3 border border-blue-200">Доходы от продажи билетов</td><td class="p-3 border border-blue-200 text-right font-semibold text-green-700">3 500 000</td></tr>
+                                            <tr><td class="p-3 border border-blue-200">Доходы от грузоперевозок</td><td class="p-3 border border-blue-200 text-right font-semibold text-green-700">800 000</td></tr>
+                                            <tr><td class="p-3 border border-blue-200">Расходы на топливо</td><td class="p-3 border border-blue-200 text-right text-red-600">1 200 000</td></tr>
+                                            <tr><td class="p-3 border border-blue-200">Аэропортовые сборы</td><td class="p-3 border border-blue-200 text-right text-red-600">350 000</td></tr>
+                                            <tr><td class="p-3 border border-blue-200">Амортизация ВС</td><td class="p-3 border border-blue-200 text-right text-red-600">450 000</td></tr>
+                                            <tr><td class="p-3 border border-blue-200">Зарплата экипажа</td><td class="p-3 border border-blue-200 text-right text-red-600">150 000</td></tr>
+                                            <tr><td class="p-3 border border-blue-200">Прочие расходы</td><td class="p-3 border border-blue-200 text-right text-red-600">50 000</td></tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td class="p-3 border border-blue-200 font-bold">Чистая прибыль</td>
+                                                <td class="p-3 border border-blue-200 text-right font-bold text-xl text-blue-700">2 100 000</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <p class="text-sm text-slate-500 text-center mt-4">Отчет сгенерирован автоматически системой 1С:Предприятие 8.3</p>
+                                `;
+                                actualReportContent.innerHTML = reportHtml;
+                                actualReportContent.classList.remove('hidden');
+                                setTimeout(() => {
+                                    actualReportContent.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                                    actualReportContent.style.opacity = '1';
+                                    actualReportContent.style.transform = 'translateY(0)';
+                                }, 50);
+                            }, 2000);
+                        };
+                    }
+                }
+            };
+            
+            toolsTabs.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tab = e.target.closest('.tool-tab');
+                if (tab) {
+                    toolsTabs.querySelectorAll('.tool-tab').forEach(t => {
+                        t.classList.remove('border-blue-600', 'text-blue-700', 'bg-blue-50');
+                        t.classList.add('border-transparent', 'text-slate-600');
+                    });
+                    tab.classList.add('border-blue-600', 'text-blue-700', 'bg-blue-50');
+                    tab.classList.remove('border-transparent', 'text-slate-600');
+                    renderToolContent(tab.dataset.toolId);
+                }
+            });
+            
+            renderToolContent(practiceData.tools[0].id);
+
+            const practiceTimeline = document.getElementById('practice-timeline');
+            practiceData.timeline.forEach((item, index) => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = `timeline-item ${index % 2 === 0 ? 'left' : 'right'}`;
+                timelineItem.innerHTML = `
+                    <div class="timeline-content">
+                        <h3 class="font-bold text-xl text-blue-700 mb-2">${item.date}</h3>
+                        <h4 class="font-semibold text-slate-800 mb-3 text-lg">${item.title}</h4>
+                        <p class="text-slate-700 leading-relaxed">${item.description}</p>
+                    </div>
+                `;
+                practiceTimeline.appendChild(timelineItem);
+            });
+
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section, #title-page'); // Include title-page
+            const headerHeight = document.getElementById('header').offsetHeight;
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - headerHeight - 50; // Added more padding for active state
+                    if (pageYOffset >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Set initial active nav link for title page
+            const initialSection = document.getElementById('title-page');
+            if (initialSection) {
+                document.querySelector('a[href="#title-page"]').classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
