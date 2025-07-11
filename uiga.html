@@ -118,6 +118,33 @@
             transform: rotate(30deg);
             animation: shine 3s infinite;
         }
+
+        /* Loading message style */
+        .loading-message {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.5rem;
+            color: #bfdbfe;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        .loading-message.show {
+            opacity: 1;
+        }
+
+        .loading-spinner-preloader {
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spinner 1s linear infinite;
+        }
         
         .airplane {
             position: absolute;
@@ -810,6 +837,10 @@
         <h1 class="preloader-title">Ознакомительная практика</h1>
         <p class="preloader-subtitle">Подготовил курсант ОБП-24-1 Иванов К.А. 🧑‍✈️</p>
         <button id="enter-btn" class="enter-btn">Погрузиться в мир авиации</button>
+        <!-- Новый элемент для сообщения о загрузке -->
+        <div id="loading-message" class="loading-message">
+            <span class="loading-spinner-preloader"></span> Загрузка контента...
+        </div>
     </div>
 
     <!-- Основной контент (изначально скрыт) -->
@@ -849,12 +880,7 @@
                     <p class="flex"><span class="font-semibold w-40">Сроки:</span> <span>с «16» июня 2025 года по «12» июля 2025 года</span></p>
                     <p class="font-semibold">Место прохождения практики:</p>
                     <ul class="list-disc list-inside ml-4 space-y-1">
-                        <li>Международный аэропорт Ульяновск (Баратаевка)</li>
-                        <li>Международный аэропорт Ульяновск-Восточный</li>
-                        <li>ООО "Медиасофт"</li>
-                        <li>Авиакомпания "Волга-Днепр"</li>
-                        <li>АО "АэроКомпозит"</li>
-                        <li>Министерство транспорта Ульяновской области</li>
+                        <li>кафедра гуманитарных и социально-экономических дисциплин ФПАС УИГА</li>
                     </ul>
                     <p class="pt-3">Руководитель практики от института: <span class="inline-block border-b border-dashed border-slate-400 min-w-[200px]">Муравьёва Е.В.</span></p>
                     <p class="text-xs text-slate-500">(Фамилия, И. О., ученая степень, звание, должность)</p>
@@ -898,7 +924,7 @@
                             Объект работы – структурное подразделение УИГА.
                         </p>
                         <p class="text-lg text-slate-700 leading-relaxed">
-                            Предмет работы – особенности деятельности и процессного управления отдела (например, отдела по организации перевозок).
+                            Предмет работы – особенности деятельности и процессного управления отдела (например, контрактного отдела).
                         </p>
                         <p class="text-lg text-slate-700 mt-6 leading-relaxed">
                             Полученные в результате прохождения практики знания и данные представлены в отчёте.
@@ -1155,16 +1181,55 @@
                 </div>
             </section>
         </main>
+<footer class="bg-slate-900 text-slate-300 pt-20 pb-10 relative overflow-hidden">
+    <div class="container mx-auto px-4 text-center">
+        <p class="text-xl mb-3">&copy; 2025, Иванов Кирилл Алексеевич</p>
+        <p class="text-blue-400 mt-3 text-lg">Ульяновский институт гражданской авиации</p>
+        <p class="text-base text-slate-500 mt-5 flex items-center justify-center">
+            Разработано с вниманием к деталям и любовью к авиации
+            <span class="heart-icon ml-2 text-blue-500">❤</span>
+        </p>
+    </div>
+    <div class="footer-airplane">✈️</div>
+</footer>
 
-        <!-- Футер страницы -->
-        <footer class="bg-slate-900 text-slate-300 pt-20 pb-10 relative">
-            <div class="container mx-auto px-4 text-center">
-                <p class="text-lg mb-2">&copy; 2025, Иванов Кирилл Алексеевич</p>
-                <p class="text-blue-400 mt-2">Ульяновский институт гражданской авиации</p>
-                <p class="text-sm text-slate-500 mt-4">Разработано с вниманием к деталям и любовью к авиации</p>
-            </div>
-        </footer>
+<style>
+    /* ... (Ваши существующие стили) ... */
 
+    /* Анимация для сердца */
+    @keyframes heart-pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+    .heart-icon {
+        display: inline-block;
+        animation: heart-pulse 1.5s infinite ease-in-out;
+        /* Цвет задается Tailwind классом text-blue-500 в HTML */
+        font-size: 1.3em; /* Немного увеличил размер сердца */
+    }
+
+    /* Анимация для самолетика в футере */
+    @keyframes fly-animation-footer {
+        0% { transform: translateX(-100px) translateY(0); opacity: 0.5; }
+        10% { opacity: 0.9; }
+        90% { opacity: 0.9; }
+        100% { transform: translateX(calc(100vw + 100px)) translateY(-20px); opacity: 0.5; }
+    }
+    .footer-airplane {
+        position: absolute;
+        bottom: 30px; /* Позиция по вертикали */
+        left: -100px; /* Начальная позиция слева, за экраном */
+        font-size: 2.8rem; /* Немного увеличил размер самолетика */
+        color: #93c5fd; /* Светло-синий цвет */
+        animation: fly-animation-footer 25s linear infinite; /* Длительность и тип анимации */
+        animation-delay: 5s; /* Задержка перед первым появлением */
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Легкая тень для объема */
+        z-index: 10; /* Убедимся, что самолетик поверх текста футера */
+    }
+
+    /* ... (Остальные существующие стили) ... */
+</style>
         <!-- Модальное окно для детальной информации о местах практики -->
         <div id="modal" class="modal fixed inset-0 bg-black/80 backdrop-blur-lg z-110 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
             <div id="modal-content" class="bg-white/90 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform transition-transform duration-300 scale-95">
@@ -1210,27 +1275,40 @@
         document.getElementById('enter-btn').addEventListener('click', function() {
             const preloader = document.getElementById('preloader');
             const mainContent = document.getElementById('main-content');
+            const enterBtn = document.getElementById('enter-btn');
+            const loadingMessage = document.getElementById('loading-message');
+            
+            // Скрываем кнопку "Погрузиться в мир авиации"
+            enterBtn.style.opacity = '0';
+            enterBtn.style.pointerEvents = 'none';
+
+            // Показываем сообщение о загрузке
+            loadingMessage.classList.add('show');
             
             // Добавляем анимацию исчезновения прелоадера
-            preloader.classList.add('hide');
+            // preloader.classList.add('hide'); // Это будет добавлено позже, после небольшой задержки
             
             // Запускаем анимацию самолетов
             const airplanes = document.querySelectorAll('.airplane');
             airplanes.forEach(plane => {
-                // Перезапускаем анимацию, чтобы она началась с начала при клике
-                plane.style.animation = 'none';
-                void plane.offsetWidth; // Trigger reflow
+                plane.style.animation = 'none'; // Сброс анимации
+                void plane.offsetWidth; // Триггер рефлоу для перезапуска
                 plane.style.animation = 'fly-across 7s linear forwards';
             });
             
-            // Через 7 секунд показываем основной контент
+            // Небольшая задержка перед началом исчезновения прелоадера, чтобы дать время на появление сообщения о загрузке
+            setTimeout(() => {
+                preloader.classList.add('hide');
+            }, 500); // Задержка 0.5 секунды
+
+            // Через 1.7 секунды (1.5с transition + 0.2с буфер) показываем основной контент
             setTimeout(() => {
                 preloader.style.display = 'none';
                 mainContent.style.display = 'block';
                 
                 // Инициализируем анимации для основного контента
                 AOS.refresh();
-            }, 7000);
+            }, 1700); // Общая задержка 1.7 секунды
         });
 
         // Объект с данными для различных секций страницы
@@ -1341,7 +1419,7 @@
                 {
                     id: 'volga-dnepr',
                     name: 'Авиакомпания "Волга-Днепр"',
-                    icon: '🌍',
+                    icon: '�',
                     description: 'Мировой лидер в сфере грузовых авиаперевозок, специализирующийся на крупногабаритных и сверхтяжелых грузах на самолетах Ан-124 и Ил-76.',
                     content: `
                         <p class="mb-5 text-slate-700 text-lg leading-relaxed">ООО "Авиакомпания Волга-Днепр" является одним из мировых лидеров в сфере грузовых авиаперевозок, особенно в сегменте крупногабаритных и сверхтяжелых грузов. Компания использует собственный флот отечественных грузовых самолетов, таких как Ан-124 и Ил-76. "Волга-Днепр" предлагает широкий спектр услуг: чартерные и регулярные грузовые рейсы, мультимодальные перевозки, международную экспресс-доставку и таможенное оформление. Компания также предоставляет авиационные услуги, включая лесопожарные службы, поддержку полетов и техническое обслуживание.</p>
@@ -1349,8 +1427,8 @@
                         <div class="process-flow flex justify-center flex-wrap gap-6 my-8">
                             <div class="process-step"><span class="process-step-icon">🔬</span><span class="font-semibold text-lg">Инженерный анализ груза</span><div class="process-step-connector text-3xl">→</div></div>
                             <div class="process-step"><span class="process-step-icon">🗺️</span><span class="font-semibold text-lg">Планирование маршрута</span><div class="process-step-connector text-3xl">→</div></div>
-                            <div class="process-step"><span class="font-semibold text-lg">Получение разрешений</span><div class="process-step-connector text-3xl">→</div></div>
-                            <div class="process-step"><span class="font-semibold text-lg">Выполнение перевозки</span></div>
+                            <div class="font-semibold text-lg">Получение разрешений</div><div class="process-step-connector text-3xl">→</div></div>
+                            <div class="process-step"><span class="process-step-icon">✈️</span><span class="font-semibold text-lg">Выполнение перевозки</span></div>
                         </div>
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
@@ -1502,7 +1580,7 @@
                                         <span class="font-sans font-bold">Расчет себестоимости рейса</span>
                                     </div>
                                     <div class="p-5 space-y-3 text-slate-700">
-                                        <div><span class="font-semibold">Рейс:</span> ULV-VKO-777</div>
+                                        <div><span class="font-semibold">Рейс:</span> ULV-VKO-737</div>
                                         <div><span class="font-semibold">Тип ВС:</span> Boeing 737</div>
                                         <div><span class="font-semibold">Топливо:</span> <span class="text-red-600 font-bold">1 200 000 RUB</span></div>
                                         <div><span class="font-semibold">Аэропортовые сборы:</span> 350 000 RUB</div>
@@ -1918,7 +1996,7 @@
                     }
                 });
             }, { threshold: 0.5 }); // Срабатывает, когда 50% секции видно
-
+            
             const uigaStructureSection = document.getElementById('uiga-structure');
             if (uigaStructureSection) {
                 uigaStructureObserver.observe(uigaStructureSection);
