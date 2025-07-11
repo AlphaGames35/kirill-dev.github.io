@@ -8,10 +8,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <!-- Preload critical fonts for better performance -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    </noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
+        /* Custom CSS variables for consistent theming */
         :root {
             --primary: #3b82f6; /* blue-500 */
             --primary-dark: #2563eb; /* blue-600 */
@@ -20,17 +26,21 @@
             --light: #f8fafc; /* slate-50 */
         }
 
+        /* Base body styling with smooth scroll and overflow prevention */
         body {
             font-family: 'Manrope', sans-serif;
             background-color: var(--light);
             color: var(--dark);
             scroll-behavior: smooth;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
 
+        /* Headings use Montserrat font */
         h1, h2, h3 {
             font-family: 'Montserrat', sans-serif;
         }
 
+        /* Gradient backgrounds for sections */
         .hero-gradient {
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); /* blue-50 to blue-100 */
         }
@@ -39,10 +49,12 @@
             background: linear-gradient(to bottom, #ffffff, #f0f9ff); /* white to blue-50 */
         }
 
+        /* Card styling with gradient, shadow, and hover effects */
         .card-gradient {
-            background: linear-gradient(145deg, #ffffff, #f8fafc); /* white to slate-50 */
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9)); /* Semi-transparent white to slate-50 */
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy transition */
+            border-radius: 20px; /* Rounded corners */
         }
 
         .card-gradient:hover {
@@ -50,6 +62,7 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
 
+        /* Navigation link styling with active/hover states */
         .nav-link {
             position: relative;
             transition: color 0.3s ease;
@@ -75,10 +88,11 @@
             width: 100%;
         }
 
+        /* Process step styling for visual flowcharts */
         .process-step {
             transition: all 0.4s ease;
             position: relative;
-            background-color: #e2e8f0; /* slate-200 */
+            background-color: rgba(226, 232, 240, 0.9); /* slate-200 semi-transparent */
             border-radius: 16px; /* More rounded */
             padding: 1.5rem; /* More padding */
             width: 12rem; /* Wider steps */
@@ -93,7 +107,7 @@
         .process-step:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            background: linear-gradient(145deg, #dbeafe, #bfdbfe); /* blue-100 to blue-200 */
+            background: linear-gradient(145deg, rgba(219, 234, 254, 0.9), rgba(191, 219, 254, 0.9)); /* blue-100 to blue-200 semi-transparent */
         }
 
         .process-step-icon {
@@ -108,6 +122,7 @@
             transform: scale(1.2) rotate(5deg);
         }
 
+        /* Chart container responsive styling */
         .chart-container {
             position: relative;
             width: 100%;
@@ -118,7 +133,7 @@
             max-height: 400px;
         }
 
-        /* Timeline styles */
+        /* Timeline styles for chronological events */
         .timeline {
             position: relative;
             max-width: 800px;
@@ -173,7 +188,7 @@
 
         .timeline-content {
             padding: 25px 30px;
-            background: white;
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
             position: relative;
             border-radius: 16px;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -185,7 +200,7 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        /* Title Page Specific Styles */
+        /* Title Page Specific Styles for a grand opening */
         .title-page-section {
             display: flex;
             flex-direction: column;
@@ -232,6 +247,7 @@
             filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
         }
 
+        /* Footer wave for a smooth transition */
         .footer-wave {
             position: absolute;
             bottom: 0;
@@ -253,6 +269,7 @@
             fill: #f8fafc; /* light background color */
         }
 
+        /* Parallax effect for backgrounds (if used) */
         .parallax {
             background-attachment: fixed;
             background-position: center;
@@ -260,6 +277,7 @@
             background-size: cover;
         }
 
+        /* Floating animation for elements */
         .floating {
             animation: floating 6s ease-in-out infinite;
         }
@@ -270,6 +288,7 @@
             100% { transform: translateY(0px); }
         }
 
+        /* Shine effect for visual flair */
         .shine {
             position: relative;
             overflow: hidden;
@@ -292,6 +311,7 @@
             100% { transform: translateX(100%) rotate(30deg); }
         }
 
+        /* Custom scrollbar styling */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -309,7 +329,7 @@
             background: var(--primary-dark);
         }
 
-        /* AnyLogic Passenger Animation */
+        /* AnyLogic Passenger Animation for simulation visualization */
         @keyframes move-passenger {
             0% { top: var(--y-start); left: var(--x-start); opacity: 0.8; transform: scale(0.8); }
             10% { opacity: 1; transform: scale(1); }
@@ -329,7 +349,7 @@
             box-shadow: 0 0 5px rgba(239, 68, 68, 0.5); /* Subtle glow */
         }
 
-        /* 1C Report Loading Spinner */
+        /* 1C Report Loading Spinner for interactive elements */
         @keyframes spinner {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -346,7 +366,7 @@
             margin-right: 8px;
         }
 
-        /* 1C Report Table Styling */
+        /* 1C Report Table Styling for data presentation */
         .report-table th, .report-table td {
             padding: 12px; /* More padding */
             border: 1px solid #e2e8f0; /* Lighter border */
@@ -371,24 +391,206 @@
             font-size: 1.125rem; /* text-lg */
             font-weight: 800; /* extra bold */
         }
+
+        /* Cloud animation for background visual interest */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.9; /* Сделали облака более заметными */
+            filter: blur(5px); /* Немного уменьшили размытие для заметности */
+            animation: moveClouds linear infinite;
+            z-index: 0; /* Ensure clouds are behind content */
+        }
+
+        .cloud:nth-child(1) {
+            width: 180px;
+            height: 90px;
+            top: 10%;
+            left: -25%;
+            animation-duration: 45s;
+            animation-delay: 0s;
+        }
+
+        .cloud:nth-child(2) {
+            width: 220px;
+            height: 110px;
+            top: 30%;
+            left: -35%;
+            animation-duration: 55s;
+            animation-delay: 10s;
+        }
+
+        .cloud:nth-child(3) {
+            width: 140px;
+            height: 70px;
+            top: 50%;
+            left: -20%;
+            animation-duration: 40s;
+            animation-delay: 20s;
+        }
+
+        .cloud:nth-child(4) {
+            width: 200px;
+            height: 100px;
+            top: 70%;
+            left: -30%;
+            animation-duration: 50s;
+            animation-delay: 30s;
+        }
+
+        .cloud:nth-child(5) {
+            width: 120px;
+            height: 60px;
+            top: 20%;
+            left: -15%;
+            animation-duration: 35s;
+            animation-delay: 5s;
+        }
+        .cloud:nth-child(6) {
+            width: 160px;
+            height: 80px;
+            top: 60%;
+            left: -10%;
+            animation-duration: 42s;
+            animation-delay: 25s;
+        }
+        .cloud:nth-child(7) {
+            width: 190px;
+            height: 95px;
+            top: 40%;
+            left: -40%;
+            animation-duration: 48s;
+            animation-delay: 15s;
+        }
+
+        @keyframes moveClouds {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(150vw); /* Move across the screen */
+            }
+        }
+        /* Ensure content is above clouds */
+        header, main, footer, .modal, .floating-nav {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Floating navigation buttons */
+        .floating-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100; /* Ensure it's above other content */
+        }
+
+        .floating-nav.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .floating-nav button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .floating-nav button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .floating-nav button.active {
+            background: var(--accent);
+            box-shadow: 0 4px 10px rgba(6, 182, 212, 0.4);
+        }
+
+        /* Scroll-to-top button */
+        #scrollToTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            z-index: 100;
+        }
+
+        #scrollToTopBtn.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Modal styling - Increased z-index to be above floating-nav */
+        #modal {
+            z-index: 110; /* Changed from 50 to 110 */
+        }
     </style>
 </head>
 <body class="text-slate-800">
+    <!-- Летающие облака для фонового эффекта -->
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+
+    <!-- Титульный лист - первая секция страницы -->
     <section id="title-page" class="title-page-section">
         <div class="title-page-content" data-aos="zoom-in">
-            <img src="https://i.ibb.co/0jK1Bqg/avia-logo.png" alt="УИ ГА Логотип" class="title-page-logo mx-auto floating">
+            <!-- Логотип УИ ГА с эффектом плавания -->
+            <img src="https://avatars.mds.yandex.net/i?id=0b9973e781597a285f23ea560e4df3c3_l-10868215-images-thumbs&n=13" alt="УИ ГА Логотип" class="title-page-logo mx-auto floating" loading="lazy">
             
             <p class="text-sm font-medium text-slate-700 tracking-wider">ФЕДЕРАЛЬНОЕ АГЕНТСТВО ВОЗДУШНОГО ТРАНСПОРТА</p>
             <p class="text-lg font-bold text-slate-900 leading-tight">ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ОБРАЗОВАНИЯ «УЛЬЯНОВСКИЙ ИНСТИТУТ ГРАЖДАНСКОЙ АВИАЦИИ ИМЕНИ ГЛАВНОГО МАРШАЛА АВИАЦИИ Б. П. БУГАЕВА»</p>
             
-            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-5 my-4 border border-blue-200 shadow-inner">
+            <!-- Информационный блок о факультете и кафедре -->
+            <div class="bg-gradient-to-r from-blue-50/80 to-cyan-50/80 rounded-xl p-5 my-4 border border-blue-200/80 shadow-inner">
                 <p class="text-lg font-bold text-blue-800">Факультет подготовки авиационных специалистов (ПАС)</p>
                 <p class="text-lg font-bold text-blue-800">Кафедра организации и управления на воздушном транспорте</p>
             </div>
             
             <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 mb-6 tracking-tight">ОТЧЕТ ПО УЧЕБНОЙ ПРАКТИКЕ: ОЗНАКОМИТЕЛЬНАЯ ПРАКТИКА</h1>
             
-            <div class="text-left mx-auto w-full max-w-lg space-y-4 text-slate-700 bg-white p-6 rounded-xl shadow-md border border-blue-100">
+            <!-- Блок с данными курсанта и местами практики -->
+            <div class="text-left mx-auto w-full max-w-lg space-y-4 text-slate-700 bg-white/85 p-6 rounded-xl shadow-md border border-blue-100/85">
                 <p class="flex"><span class="font-semibold w-40">Курсант:</span> <span class="font-bold text-slate-900">Иванов Кирилл Алексеевич</span></p>
                 <p class="flex"><span class="font-semibold w-40">Направление:</span> <span class="font-bold text-slate-900">25.03.03 Аэронавигация</span></p>
                 <p class="flex"><span class="font-semibold w-40">Профиль:</span> <span class="font-bold text-slate-900">25.03.03_05 Организация и обеспечение бизнес-процессов на воздушном транспорте</span></p>
@@ -403,7 +605,7 @@
                     <li>АО "АэроКомпозит"</li>
                     <li>Министерство транспорта Ульяновской области</li>
                 </ul>
-                <p class="pt-3">Руководитель практики от института: <span class="inline-block border-b border-dashed border-slate-400 min-w-[200px]"></span></p>
+                <p class="pt-3">Руководитель практики от института: <span class="inline-block border-b border-dashed border-slate-400 min-w-[200px]">Муравьёва Е.В.</span></p>
                 <p class="text-xs text-slate-500">(Фамилия, И. О., ученая степень, звание, должность)</p>
             </div>
 
@@ -411,41 +613,9 @@
         </div>
     </section>
 
-    <header id="header" class="bg-white/90 backdrop-blur-md fixed top-0 left-0 right-0 z-40 shadow-sm transition-all duration-300">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
-                <div class="text-xl font-bold text-slate-800 flex items-center">
-                    <span class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white p-2 rounded-lg mr-3"><i class="fa-solid fa-plane"></i></span>
-                    <span>Иванов К.А. <span class="text-base font-normal text-slate-500 hidden sm:inline">| ОБП 24-1</span></span>
-                </div>
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#title-page" class="nav-link font-semibold text-slate-600">Титульный лист</a>
-                    <a href="#home" class="nav-link font-semibold text-slate-600">Главная</a>
-                    <a href="#locations" class="nav-link font-semibold text-slate-600">Места практики</a>
-                    <a href="#competencies" class="nav-link font-semibold text-slate-600">Компетенции</a>
-                    <a href="#tools" class="nav-link font-semibold text-slate-600">Инструменты</a>
-                    <a href="#timeline" class="nav-link font-semibold text-slate-600">Хронология</a>
-                    <a href="#conclusion" class="nav-link font-semibold text-slate-600">Заключение</a>
-                </nav>
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-slate-600 focus:outline-none p-2 rounded-md hover:bg-slate-100 transition">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-lg shadow-md">
-            <a href="#title-page" class="block py-3 px-4 text-sm font-semibold text-slate-600 hover:bg-blue-50 flex items-center"><i class="fa-solid fa-file-lines mr-2 text-blue-500"></i>Титульный лист</a>
-            <a href="#home" class="block py-3 px-4 text-sm font-semibold text-slate-600 hover:bg-blue-50 flex items-center"><i class="fa-solid fa-house mr-2 text-blue-500"></i>Главная</a>
-            <a href="#locations" class="block py-3 px-4 text-sm font-semibold text-slate-600 hover:bg-blue-50 flex items-center"><i class="fa-solid fa-location-dot mr-2 text-blue-500"></i>Места практики</a>
-            <a href="#competencies" class="block py-3 px-4 text-sm font-semibold text-slate-600 hover:bg-blue-50 flex items-center"><i class="fa-solid fa-brain mr-2 text-blue-500"></i>Компетенции</a>
-            <a href="#tools" class="block py-3 px-4 text-sm font-semibold text-slate-600 hover:bg-blue-50 flex items-center"><i class="fa-solid fa-screwdriver-wrench mr-2 text-blue-500"></i>Инструменты</a>
-            <a href="#timeline" class="block py-3 px-4 text-sm font-semibold text-slate-600 hover:bg-blue-50 flex items-center"><i class="fa-solid fa-timeline mr-2 text-blue-500"></i>Хронология</a>
-            <a href="#conclusion" class="block py-3 px-4 text-sm font-semibold text-slate-600 hover:bg-blue-50 flex items-center"><i class="fa-solid fa-flag-checkered mr-2 text-blue-500"></i>Заключение</a>
-        </div>
-    </header>
-
-    <main class="pt-16">
+    <!-- Основное содержимое страницы -->
+    <main class="pt-0"> <!-- Removed pt-16 as header is now floating/hidden -->
+        <!-- Секция "Главная" с введением и задачами практики -->
         <section id="home" class="pt-24 pb-20 hero-gradient">
             <div class="container mx-auto px-4">
                 <div class="text-center max-w-4xl mx-auto" data-aos="fade-up">
@@ -456,12 +626,12 @@
                 <div class="max-w-5xl mx-auto card-gradient p-8 rounded-3xl border border-blue-100" data-aos="fade-up" data-aos-delay="100">
                     <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-bullseye mr-3 text-blue-500"></i>Введение</h2>
                     <p class="text-lg text-slate-700 mb-4 leading-relaxed">
-                        Я, Иванов Кирилл Алексеевич, курсант первого курса Ульяновского института гражданской авиации проходил ознакомительную практику в период с «28» июня 2025 года по «12» июля 2025 года.
+                        Я, Иванов Кирилл Алексеевич, курсант первого курса Ульяновского института гражданской авиации проходил ознакомительную практику в период с «01» июня 2025 года по «28» июня 2025 года.
                     </p>
                     <p class="text-lg text-slate-700 mb-6 leading-relaxed">
                         Основной целью прохождения практики является дополнение и закрепление теоретических и практических знаний, умений и навыков, полученных в процессе обучения, а также формирование новых знаний, умений и приобретение первичных навыков профессиональной деятельности, а также навыков самостоятельного решения профессиональных задач.
                     </p>
-                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-7 rounded-2xl border border-green-200">
+                    <div class="bg-gradient-to-br from-green-50/80 to-emerald-50/80 p-7 rounded-2xl border border-green-200/80">
                         <h3 class="font-bold text-xl mb-4 text-green-800 flex items-center"><i class="fa-solid fa-list-check mr-2"></i>Задачи практики</h3>
                         <ul class="text-green-700 text-lg space-y-3">
                             <li class="flex items-start"><i class="fa-solid fa-circle-check mt-1.5 mr-3 text-green-500"></i>место ГА/ отрасли ГА в России и УО</li>
@@ -486,6 +656,120 @@
             </div>
         </section>
 
+        <!-- Секция "Об УИ ГА" -->
+        <section id="uiga-overview" class="py-24 section-gradient">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl font-bold text-slate-900 mb-4">Ульяновский Институт Гражданской Авиации <i class="fa-solid fa-building-columns text-blue-500"></i></h2>
+                    <p class="max-w-2xl mx-auto text-slate-700 text-lg">Ульяновский институт гражданской авиации (УИ ГА) является одним из ведущих учебных заведений России, специализирующихся на подготовке высококвалифицированных кадров для авиационной отрасли. Его история насчитывает десятилетия развития, а миссия направлена на обеспечение гражданской авиации компетентными специалистами.</p>
+                    <div class="h-1.5 w-32 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full mt-8"></div>
+                </div>
+                <div class="max-w-5xl mx-auto card-gradient p-8 rounded-3xl border border-blue-100" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-history mr-3 text-blue-500"></i>История</h3>
+                    <ul class="text-lg text-slate-700 mb-6 space-y-3 list-disc list-inside">
+                        <li><span class="font-bold text-slate-900">1935 год:</span> Основана Центральная объединенная школа пилотов и авиатехников.</li>
+                        <li><span class="font-bold text-slate-900">1992 год:</span> Получил статус института.</li>
+                        <li><span class="font-bold text-slate-900">2000 год:</span> Присвоено имя Главного маршала авиации Б. П. Бугаева.</li>
+                    </ul>
+                    <h3 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-bullseye mr-3 text-blue-500"></i>Миссия</h3>
+                    <p class="text-lg text-slate-700 leading-relaxed">
+                        Подготовка высококвалифицированных специалистов для гражданской авиации, способных эффективно решать задачи в динамично развивающейся отрасли.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция "Структура УИ ГА" с диаграммой -->
+        <section id="uiga-structure" class="py-24 bg-gradient-to-b from-blue-50/80 to-white/80">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl font-bold text-slate-900 mb-4">Структура и Направления Подготовки УИ ГА <i class="fa-solid fa-sitemap text-blue-500"></i></h2>
+                    <p class="max-w-2xl mx-auto text-slate-700 text-lg">УИ ГА имеет развитую структуру, включающую несколько факультетов, каждый из которых специализируется на подготовке кадров по ключевым направлениям гражданской авиации. Это обеспечивает комплексный подход к обучению и охват всех необходимых областей.</p>
+                    <div class="h-1.5 w-32 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full mt-8"></div>
+                </div>
+                <div class="max-w-5xl mx-auto card-gradient p-8 rounded-3xl border border-blue-100" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-building mr-3 text-blue-500"></i>Основные факультеты</h3>
+                    <ul class="text-lg text-slate-700 mb-6 space-y-3 list-disc list-inside">
+                        <li>Факультет подготовки авиационных специалистов (ПАС)</li>
+                        <li>Факультет летной эксплуатации и управления воздушным движением</li>
+                        <li>Факультет технической эксплуатации летательных аппаратов и двигателей</li>
+                        <li>Факультет заочного обучения</li>
+                    </ul>
+                    <p class="text-lg text-slate-700 mb-4 leading-relaxed">
+                        Широкий спектр программ бакалавриата, специалитета и магистратуры.
+                    </p>
+                    <p class="font-semibold text-lg text-slate-700 mb-8">
+                        Направление 25.03.03 «Аэронавигация», профиль «Организация и обеспечение бизнес-процессов на воздушном транспорте».
+                    </p>
+                    <div class="w-full md:w-2/3 lg:w-1/2 mx-auto mt-8 chart-container bg-white/85 p-6 rounded-3xl shadow-xl border border-blue-100/85">
+                        <canvas id="facultyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция "Роль УИ ГА в регионе" -->
+        <section id="uiga-role-in-region" class="py-24 section-gradient">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl font-bold text-slate-900 mb-4">Роль УИ ГА в Авиационной Отрасли Региона <i class="fa-solid fa-chart-line text-blue-500"></i></h2>
+                    <p class="max-w-2xl mx-auto text-slate-700 text-lg">Ульяновский институт гражданской авиации играет ключевую роль в развитии авиационной отрасли региона, внося значительный вклад в кадровое обеспечение, научно-исследовательскую деятельность и общее социально-экономическое развитие.</p>
+                    <div class="h-1.5 w-32 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full mt-8"></div>
+                </div>
+                <div class="max-w-5xl mx-auto card-gradient p-8 rounded-3xl border border-blue-100" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-hand-holding-heart mr-3 text-blue-500"></i>Вклад института</h3>
+                    <ul class="text-lg text-slate-700 mb-6 space-y-3 list-disc list-inside">
+                        <li><span class="font-bold text-slate-900">Кадровое обеспечение:</span> Ежегодный выпуск сотен квалифицированных специалистов, обеспечивающих потребности авиакомпаний, аэропортов и предприятий авиастроения.</li>
+                        <li><span class="font-bold text-slate-900">Научно-исследовательская деятельность:</span> Разработка новых технологий и методик, способствующих инновационному развитию отрасли и повышению безопасности полетов.</li>
+                        <li><span class="font-bold text-slate-900">Сотрудничество с предприятиями:</span> Активное взаимодействие с ведущими авиационными компаниями региона, включая совместные проекты, программы стажировок и целевую подготовку кадров.</li>
+                        <li><span class="font-bold text-slate-900">Развитие региона:</span> Привлечение инвестиций, создание новых рабочих мест и повышение престижа Ульяновской области как центра авиационного образования и промышленности.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция "Контрактная служба" -->
+        <section id="contract-service" class="py-24 bg-gradient-to-b from-blue-50/80 to-white/80">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl font-bold text-slate-900 mb-4">Контрактная Служба УИ ГА <i class="fa-solid fa-handshake text-blue-500"></i></h2>
+                    <p class="max-w-2xl mx-auto text-slate-700 text-lg">Контрактная служба УИ ГА играет важную роль в обеспечении эффективной и прозрачной закупочной деятельности института, строго следуя федеральному законодательству и внутренним регламентам.</p>
+                    <div class="h-1.5 w-32 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full mt-8"></div>
+                </div>
+                <div class="max-w-5xl mx-auto card-gradient p-8 rounded-3xl border border-blue-100" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-scale-balanced mr-3 text-blue-500"></i>Нормативная База</h3>
+                    <p class="text-lg text-slate-700 mb-4 leading-relaxed">
+                        Деятельность Контрактной службы УИ ГА строго регламентируется следующими нормативными правовыми актами:
+                    </p>
+                    <ul class="text-lg text-slate-700 mb-6 space-y-3 list-disc list-inside">
+                        <li><span class="font-bold text-slate-900">Федеральный закон № 44-ФЗ:</span> «О контрактной системе в сфере закупок товаров, работ, услуг для обеспечения государственных и муниципальных нужд» – является основополагающим документом, регулирующим большинство закупок института.</li>
+                        <li><span class="font-bold text-slate-900">Федеральный закон № 223-ФЗ:</span> «О закупках товаров, работ, услуг отдельными видами юридических лиц» – применяется для закупок, осуществляемых за счет внебюджетных средств института.</li>
+                        <li><span class="font-bold text-slate-900">Подзаконные акты:</span> Включают постановления Правительства РФ, приказы Министерства финансов и Федеральной антимонопольной службы, детализирующие процедуры закупок.</li>
+                        <li><span class="font-bold text-slate-900">Локальные нормативные акты УИ ГА:</span> Внутренние положения, регламенты и инструкции, разработанные институтом в соответствии с федеральным законодательством, обеспечивающие специфику закупочной деятельности УИ ГА.</li>
+                    </ul>
+                    <p class="text-lg text-slate-700 mb-8 leading-relaxed">
+                        Основная цель этой нормативной базы – обеспечение законности, прозрачности, эффективности и публичности закупочной деятельности УИ ГА, а также предотвращение коррупции и других злоупотреблений.
+                    </p>
+
+                    <h3 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-chart-gantt mr-3 text-blue-500"></i>Процессы Закупок</h3>
+                    <p class="text-lg text-slate-700 mb-4 leading-relaxed">
+                        Процессы закупок в Контрактной службе УИ ГА включают несколько ключевых этапов:
+                    </p>
+                    <ul class="text-lg text-slate-700 mb-6 space-y-3 list-disc list-inside">
+                        <li><span class="font-bold text-slate-900">Планирование закупок:</span> Формирование и утверждение план-графика закупок в Единой информационной системе (ЕИС) на основе текущих и перспективных потребностей института.</li>
+                        <li><span class="font-bold text-slate-900">Подготовка документации:</span> Разработка извещения о проведении закупки, формирование документации о закупке (включая техническое задание, требования к участникам) и проекта контракта.</li>
+                        <li><span class="font-bold text-slate-900">Осуществление процедур:</span> Проведение закупочных процедур в соответствии с выбранным способом (электронный аукцион, конкурс, запрос котировок/предложений, закупка у единственного поставщика).</li>
+                        <li><span class="font-bold text-slate-900">Заключение и регистрация контрактов:</span> Подписание контрактов с победителями закупок и их обязательная регистрация в реестре контрактов ЕИС.</li>
+                        <li><span class="font-bold text-slate-900">Контроль исполнения:</span> Мониторинг сроков исполнения контрактов, приемка товаров, работ или услуг, а также ведение претензионной работы в случае нарушения условий контракта.</li>
+                    </ul>
+                    <p class="text-lg text-slate-700 leading-relaxed">
+                        Каждый этап строго контролируется для обеспечения соответствия законодательству и эффективного расходования бюджетных и внебюджетных средств.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция "Места прохождения практики" с интерактивными карточками -->
         <section id="locations" class="py-24 section-gradient">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16" data-aos="fade-up">
@@ -499,7 +783,8 @@
             </div>
         </section>
         
-        <section id="competencies" class="py-24 bg-gradient-to-b from-blue-50 to-white">
+        <!-- Секция "Формирование профессиональных компетенций" с радарной диаграммой -->
+        <section id="competencies" class="py-24 bg-gradient-to-b from-blue-50/80 to-white/80">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16" data-aos="fade-up">
                     <h2 class="text-4xl font-bold text-slate-900 mb-4">Формирование профессиональных компетенций <i class="fa-solid fa-brain text-blue-500"></i></h2>
@@ -508,12 +793,12 @@
                 </div>
                 <div class="flex flex-col lg:flex-row items-center gap-10" data-aos="fade-up">
                     <div class="lg:w-1/2 w-full">
-                        <div class="chart-container bg-white p-6 rounded-3xl shadow-xl border border-blue-100">
+                        <div class="chart-container bg-white/85 p-6 rounded-3xl shadow-xl border border-blue-100/85">
                             <canvas id="competenciesChart"></canvas>
                         </div>
                     </div>
                     <div id="competency-details" class="lg:w-1/2 w-full space-y-6">
-                        <div class="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-2xl border border-blue-200">
+                        <div class="bg-gradient-to-r from-blue-50/80 to-cyan-50/80 p-6 rounded-2xl border border-blue-200/80">
                             <h3 class="font-bold text-xl mb-3 text-blue-800 flex items-center"><i class="fa-solid fa-lightbulb mr-2"></i>Как читать диаграмму?</h3>
                             <p class="text-blue-700">Диаграмма показывает уровень развития ключевых компетенций по пятибалльной шкале. Наведите курсор на точки, чтобы увидеть детали развития каждого навыка.</p>
                         </div>
@@ -523,7 +808,8 @@
             </div>
         </section>
 
-        <section id="tools" class="py-24 bg-gradient-to-b from-white to-blue-50">
+        <!-- Секция "Инструменты бизнес-анализа" с табами -->
+        <section id="tools" class="py-24 bg-gradient-to-b from-white/80 to-blue-50/80">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16" data-aos="fade-up">
                     <h2 class="text-4xl font-bold text-slate-900 mb-4">Инструменты бизнес-анализа <i class="fa-solid fa-tools text-blue-500"></i></h2>
@@ -536,14 +822,15 @@
                             <!-- Tabs will be inserted by JS -->
                         </nav>
                     </div>
-                    <div id="tools-content" class="mt-8 bg-white p-8 rounded-3xl shadow-xl border border-blue-100">
+                    <div id="tools-content" class="mt-8 bg-white/85 p-8 rounded-3xl shadow-xl border border-blue-100/85">
                         <!-- Content will be inserted by JS -->
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="timeline" class="py-24 bg-gradient-to-b from-blue-50 to-white">
+        <!-- Секция "Хронология прохождения практики" -->
+        <section id="timeline" class="py-24 bg-gradient-to-b from-blue-50/80 to-white/80">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16" data-aos="fade-up">
                     <h2 class="text-4xl font-bold text-slate-900 mb-4">Хронология прохождения практики <i class="fa-solid fa-calendar-days text-blue-500"></i></h2>
@@ -556,7 +843,29 @@
             </div>
         </section>
 
-        <section id="conclusion" class="py-24 bg-gradient-to-b from-white to-slate-900 relative">
+        <!-- Секция "Выполнение индивидуального задания" -->
+        <section id="individual-task" class="py-24 section-gradient">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl font-bold text-slate-900 mb-4">Выполнение Индивидуального Задания <i class="fa-solid fa-clipboard-check text-blue-500"></i></h2>
+                    <p class="max-w-2xl mx-auto text-slate-700 text-lg">Индивидуальное задание в рамках практики было направлено на углубленное изучение внутренней организации и документооборота структурного подразделения УИ ГА, что позволило применить теоретические знания на практике и развить навыки анализа.</p>
+                    <div class="h-1.5 w-32 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full mt-8"></div>
+                </div>
+                <div class="max-w-5xl mx-auto card-gradient p-8 rounded-3xl border border-blue-100" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-list-ol mr-3 text-blue-500"></i>Этапы выполнения</h3>
+                    <ul class="text-lg text-slate-700 mb-6 space-y-3 list-disc list-inside">
+                        <li><span class="font-bold text-slate-900">Ознакомление с внутренней документацией:</span> Устав УИ ГА, лицензии, правила, положения о кафедрах, должностные инструкции.</li>
+                        <li><span class="font-bold text-slate-900">Изучение организационной структуры кафедры:</span> Место кафедры в ФПАС, функции, состав.</li>
+                        <li><span class="font-bold text-slate-900">Анализ документооборота и информационных потоков:</span> Изучение видов документов, маршрутов движения, каналов связи.</li>
+                        <li><span class="font-bold text-slate-900">Сбор и систематизация информации:</span> Ведение дневника практики, конспектирование, сбор данных о предприятиях.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция "Заключение" -->
+        <section id="conclusion" class="py-24 bg-gradient-to-b from-blue-50 to-blue-200 relative">
+            <!-- Волнообразный фон для футера -->
             <div class="footer-wave">
                 <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                     <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
@@ -566,28 +875,28 @@
             </div>
             <div class="container mx-auto px-4 relative z-10">
                 <div class="max-w-4xl mx-auto text-center" data-aos="fade-up">
-                    <h2 class="text-4xl font-bold text-white mb-6">Заключение <i class="fa-solid fa-flag-checkered text-teal-400"></i></h2>
-                    <p class="text-xl text-blue-100 mb-8 leading-relaxed">
+                    <h2 class="text-4xl font-bold text-slate-900 mb-6">Заключение <i class="fa-solid fa-flag-checkered text-blue-600"></i></h2>
+                    <p class="text-xl text-slate-700 mb-8 leading-relaxed">
                         В ходе прохождения учебной (ознакомительной) практики была изучена характеристика деятельности Международного аэропорта Ульяновск (Баратаевка), Международного аэропорта Ульяновск-Восточный, ООО "Медиасофт", Авиакомпании "Волга-Днепр", АО "АэроКомпозит" и Министерства транспорта Ульяновской области. Был собран материал, необходимый для написания отчета.
                     </p>
-                    <p class="text-xl text-blue-100 mb-8 leading-relaxed">
+                    <p class="text-xl text-slate-700 mb-8 leading-relaxed">
                         В работе дана краткая характеристика каждой организации, включая их организационно-правовую форму, основные виды деятельности, место в отрасли, особенности организационной структуры, а также аспекты, касающиеся правил внутреннего распорядка, охраны труда, экологической ответственности и стратегических целей. Проведен анализ бизнес-процессов, характерных для данных предприятий, и их обеспечения на воздушном транспорте.
                     </p>
-                    <p class="text-xl text-blue-100 mb-8 leading-relaxed">
+                    <p class="text-xl text-slate-700 mb-8 leading-relaxed">
                         Во время прохождения учебной ознакомительной практики были выполнены все поставленные задачи. Было получено первичное представление о функционировании предприятий авиационной и транспортной отрасли, их организационных структурах и ключевых направлениях деятельности. Особое внимание было уделено роли информационных технологий в проектировании и оптимизации бизнес-процессов, что является неотъемлемой частью современной профессиональной деятельности.
                     </p>
                     <div class="flex flex-col md:flex-row gap-6 justify-center mb-10">
-                        <div class="bg-blue-500/20 backdrop-blur-sm border border-blue-300/30 p-7 rounded-2xl text-left shadow-md">
-                            <h3 class="font-bold text-xl mb-3 text-white flex items-center"><i class="fa-solid fa-key mr-2"></i>Ключевой вывод</h3>
-                            <p class="text-blue-100">Таким образом, теоретические знания, полученные на лекционных, семинарских и практических занятиях, стало возможным применить на практике, что позволило расширить возможности и способности как будущего специалиста по процессному управлению. Данная практика является хорошим практическим опытом для дальнейшей самостоятельной деятельности.</p>
+                        <div class="bg-blue-200/80 backdrop-blur-sm border border-blue-300/50 p-7 rounded-2xl text-left shadow-md">
+                            <h3 class="font-bold text-xl mb-3 text-blue-800 flex items-center"><i class="fa-solid fa-key mr-2"></i>Ключевой вывод</h3>
+                            <p class="text-blue-900">Таким образом, теоретические знания, полученные на лекционных, семинарских и практических занятиях, стало возможным применить на практике, что позволило расширить возможности и способности как будущего специалиста по процессному управлению. Данная практика является хорошим практическим опытом для дальнейшей самостоятельной деятельности.</p>
                         </div>
-                        <div class="bg-teal-500/20 backdrop-blur-sm border border-teal-300/30 p-7 rounded-2xl text-left shadow-md">
-                            <h3 class="font-bold text-xl mb-3 text-white flex items-center"><i class="fa-solid fa-road mr-2"></i>Перспективы</h3>
-                            <p class="text-teal-100">За время пройденной практики были получены новые ценные сведения об особенностях функционирования различных типов организаций в авиационном кластере, о важности соблюдения нормативно-правовых требований и принципов корпоративной ответственности. Были закреплены теоретические знания на практике, что способствовало лучшему ознакомлению со своей профессией. Прохождение практики позволило получить полное представление о деятельности института и (структурного подразделения), а также приобрести первичные профессиональные навыки, связанные с научной и учебной деятельностью.</p>
+                        <div class="bg-teal-200/80 backdrop-blur-sm border border-teal-300/50 p-7 rounded-2xl text-left shadow-md">
+                            <h3 class="font-bold text-xl mb-3 text-teal-800 flex items-center"><i class="fa-solid fa-road mr-2"></i>Перспективы</h3>
+                            <p class="text-teal-900">За время пройденной практики были получены новые ценные сведения об особенностях функционирования различных типов организаций в авиационном кластере, о важности соблюдения нормативно-правовых требований и принципов корпоративной ответственности. Были закреплены теоретические знания на практике, что способствовало лучшему ознакомлению со своей профессией. Прохождение практики позволило получить полное представление о деятельности института и (структурного подразделения), а также приобрести первичные профессиональные навыки, связанные с научной и учебной деятельностью.</p>
                         </div>
                     </div>
-                    <div class="bg-slate-800/50 backdrop-blur-sm p-7 rounded-2xl border border-slate-700/50">
-                        <p class="text-blue-200 leading-relaxed">
+                    <div class="bg-blue-100/80 backdrop-blur-sm p-7 rounded-2xl border border-blue-300/50">
+                        <p class="text-slate-700 leading-relaxed">
                             Необходимо отметить, что одним из вызовов в ходе практики стало ограничение доступа к детальной внутренней документации по бизнес-процессам и организационным структурам ряда предприятий. Это, однако, способствовало развитию навыков аналитического мышления и способности к формированию выводов на основе косвенных данных и общего понимания отраслевых стандартов. Для будущих практик рекомендуется по возможности устанавливать более глубокое взаимодействие с предприятиями для получения доступа к реальным кейсам и документации, что еще больше усилит практическую ценность обучения.
                         </p>
                     </div>
@@ -596,6 +905,7 @@
         </section>
     </main>
 
+    <!-- Футер страницы -->
     <footer class="bg-slate-900 text-slate-300 pt-20 pb-10 relative">
         <div class="container mx-auto px-4 text-center">
             <div class="flex justify-center space-x-6 mb-6">
@@ -610,8 +920,9 @@
         </div>
     </footer>
 
-    <div id="modal" class="modal fixed inset-0 bg-black/80 backdrop-blur-lg z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
-        <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform transition-transform duration-300 scale-95">
+    <!-- Модальное окно для детальной информации о местах практики -->
+    <div id="modal" class="modal fixed inset-0 bg-black/80 backdrop-blur-lg z-110 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="modal-content" class="bg-white/90 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform transition-transform duration-300 scale-95">
             <div class="sticky top-0 bg-white/90 backdrop-blur-sm p-5 sm:p-7 border-b border-slate-200 flex justify-between items-center">
                 <h3 id="modal-title" class="text-2xl font-bold text-slate-900 flex items-center"></h3>
                 <button id="modal-close" class="text-slate-500 hover:text-slate-800 transition">
@@ -623,15 +934,33 @@
         </div>
     </div>
 
+    <!-- Плавающие кнопки навигации -->
+    <div id="floating-nav" class="floating-nav">
+        <button data-target="home"><i class="fa-solid fa-house"></i> <span class="hidden sm:inline">Главная</span></button>
+        <button data-target="uiga-overview"><i class="fa-solid fa-building-columns"></i> <span class="hidden sm:inline">Об УИ ГА</span></button>
+        <button data-target="locations"><i class="fa-solid fa-map-location-dot"></i> <span class="hidden sm:inline">Места</span></button>
+        <button data-target="competencies"><i class="fa-solid fa-brain"></i> <span class="hidden sm:inline">Компетенции</span></button>
+        <button data-target="tools"><i class="fa-solid fa-tools"></i> <span class="hidden sm:inline">Инструменты</span></button>
+        <button data-target="timeline"><i class="fa-solid fa-calendar-days"></i> <span class="hidden sm:inline">Хронология</span></button>
+        <button data-target="conclusion"><i class="fa-solid fa-flag-checkered"></i> <span class="hidden sm:inline">Заключение</span></button>
+    </div>
+
+    <!-- Кнопка "Наверх" -->
+    <button id="scrollToTopBtn" title="Наверх">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Скрипты -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize AOS
+        // Инициализация AOS (Animate On Scroll) библиотеки
         AOS.init({
-            duration: 800,
-            once: true,
-            easing: 'ease-out-quart'
+            duration: 800, // Продолжительность анимации
+            once: true,    // Анимация происходит только один раз при прокрутке
+            easing: 'ease-out-quart' // Тип анимации
         });
 
+        // Объект с данными для различных секций страницы
         const practiceData = {
             locations: [
                 {
@@ -705,7 +1034,7 @@
                 {
                     id: 'mediasoft',
                     name: 'ООО "Медиасофт"',
-                    icon: '�',
+                    icon: '🧑‍�',
                     description: 'Крупная ИТ-компания, специализирующаяся на разработке компьютерного программного обеспечения, активно использующая гибкие методологии работы.',
                     content: `
                         <p class="mb-5 text-slate-700 text-lg leading-relaxed">ООО "Медиасофт" (или ООО "МЕДИАСОФТ МОБАЙЛ") является обществом с ограниченной ответственностью, зарегистрированным в Ульяновске. Основной вид деятельности компании — разработка компьютерного программного обеспечения. "Медиасофт" позиционирует себя как компания с более чем 300 разработчиками, специализирующимися на backend, frontend, iOS/Android разработке, QA и аналитике. Компания активно использует гибкие методологии работы, такие как Agile, предлагая услуги по субподряду и усилению команд заказчиков.</p>
@@ -714,7 +1043,7 @@
                             <div class="process-step"><span class="process-step-icon">💡</span><span class="font-semibold text-lg">Анализ требований</span><div class="process-step-connector text-3xl">→</div></div>
                             <div class="process-step"><span class="process-step-icon">📐</span><span class="font-semibold text-lg">Проектирование</span><div class="process-step-connector text-3xl">→</div></div>
                             <div class="process-step"><span class="process-step-icon">🚀</span><span class="font-semibold text-lg">Разработка (Спринты)</span><div class="process-step-connector text-3xl">→</div></div>
-                            <div class="process-step"><span class="process-step-icon">✅</span><span class="font-semibold text-lg">Тестирование и внедрение</span></div>
+                            <div class="process-step"><span class="font-semibold text-lg">Тестирование и внедрение</span></div>
                         </div>
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
@@ -747,7 +1076,7 @@
                         <div class="process-flow flex justify-center flex-wrap gap-6 my-8">
                             <div class="process-step"><span class="process-step-icon">🔬</span><span class="font-semibold text-lg">Инженерный анализ груза</span><div class="process-step-connector text-3xl">→</div></div>
                             <div class="process-step"><span class="process-step-icon">🗺️</span><span class="font-semibold text-lg">Планирование маршрута</span><div class="process-step-connector text-3xl">→</div></div>
-                            <div class="process-step"><span class="process-step-icon">📜</span><span class="font-semibold text-lg">Получение разрешений</span><div class="process-step-connector text-3xl">→</div></div>
+                            <div class="process-step"><span class="font-semibold text-lg">Получение разрешений</span><div class="process-step-connector text-3xl">→</div></div>
                             <div class="process-step"><span class="process-step-icon">✈️</span><span class="font-semibold text-lg">Выполнение перевозки</span></div>
                         </div>
                         <div class="grid md:grid-cols-2 gap-6">
@@ -815,7 +1144,7 @@
                         <div class="process-flow flex justify-center flex-wrap gap-6 my-8">
                             <div class="process-step"><span class="process-step-icon">📊</span><span class="font-semibold text-lg">Анализ ситуации</span><div class="process-step-connector text-3xl">→</div></div>
                             <div class="process-step"><span class="process-step-icon">🎯</span><span class="font-semibold text-lg">Формирование целей</span><div class="process-step-connector text-3xl">→</div></div>
-                            <div class="process-step"><span class="process-step-icon">👍</span><span class="font-semibold text-lg">Согласование и утверждение</span><div class="process-step-connector text-3xl">→</div></div>
+                            <div class="process-step"><span class="font-semibold text-lg">Согласование и утверждение</span><div class="process-step-connector text-3xl">→</div></div>
                             <div class="process-step"><span class="font-semibold text-lg">Контроль исполнения</span></div>
                         </div>
                         <div class="grid md:grid-cols-2 gap-6">
@@ -853,7 +1182,7 @@
                 fullDescriptions: [
                     {
                         title: 'УК-1: Системный анализ',
-                        description: 'Способен осуществлять поиск, критический анализ и синтез информации, применять системный подход для решения поставленных задач. В ходе практики это проявлялось в необходимости собирать данные из разных источников о разнородных предприятиях и формировать единое, логичное представление об авиационном кластере Ульяновской области. Например, сопоставление функций аэропортов с деятельностью Министерства транспорта для понимания общей транспортной системы региона.'
+                        description: 'Способен осуществлять поиск, критический анализ и синтез информации, применять системный подход для решения поставленных задач. В ходе практики это проявлялось в необходимости собирать данные из разных источников о разнородных предприятиях и построении целостной картины авиационного кластера Ульяновской области. Например, сопоставление функций аэропортов с деятельностью Министерства транспорта для понимания общей транспортной системы региона.'
                     },
                     {
                         title: 'ОПК-1: Применение ИТ',
@@ -893,7 +1222,7 @@
                                     <li>Автоматизация расчета заработной платы персонала и формирования финансовой отчетности для регуляторов.</li>
                                 </ul>
                             </div>
-                            <div class="md:w-1/2 bg-white p-5 rounded-2xl shadow-lg border border-blue-200">
+                            <div class="md:w-1/2 bg-white/85 p-5 rounded-2xl shadow-lg border border-blue-200/85">
                                <div class="font-mono text-base">
                                     <div class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-t-xl p-3 flex items-center">
                                         <div class="flex space-x-2 mr-4"><div class="w-3 h-3 rounded-full bg-red-400"></div><div class="w-3 h-3 rounded-full bg-yellow-400"></div><div class="w-3 h-3 rounded-full bg-green-400"></div></div>
@@ -910,7 +1239,7 @@
                                         <div class="text-xl"><span class="font-bold">Итого:</span> <span class="font-bold text-blue-700">2 150 000 RUB</span></div>
                                         <button id="generate-report-btn" class="mt-4 w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-xl hover:opacity-90 transition">Сформировать отчет</button>
                                     </div>
-                                    <div id="report-output" class="mt-5 p-5 bg-slate-50 rounded-xl border border-blue-200 hidden">
+                                    <div id="report-output" class="mt-5 p-5 bg-slate-50/85 rounded-xl border border-blue-200/85 hidden">
                                         <div id="report-loading" class="text-center text-blue-500 font-semibold hidden">
                                             <span class="loading-spinner"></span>Формирование отчета... 📊
                                         </div>
@@ -939,12 +1268,12 @@
                                     <li>Моделирование производственных потоков и цепочек поставок на предприятиях авиастроения.</li>
                                 </ul>
                             </div>
-                            <div class="md:w-1/2 bg-white p-5 rounded-2xl shadow-lg border border-blue-200">
+                            <div class="md:w-1/2 bg-white/85 p-5 rounded-2xl shadow-lg border border-blue-200/85">
                                 <div class="text-center font-semibold text-xl mb-4 text-slate-800">Модель пассажиропотока в терминале</div>
-                                <div class="relative h-64 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl overflow-hidden p-3 border border-blue-200">
+                                <div class="relative h-64 bg-gradient-to-br from-blue-50/80 to-cyan-50/80 rounded-xl overflow-hidden p-3 border border-blue-200/80">
                                     <div class="absolute top-4 left-4 text-sm font-bold text-slate-700 bg-white/80 px-2 py-1 rounded">ВХОД</div>
-                                    <div class="absolute top-1/2 left-1/3 w-12 h-12 bg-blue-300 rounded-xl flex items-center justify-center text-sm text-center leading-tight text-blue-900 font-semibold shadow">Зона рег.</div>
-                                    <div class="absolute top-1/3 left-2/3 w-12 h-12 bg-orange-300 rounded-xl flex items-center justify-center text-sm text-center leading-tight text-orange-900 font-semibold shadow">Досмотр</div>
+                                    <div class="absolute top-1/2 left-1/3 w-12 h-12 bg-blue-300/80 rounded-xl flex items-center justify-center text-sm text-center leading-tight text-blue-900 font-semibold shadow">Зона рег.</div>
+                                    <div class="absolute top-1/3 left-2/3 w-12 h-12 bg-orange-300/80 rounded-xl flex items-center justify-center text-sm text-center leading-tight text-orange-900 font-semibold shadow">Досмотр</div>
                                     <div class="absolute bottom-4 right-4 text-sm font-bold text-slate-700 bg-white/80 px-2 py-1 rounded">ПОСАДКА</div>
                                     <!-- Passenger dots -->
                                     <div class="passenger" style="--x-start: 5%; --y-start: 20%; --x-reg: 35%; --y-reg: 50%; --x-security: 65%; --y-security: 35%; --x-boarding: 90%; --y-boarding: 70%; --x-end: 95%; --y-end: 80%; --d: 10s;"></div>
@@ -971,22 +1300,22 @@
                                     <li>Разработка матриц ответственности для подразделений и оптимизация взаимодействия между отделами.</li>
                                 </ul>
                             </div>
-                            <div class="md:w-1/2 bg-white p-5 rounded-2xl shadow-lg border border-blue-200">
+                            <div class="md:w-1/2 bg-white/85 p-5 rounded-2xl shadow-lg border border-blue-200/85">
                                  <div class="text-center font-semibold text-xl mb-4 text-slate-800">Матрица RACI: "Обработка груза"</div>
                                  <table class="w-full text-base text-center border-collapse">
                                     <thead>
                                         <tr class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white">
-                                            <th class="p-3 font-bold border border-blue-500">Задача</th>
-                                            <th class="p-3 font-bold border border-blue-500">Склад</th>
-                                            <th class="p-3 font-bold border border-blue-500">Логист</th>
-                                            <th class="p-3 font-bold border border-blue-500">Агент</th>
+                                            <th class="p-3 border border-blue-500">Задача</th>
+                                            <th class="p-3 border border-blue-500">Склад</th>
+                                            <th class="p-3 border border-blue-500">Логист</th>
+                                            <th class="p-3 border border-blue-500">Агент</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="hover:bg-blue-50"><td class="p-3 border border-blue-300">Прием груза</td><td class="p-3 border border-blue-300 font-bold text-green-600">R</td><td class="p-3 border border-blue-300 font-bold text-blue-600">A</td><td class="p-3 border border-blue-300 text-slate-400">I</td></tr>
-                                        <tr class="hover:bg-blue-50"><td class="p-3 border border-blue-300">Оформление</td><td class="p-3 border border-blue-300 text-slate-400">C</td><td class="p-3 border border-blue-300 font-bold text-blue-600">A</td><td class="p-3 border border-blue-300 font-bold text-green-600">R</td></tr>
-                                        <tr class="hover:bg-blue-50"><td class="p-3 border border-blue-300">Маркировка</td><td class="p-3 border border-blue-300 font-bold text-green-600">R</td><td class="p-3 border border-blue-300 text-slate-400">I</td><td class="p-3 border border-blue-300 text-slate-400">C</td></tr>
-                                        <tr class="hover:bg-blue-50"><td class="p-3 border border-blue-300">Контроль</td><td class="p-3 border border-blue-300 font-bold text-blue-600">A</td><td class="p-3 border border-blue-300 text-slate-400">I</td><td class="p-3 border border-blue-300 text-slate-400">C</td></tr>
+                                        <tr class="hover:bg-blue-50/80"><td class="p-3 border border-blue-300">Прием груза</td><td class="p-3 border border-blue-300 font-bold text-green-600">R</td><td class="p-3 border border-blue-300 font-bold text-blue-600">A</td><td class="p-3 border border-blue-300 text-slate-400">I</td></tr>
+                                        <tr class="hover:bg-blue-50/80"><td class="p-3 border border-blue-300">Оформление</td><td class="p-3 border border-blue-300 text-slate-400">C</td><td class="p-3 border border-blue-300 font-bold text-blue-600">A</td><td class="p-3 border border-blue-300 font-bold text-green-600">R</td></tr>
+                                        <tr class="hover:bg-blue-50/80"><td class="p-3 border border-blue-300">Маркировка</td><td class="p-3 border border-blue-300 font-bold text-green-600">R</td><td class="p-3 border border-blue-300 text-slate-400">I</td><td class="p-3 border border-blue-300 text-slate-400">C</td></tr>
+                                        <tr class="hover:bg-blue-50/80"><td class="p-3 border border-blue-300">Контроль</td><td class="p-3 border border-blue-300 font-bold text-blue-600">A</td><td class="p-3 border border-blue-300 text-slate-400">I</td><td class="p-3 border border-blue-300 text-slate-400">C</td></tr>
                                     </tbody>
                                  </table>
                                  <div class="text-sm mt-3 text-slate-500"><span class="font-bold text-blue-600">A</span>-Accountable (Ответственный), <span class="font-bold text-green-600">R</span>-Responsible (Исполнитель), <span class="text-slate-400">C</span>-Consulted, <span class="text-slate-400">I</span>-Informed</div>
@@ -996,23 +1325,25 @@
                 }
             ],
             timeline: [
-                { date: '01.07.2025', title: 'Организационное собрание', description: 'Ознакомление с программой практики, правилами внутреннего распорядка УИ ГА и инструктаж по технике безопасности.' },
-                { date: '02.07.2025', title: 'Посещение Международного аэропорта Ульяновск (Баратаевка)', description: 'Экскурсия по терминалу, ознакомление с процессами регистрации, досмотра и посадки пассажиров. Изучение работы служб наземного обслуживания.' },
-                { date: '03.07.2025', title: 'Посещение Международного аэропорта Ульяновск-Восточный', description: 'Ознакомление со спецификой грузовых перевозок и испытательного аэродрома. Изучение процессов обработки крупногабаритных грузов.' },
-                { date: '04.07.2025', title: 'Посещение ООО "Медиасофт"', description: 'Изучение современных подходов к управлению IT-проектами и разработке программного обеспечения. Обсуждение применения IT в авиации.' },
-                { date: '05.07.2025', title: 'Посещение Авиакомпании "Волга-Днепр"', description: 'Ознакомление с логистическими процессами перевозки сверхтяжелых и негабаритных грузов. Изучение экологической политики компании.' },
-                { date: '06.07.2025', title: 'Посещение АО "АэроКомпозит"', description: 'Изучение высокотехнологичных производственных процессов создания композитных материалов для авиастроения. Ознакомление с контролем качества.' },
-                { date: '07.07.2025', title: 'Посещение Министерства транспорта Ульяновской области', description: 'Ознакомление с функциями государственного регулирования транспортной отрасли. Изучение разработки региональных программ и надзора.' },
-                { date: '08.07.2025', title: 'Анализ и систематизация данных', description: 'Сбор, анализ и систематизация всей полученной информации, первичная обработка данных для отчета.' },
-                { date: '09.07.2025', title: 'Подготовка отчета и презентации', description: 'Написание основной части отчета, формирование выводов и подготовка материалов для презентации.' }
+                { date: '01.06.2025', title: 'Организационное собрание', description: 'Ознакомление с программой практики, правилами внутреннего распорядка УИ ГА и инструктаж по технике безопасности.' },
+                { date: '02.06.2025', title: 'Посещение Международного аэропорта Ульяновск (Баратаевка)', description: 'Экскурсия по терминалу, ознакомление с процессами регистрации, досмотра и посадки пассажиров. Изучение работы служб наземного обслуживания.' },
+                { date: '03.06.2025', title: 'Посещение Международного аэропорта Ульяновск-Восточный', description: 'Ознакомление со спецификой грузовых перевозок и испытательного аэродрома. Изучение процессов обработки крупногабаритных грузов.' },
+                { date: '04.06.2025', title: 'Посещение ООО "Медиасофт"', description: 'Изучение современных подходов к управлению IT-проектами и разработке программного обеспечения. Обсуждение применения IT в авиации.' },
+                { date: '05.06.2025', title: 'Посещение Авиакомпании "Волга-Днепр"', description: 'Ознакомление с логистическими процессами перевозки сверхтяжелых и негабаритных грузов. Изучение экологической политики компании.' },
+                { date: '06.06.2025', title: 'Посещение АО "АэроКомпозит"', description: 'Изучение высокотехнологичных производственных процессов создания композитных материалов для авиастроения. Ознакомление с контролем качества.' },
+                { date: '07.06.2025', title: 'Посещение Министерства транспорта Ульяновской области', description: 'Ознакомление с функциями государственного регулирования транспортной отрасли. Изучение разработки региональных программ и надзора.' },
+                { date: '08.06.2025', title: 'Анализ и систематизация данных', description: 'Сбор, анализ и систематизация всей полученной информации, первичная обработка данных для отчета.' },
+                { date: '09.06.2025', title: 'Подготовка отчета и презентации', description: 'Написание основной части отчета, формирование выводов и подготовка материалов для презентации.' }
             ]
         };
 
+        // DOMContentLoaded гарантирует, что скрипт выполняется после полной загрузки DOM
         document.addEventListener('DOMContentLoaded', () => {
             const locationsGrid = document.getElementById('locations-grid');
+            // Заполнение секции "Места прохождения практики"
             practiceData.locations.forEach(location => {
                 const card = document.createElement('div');
-                card.className = 'card-gradient p-6 rounded-2xl border border-blue-200 cursor-pointer';
+                card.className = 'card-gradient p-6 rounded-2xl border border-blue-200/85 cursor-pointer';
                 card.dataset.locationId = location.id;
                 card.innerHTML = `
                     <div class="text-5xl mb-5 text-center">${location.icon}</div>
@@ -1027,12 +1358,14 @@
                 locationsGrid.appendChild(card);
             });
             
+            // Элементы модального окна
             const modal = document.getElementById('modal');
             const modalContent = document.getElementById('modal-content');
             const modalTitle = document.getElementById('modal-title');
             const modalBody = document.getElementById('modal-body');
             const modalClose = document.getElementById('modal-close');
 
+            // Обработчик клика по карточкам мест практики для открытия модального окна
             locationsGrid.addEventListener('click', (e) => {
                 const card = e.target.closest('[data-location-id]');
                 if (card) {
@@ -1043,24 +1376,27 @@
                         modalBody.innerHTML = location.content;
                         modal.classList.remove('opacity-0', 'pointer-events-none');
                         modalContent.classList.remove('scale-95');
-                        document.body.style.overflow = 'hidden';
+                        document.body.style.overflow = 'hidden'; // Запретить прокрутку фона
                     }
                 }
             });
 
+            // Функция закрытия модального окна
             const closeModal = () => {
                 modal.classList.add('opacity-0', 'pointer-events-none');
                 modalContent.classList.add('scale-95');
-                document.body.style.overflow = 'auto';
+                document.body.style.overflow = 'auto'; // Разрешить прокрутку фона
             };
 
+            // Обработчики закрытия модального окна
             modalClose.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
+                if (e.target === modal) { // Закрыть при клике вне контента модального окна
                     closeModal();
                 }
             });
 
+            // Инициализация радарной диаграммы компетенций
             const ctx = document.getElementById('competenciesChart').getContext('2d');
             const competenciesChart = new Chart(ctx, {
                 type: 'radar',
@@ -1109,10 +1445,11 @@
                 }
             });
 
+            // Заполнение детальных описаний компетенций
             const competencyDetailsContainer = document.getElementById('competency-details');
             practiceData.competencies.fullDescriptions.forEach(item => {
                 const detailBlock = document.createElement('div');
-                detailBlock.className = 'bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-2xl border border-blue-200';
+                detailBlock.className = 'bg-gradient-to-br from-blue-50/80 to-cyan-50/80 p-6 rounded-2xl border border-blue-200/80';
                 detailBlock.innerHTML = `
                     <h3 class="font-bold text-xl mb-3 text-blue-800">${item.title}</h3>
                     <p class="text-blue-700">${item.description}</p>
@@ -1120,6 +1457,7 @@
                 competencyDetailsContainer.appendChild(detailBlock);
             });
 
+            // Заполнение табов инструментов бизнес-анализа
             const toolsTabs = document.getElementById('tools-tabs');
             const toolsContent = document.getElementById('tools-content');
             practiceData.tools.forEach((tool, index) => {
@@ -1131,13 +1469,14 @@
                 toolsTabs.appendChild(tab);
             });
             
+            // Функция рендеринга контента для выбранного таба инструмента
             const renderToolContent = (toolId) => {
                 const tool = practiceData.tools.find(t => t.id === toolId);
                 if (tool) {
                     toolsContent.innerHTML = tool.content;
                 }
 
-                // Specific logic for 1C tool
+                // Специфическая логика для инструмента "1С: Предприятие 8"
                 if (toolId === '1c') {
                     const generateBtn = document.getElementById('generate-report-btn');
                     const reportOutput = document.getElementById('report-output');
@@ -1150,7 +1489,7 @@
                             reportLoading.classList.remove('hidden');
                             actualReportContent.classList.add('hidden');
 
-                            // Simple loading animation using emoji
+                            // Простая анимация загрузки с использованием эмодзи
                             let loadingEmojis = ['⏳', '⚙️', '📈'];
                             let emojiIndex = 0;
                             const loadingInterval = setInterval(() => {
@@ -1159,12 +1498,13 @@
                             }, 500);
 
                             setTimeout(() => {
-                                clearInterval(loadingInterval);
+                                clearInterval(loadingInterval); // Остановить анимацию загрузки
                                 reportLoading.classList.add('hidden');
 
+                                // HTML-контент сгенерированного отчета
                                 const reportHtml = `
                                     <h5 class="text-xl font-bold text-slate-800 mb-4 text-center">Финансовый отчет по рейсу ULV-VKO-777</h5>
-                                    <table class="w-full text-base text-left border-collapse mb-5">
+                                    <table class="w-full text-base text-left border-collapse mb-5 report-table">
                                         <thead>
                                             <tr class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white">
                                                 <th class="p-3 border border-blue-500">Показатель</th>
@@ -1191,6 +1531,7 @@
                                 `;
                                 actualReportContent.innerHTML = reportHtml;
                                 actualReportContent.classList.remove('hidden');
+                                // Анимация появления отчета
                                 actualReportContent.style.opacity = '0';
                                 actualReportContent.style.transform = 'translateY(20px)';
                                 setTimeout(() => {
@@ -1198,28 +1539,33 @@
                                     actualReportContent.style.opacity = '1';
                                     actualReportContent.style.transform = 'translateY(0)';
                                 }, 50);
-                            }, 2000);
+                            }, 2000); // Задержка для имитации загрузки
                         };
                     }
                 }
             };
             
+            // Обработчик клика по табам инструментов
             toolsTabs.addEventListener('click', (e) => {
                 e.preventDefault();
                 const tab = e.target.closest('.tool-tab');
                 if (tab) {
+                    // Сброс активного состояния для всех табов
                     toolsTabs.querySelectorAll('.tool-tab').forEach(t => {
                         t.classList.remove('border-blue-500', 'text-blue-600');
                         t.classList.add('border-transparent', 'text-slate-500');
                     });
+                    // Установка активного состояния для выбранного таба
                     tab.classList.add('border-blue-500', 'text-blue-600');
                     tab.classList.remove('border-transparent', 'text-slate-500');
-                    renderToolContent(tab.dataset.toolId);
+                    renderToolContent(tab.dataset.toolId); // Рендеринг контента
                 }
             });
             
+            // Изначальная загрузка контента для первого таба
             renderToolContent(practiceData.tools[0].id);
 
+            // Заполнение хронологии прохождения практики
             const practiceTimeline = document.getElementById('practice-timeline');
             practiceData.timeline.forEach((item, index) => {
                 const timelineItem = document.createElement('div');
@@ -1234,41 +1580,147 @@
                 practiceTimeline.appendChild(timelineItem);
             });
 
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            mobileMenu.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-
-            const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('main section, #title-page'); // Include title-page
-            const headerHeight = document.getElementById('header').offsetHeight;
-            
-            window.addEventListener('scroll', () => {
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop - headerHeight - 20;
-                    if (pageYOffset >= sectionTop) {
-                        current = section.getAttribute('id');
+            // Инициализация круговой диаграммы распределения студентов по факультетам
+            function createFacultyChart() {
+                const ctx = document.getElementById('facultyChart');
+                if (Chart.getChart(ctx)) {
+                    Chart.getChart(ctx).destroy(); // Уничтожить существующую диаграмму, если есть
+                }
+                new Chart(ctx, {
+                    type: 'pie', // Изменено на круговую диаграмму для лучшей визуализации распределения
+                    data: {
+                        labels: ['ПАС', 'ЛЭиУВД', 'ТЭЛАиД', 'Заочное обучение'],
+                        datasets: [{
+                            label: 'Распределение студентов по факультетам (гипотетически)',
+                            data: [35, 25, 20, 20], // Скорректированные данные для более сбалансированного вида
+                            backgroundColor: [
+                                'rgba(66, 153, 225, 0.7)', // Blue
+                                'rgba(56, 178, 172, 0.7)', // Teal
+                                'rgba(246, 173, 85, 0.7)', // Orange
+                                'rgba(159, 122, 234, 0.7)'  // Purple
+                            ],
+                            borderColor: [
+                                'rgba(66, 153, 225, 1)',
+                                'rgba(56, 178, 172, 1)',
+                                'rgba(246, 173, 85, 1)',
+                                'rgba(159, 122, 234, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'right',
+                                labels: {
+                                    font: {
+                                        size: 14
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Гипотетическое распределение студентов по факультетам УИ ГА',
+                                font: {
+                                    size: 18
+                                }
+                            }
+                        }
                     }
                 });
-
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href').substring(1) === current) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-
-            // Set initial active nav link for title page
-            const initialSection = document.getElementById('title-page');
-            if (initialSection) {
-                document.querySelector('a[href="#title-page"]').classList.add('active');
             }
+
+            // Intersection Observer для создания диаграммы факультетов при появлении секции
+            const uigaStructureObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        createFacultyChart();
+                        uigaStructureObserver.disconnect(); // Остановить наблюдение после создания диаграммы
+                    }
+                });
+            }, { threshold: 0.5 }); // Срабатывает, когда 50% секции видно
+
+            const uigaStructureSection = document.getElementById('uiga-structure');
+            if (uigaStructureSection) {
+                uigaStructureObserver.observe(uigaStructureSection);
+            }
+
+            // Логика для плавающих кнопок навигации
+            const floatingNav = document.getElementById('floating-nav');
+            const navButtons = floatingNav.querySelectorAll('button');
+            const sections = document.querySelectorAll('main section, #title-page'); // Все секции, включая титульный лист
+
+            // Функция для обновления активной кнопки навигации
+            const updateActiveNavButton = () => {
+                let currentActiveSectionId = '';
+                // Определяем, какая секция сейчас в видимой области
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    // Секция считается активной, если ее верхняя часть находится в пределах 50% от верхней границы viewport
+                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                        currentActiveSectionId = section.id;
+                    }
+                });
+
+                // Обновляем активное состояние кнопок
+                navButtons.forEach(button => {
+                    if (button.dataset.target === currentActiveSectionId) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+                });
+            };
+
+            // Обработчик прокрутки для показа/скрытия плавающей навигации и обновления активной кнопки
+            let lastScrollY = window.scrollY;
+            window.addEventListener('scroll', () => {
+                // Показать/скрыть плавающую навигацию
+                if (window.scrollY > 200 && window.scrollY < document.body.scrollHeight - window.innerHeight - 200) { // Показать только в середине страницы
+                    floatingNav.classList.add('show');
+                } else {
+                    floatingNav.classList.remove('show');
+                }
+
+                // Обновить активную кнопку
+                updateActiveNavButton();
+
+                // Показать/скрыть кнопку "Наверх"
+                const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+                if (window.scrollY > 300) {
+                    scrollToTopBtn.classList.add('show');
+                } else {
+                    scrollToTopBtn.classList.remove('show');
+                }
+
+                lastScrollY = window.scrollY;
+            });
+
+            // Обработчики кликов для плавающих кнопок навигации
+            navButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = button.dataset.target;
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Изначальная установка активной кнопки при загрузке страницы
+            updateActiveNavButton();
+
+            // Логика кнопки "Наверх"
+            document.getElementById('scrollToTopBtn').addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>
