@@ -883,7 +883,7 @@
                         <li>кафедра гуманитарных и социально-экономических дисциплин ФПАС УИГА</li>
                     </ul>
                     <p class="pt-3">Руководитель практики от института: <span class="inline-block border-b border-dashed border-slate-400 min-w-[200px]">Муравьёва Е.В.</span></p>
-                    <p class="text-xs text-slate-500">(Фамилия, И. О., ученая степень, звание, должность)</p>
+                    <p class="text-xs text-slate-500">кандидат экономических наук, доцент кафедры гуманитарных и социально-экономических дисциплин</p>
                 </div>
 
                 <p class="title-page-footer text-lg font-bold text-blue-700 mt-6">Ульяновск, 2025</p>
@@ -1045,7 +1045,339 @@
                     </div>
                 </div>
             </section>
+<section id="goal-tree" class="p-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Дерево целей контрактной службы</h2>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <ul class="goal-node">
+            <li>
+                <span class="goal-label main-goal">Главная цель: Эффективное и прозрачное обеспечение государственных закупок</span>
+                <ul>
+                    <li>
+                        <span class="goal-label">Цель 1: Оптимизация процесса планирования закупок</span>
+                        <ul>
+                            <li><span class="goal-label">Задача 1.1: Анализ потребностей и рынка</span></li>
+                            <li><span class="goal-label">Задача 1.2: Разработка обоснования НМЦК</span></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="goal-label">Цель 2: Повышение конкурентоспособности закупок</span>
+                        <ul>
+                            <li><span class="goal-label">Задача 2.1: Расширение круга потенциальных поставщиков</span></li>
+                            <li><span class="goal-label">Задача 2.2: Совершенствование закупочной документации</span></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="goal-label">Цель 3: Минимизация рисков при исполнении контрактов</span>
+                        <ul>
+                            <li><span class="goal-label">Задача 3.1: Усиление контроля за исполнением обязательств</span></li>
+                            <li><span class="goal-label">Задача 3.2: Разработка системы оценки поставщиков</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</section>
+<style>
+    /* Стили для дерева целей */
+.goal-node {
+    list-style-type: none;
+    padding-left: 20px;
+    position: relative;
+}
 
+.goal-node ul {
+    list-style-type: none;
+    padding-left: 20px;
+    margin-top: 5px;
+}
+
+.goal-node li {
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.goal-label {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    font-size: 0.95em;
+    color: #333;
+}
+
+.main-goal {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+/* Линии соединения (опционально, требует более сложного CSS или SVG/JS) */
+.goal-node li::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 15px;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    width: 10px;
+    height: 8px;
+}
+
+.goal-node li:first-child::before {
+    top: 15px;
+    height: calc(100% - 15px);
+    border-bottom: none;
+}
+
+.goal-node li:last-child::before {
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    height: 8px;
+}
+
+.goal-node > li::before {
+    border-bottom: none;
+}
+
+.goal-node > li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 23px;
+    border-left: 1px solid #ccc;
+    height: calc(100% - 23px);
+}
+</style>
+<section id="business-process" class="p-8 mt-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Схема бизнес-процесса: Проведение закупки</h2>
+    <div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+        <div class="process-step start">Начало: Запрос на закупку</div>
+        <div class="arrow"></div>
+        <div class="process-step">Формирование документации</div>
+        <div class="arrow"></div>
+        <div class="process-step decision">Согласование?
+            <div class="decision-options">
+                <span class="option yes">Да</span><span class="option no">Нет</span>
+            </div>
+        </div>
+        <div class="arrow-split">
+            <div class="arrow-left"></div>
+            <div class="arrow-right"></div>
+        </div>
+        <div class="flex justify-around w-full">
+            <div class="process-path path-no">
+                <div class="process-step">Доработка</div>
+                <div class="arrow"></div>
+                <div class="process-step end">Повторное согласование</div>
+            </div>
+            <div class="process-path path-yes">
+                <div class="process-step">Публикация извещения</div>
+                <div class="arrow"></div>
+                <div class="process-step">Прием заявок</div>
+                <div class="arrow"></div>
+                <div class="process-step">Рассмотрение и оценка</div>
+                <div class="arrow"></div>
+                <div class="process-step">Заключение контракта</div>
+                <div class="arrow"></div>
+                <div class="process-step end">Конец: Исполнение контракта</div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>/* Стили для схемы бизнес-процессов */
+.process-step {
+    background-color: #e0f2f7;
+    border: 1px solid #a7d9e7;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 0.9em;
+    width: 250px; /* Фиксированная ширина для единообразия */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+.process-step.start {
+    background-color: #dcedc8;
+    border-color: #aed581;
+    font-weight: bold;
+}
+
+.process-step.end {
+    background-color: #ffccbc;
+    border-color: #ffab91;
+    font-weight: bold;
+}
+
+.process-step.decision {
+    background-color: #fff9c4;
+    border-color: #fff176;
+    position: relative;
+    padding-bottom: 25px; /* Для опций "Да/Нет" */
+}
+
+.decision-options {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.8em;
+}
+
+.option.yes { color: green; font-weight: bold; }
+.option.no { color: red; font-weight: bold; }
+
+
+.arrow {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 15px solid #607d8b;
+    margin: -5px 0; /* Для перекрытия границ */
+}
+
+.arrow-split {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: 10px 0;
+    position: relative;
+}
+
+.arrow-left, .arrow-right {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 15px solid #607d8b;
+    position: absolute;
+}
+
+.arrow-left {
+    left: calc(50% - 130px); /* Adjust as needed */
+    transform: rotate(45deg);
+    top: -5px;
+}
+.arrow-right {
+    right: calc(50% - 130px); /* Adjust as needed */
+    transform: rotate(-45deg);
+    top: -5px;
+}
+
+.process-path {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px dashed #ccc;
+    padding: 10px;
+    margin: 10px;
+    flex-grow: 1;
+}
+
+.path-no {
+    margin-right: 20px;
+    border-color: red;
+}
+
+.path-yes {
+    margin-left: 20px;
+    border-color: green;
+}</style>
+<section id="matrix" class="p-8 mt-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Матрица ответственности/компетенций</h2>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <table class="responsive-table-input-matrix w-full">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Планирование</th>
+                    <th>Обоснование НМЦК</th>
+                    <th>Размещение</th>
+                    <th>Заключение контракта</th>
+                    <th>Исполнение контракта</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Руководитель КС</td>
+                    <td>R, A</td>
+                    <td>R, A</td>
+                    <td>A</td>
+                    <td>R, A</td>
+                    <td>I</td>
+                </tr>
+                <tr>
+                    <td>Специалист КС 1</td>
+                    <td>P</td>
+                    <td>P</td>
+                    <td>R, P</td>
+                    <td>P</td>
+                    <td>R, P</td>
+                </tr>
+                <tr>
+                    <td>Специалист КС 2</td>
+                    <td>P</td>
+                    <td>I</td>
+                    <td>P</td>
+                    <td>P</td>
+                    <td>I</td>
+                </tr>
+                <tr>
+                    <td>Юрист</td>
+                    <td>I</td>
+                    <td>I</td>
+                    <td>C</td>
+                    <td>C</td>
+                    <td>C</td>
+                </tr>
+                <tr>
+                    <td>Бухгалтерия</td>
+                    <td>I</td>
+                    <td>C</td>
+                    <td>I</td>
+                    <td>I</td>
+                    <td>R</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="mt-4 text-sm text-gray-600">
+            Легенда: R - Ответственный (Responsible), A - Утверждающий (Accountable), C - Консультируемый (Consulted), I - Информируемый (Informed), P - Участник (Participant).
+        </p>
+    </div>
+</section>
+<style>/* Стили для матрицы */
+.responsive-table-input-matrix {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.9em;
+}
+
+.responsive-table-input-matrix th,
+.responsive-table-input-matrix td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.responsive-table-input-matrix th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+.responsive-table-input-matrix tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.responsive-table-input-matrix tbody tr:hover {
+    background-color: #f1f1f1;
+}</style>
             <!-- Секция "Места прохождения практики" с интерактивными карточками -->
             <section id="locations" class="py-24 section-gradient">
                 <div class="container mx-auto px-4">
